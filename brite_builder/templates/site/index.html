@@ -1,0 +1,25 @@
+{% load static %}
+<!doctype html>
+<html class="no-js" lang="">
+  {% include 'site/_head.html' %}
+  <body>
+    <!--[if lte IE 9]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+    <![endif]-->
+    {% include 'site/_header.html' %}    
+    <div class="container">
+      {% if selected_champ %}
+      <div ng-app="brite_builder">
+        <h1>{{selected_champ}} Battlerite Loadout Builder</h1>
+        {% include "site/_builder.html" with build_slots=build_slots %}
+        <h2>All Talents</h2>
+        <div class="row" ng-controller="champTalentPoolCtrl" champ="{{selected_champ.title}}">
+          <div class="col-xl-3" talent model="talent" ng-repeat="talent in talentPool">
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  {% include 'site/_foot.html' %}        
+  </body>
+</html>

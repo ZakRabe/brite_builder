@@ -1,0 +1,31 @@
+{% load html_filters %}
+<!-- Image and text -->
+<nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+  <a class="navbar-brand" href="/">
+    <img src="http://placehold.it/30x30" width="30" height="30" class="d-inline-block align-top" alt="">
+    Brite Builds
+  </a>
+  <form class="form-inline">
+    <select class="form-control" onchange="location = this.options[this.selectedIndex].value;">
+      <option value="#">Choose Champion</option>
+      {% for champ in champs %}
+        {% if selected_champ.title == champ.title %}
+          <option value="/{{champ.title|champLink}}" selected="selected">{{ champ }}</option>
+        {% else %}
+          <option value="/{{champ.title|champLink}}">{{ champ }}</option>
+        {% endif %}
+      {% endfor %}
+    </select>
+  </form>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="/profile">Profile</a>
+      </li>
+    </ul>
+  </div>
+    
+</nav>

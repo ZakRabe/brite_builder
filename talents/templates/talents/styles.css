@@ -1,0 +1,6 @@
+{% for type in types %}
+.talent.{{type.title|lower}} img{
+    background-color: {{type.color}};
+    border-color: {{type.color}};
+}
+{% endfor %}
