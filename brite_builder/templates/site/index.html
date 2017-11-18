@@ -11,12 +11,8 @@
       {% if selected_champ %}
       <div ng-app="brite_builder">
         <h1>{{selected_champ}} Battlerite Loadout Builder</h1>
-        {% include "site/_builder.html" with build_slots=build_slots %}
-        <h2>All Talents</h2>
-        <div class="row" ng-controller="champTalentPoolCtrl" champ="{{selected_champ.title}}">
-          <div class="col-xl-3" talent model="talent" ng-repeat="talent in talentPool">
-          </div>
-        </div>
+        {% include "site/_builder.html" %}
+        
       </div>
       {% endif %}
     </div>

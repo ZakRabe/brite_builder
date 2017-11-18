@@ -1,5 +1,5 @@
 {% load html_filters %}
-<div ng-if="model" class="talent {{ 'clean(model.type.title)'|ng }}" ng-click="add_or_remove(model)" title="{{'model.title'|ng}}" data-talent-id="{{'model.id'|ng}}">
+<div ng-if="model" class="talent {{ 'clean(model.type.title)'|ng }}" title="{{'model.title'|ng}}" data-talent-id="{{'model.id'|ng}}">
 
   <img ng-src="{{"'/static/spells/img/'+clean(model.spell.champ.title)+'/'+clean(model.spell.title)+'.png'"|ng}}" alt="{{'model.spell.title'|ng}}">  
 

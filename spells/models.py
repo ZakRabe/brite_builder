@@ -10,6 +10,7 @@ E   = "E"
 SPACE = "Space"
 R   = "R"
 F   = "F"
+SPECIAL   = "Special"
 
 BTN_CHOICES = (
     (0,LMB),
@@ -19,6 +20,7 @@ BTN_CHOICES = (
     (4,E),
     (5,R),
     (6,F),
+    (7,SPECIAL),
 )
 
 # Create your models here.

@@ -9,7 +9,7 @@ from .templatetags.html_filters import champName
 
 # Create your views here.
 def index(request, champ_name):
-    champs = Champ.objects.all()
+    champs = Champ.objects.all().exclude(title="Shared");
     selected_champ = None
 
     if champ_name is not None:

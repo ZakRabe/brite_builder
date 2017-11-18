@@ -17,7 +17,7 @@ def doRender(request,id):
     
 def champTalentPool(request, title):
     selected_champ = get_object_or_404(Champ, title__iexact=champName(title))
-    talents = Talent.objects.filter(spell__champ_id=selected_champ.id)
+    talents = Talent.objects.filter(spell__champ_id=selected_champ.id).order_by('spell_id')
     special_talents = SpecialTalent.objects.filter(champ_id=selected_champ.id)
     talents = [talent.to_json() for talent in talents] + [special_talent.talent.to_json() for special_talent in special_talents]
     return JsonResponse(talents, safe=False);
