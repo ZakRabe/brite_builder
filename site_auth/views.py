@@ -8,6 +8,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from champs.models import Champ
 from .forms import RegisterForm
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 
 # Create your views here.
 def login_view(request):
@@ -37,11 +39,18 @@ def register(request):
     champs = Champ.objects.all().exclude(title="Shared");
     if request.method == "POST":
         form = RegisterForm(request.POST)    
-        if form.is_valid() is False:
+        password = request.POST['password']
+
+        valid = form.is_valid()
+        try:
+            validate_password(password)
+        except ValidationError, e:
+            form._errors['password'] = e
+        
+        if valid is False:
           return render(request, 'auth/register.html', {'form': form, "champs":champs})
         email = request.POST['email']
         username = request.POST['username']
-        password = request.POST['password']
         user = User.objects.create_user(username, email, password)
         return render(request, 'auth/register.html', {"form": form, "champs":champs})
     else:
