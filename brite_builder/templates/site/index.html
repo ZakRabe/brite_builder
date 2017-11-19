@@ -1,21 +1,12 @@
-{% load static %}
-<!doctype html>
-<html class="no-js" lang="">
-  {% include 'site/_head.html' %}
-  <body>
-    <!--[if lte IE 9]>
-        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
-    <![endif]-->
-    {% include 'site/_header.html' %}    
-    <div class="container page-content">
-      {% if selected_champ %}
-      <div ng-app="brite_builder">
-        <h1>{{selected_champ}} Battlerite Loadout Builder</h1>
-        {% include "site/_builder.html" %}
-        
-      </div>
-      {% endif %}
-    </div>
-  {% include 'site/_foot.html' %}        
-  </body>
-</html>
+{% extends 'site/base.html' %}
+{% block content %}
+<div class="container">
+  {% if selected_champ %}
+  <div ng-app="brite_builder">
+    <h1>{{selected_champ}} Battlerite Loadout Builder</h1>
+    {% include "site/_builder.html" %}
+    
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
