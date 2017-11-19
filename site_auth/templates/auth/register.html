@@ -23,94 +23,108 @@
                         You dont HAVE to register to use Counter.GG. 
                     </strong>
                     <br>
-                        Registering an account on Counter.GG gives you the power to:
+                    Registering lets you:
+                        
                         <ul class="margin-bottom-0">
                             <li>
                                 Save your/others' builds to your profile to revisit later.        
                             </li>
                             <li>
-                                 Save/share BuildSets - A BuildSet is a collection of builds that can be shared as one link.             
+                                 Save/share BuildSets - A BuildSet is a collection of loadouts that can be shared as one link.             
                             </li>
                         </ul>
                         
                 </div>
-                
-                
-
-                
                 {% csrf_token %}
                 <div class="form-group">
                         <label for="username">Username</label>
-                        <input type="text" id="username" class="form-control {% if form.errors.username %} is-invalid {% endif %}" name="username" value="{{form.username.value}}" placeholder="Username">
+                        <input type="text" id="username" class="form-control {% if form.errors.username %} is-invalid {% endif %}"
+                            name="username" 
+                            {% if form.username.value != None %}value="{{ form.username.value|stringformat:'s' }}"{% endif %}
+                            maxlength="{{ form.username.field.max_length }}"
+                            {% if form.username.field.required %}required{% endif %}
+                            placeholder="Username">
                         {% if form.errors.username %}
-                            {% for error in form.errors.username %}
-                                <div class="invalid-feedback">
-                                    {{error}}
-                                </div>
-                            {% endfor%}
-                        {% endif %}
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" class="form-control {% if form.errors.email %} is-invalid {% endif %}" name="email" value="{{form.email.value}}" placeholder="Email">
-                        {% if form.errors.username %}
-                            {% for error in form.errors.email %}
-                                <div class="invalid-feedback">
-                                    {{error}}
-                                </div>
-                            {% endfor%}
-                        {% endif %}
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" class="form-control {% if form.errors.password %} is-invalid {% endif %}" name="password" value="{{form.password.value}}" placeholder="Password">
-                        {% if form.errors.password %}
-                            {% for error in form.errors.password %}
-                                <div class="invalid-feedback">
-                                    {{error}}
-                                </div>
-                            {% endfor%}
-                        {% endif %}
-                    </div>
-                    <div class="form-group">
-                        <label for="confirm">Confirm Password</label>
-                        <input type="password" id="confirm" class="form-control {% if form.errors.confirm %} is-invalid {% endif %}" name="confirm" value="{{form.confirm.value}}" placeholder="Confirm Password">
-                        {% if form.errors.confirm %}
-                            {% for error in form.errors.confirm %}
-                                <div class="invalid-feedback">
-                                    {{error}}
-                                </div>
-                            {% endfor%}
-                        {% endif %}
-                    </div>
-                    <div class="form-group">
-                        <div class="form-control {% if form.errors.confirm %} is-invalid {% endif %}">
-                            {{form.captcha}}
-                        </div>
-                        {% if form.errors.captcha %}
-                        {% for error in form.errors.captcha %}
+                        {% for error in form.errors.username %}
                         <div class="invalid-feedback">
                             {{error}}
                         </div>
                         {% endfor%}
                         {% endif %}
-                        
-                    <div class="alert alert-info">
-                        <i class="fa fa-info-circle"></i>
-                        &nbsp;
-                        <strong>
-                            We dont do anything with your data.
-                        </strong> 
-                        We just use your email address to recover your password.
                     </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email"
+                        class="form-control {% if form.errors.email %} is-invalid {% endif %}" name="email" 
+                        {% if form.email.value != None %}value="{{ form.email.value|stringformat:'s' }}"{% endif %}
+                        maxlength="{{ form.email.field.max_length }}"
+                        {% if form.email.field.required %}required{% endif %}
+                        placeholder="Email">
+                    {% if form.errors.email %}
+                    {% for error in form.errors.email %}
+                    <div class="invalid-feedback">
+                        {{error}}
+                    </div>
+                    {% endfor%}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" 
+                        class="form-control {% if form.errors.password %} is-invalid {% endif %}" 
+                        name="password" 
+                       {% if form.password.value != None %}value="{{ form.password.value|stringformat:'s' }}"{% endif %}
+                       maxlength="{{ form.password.field.max_length }}"
+                       {% if form.password.field.required %}required{% endif %}
+                       placeholder="Password">
+                    {% if form.errors.password %}
+                    {% for error in form.errors.password %}
+                    <div class="invalid-feedback">
+                        {{error}}
+                    </div>
+                    {% endfor%}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label for="confirm">Confirm Password</label>
+                    <input type="password" id="confirm" 
+                    class="form-control {% if form.errors.confirm %} is-invalid {% endif %}" name="confirm" 
+                    {% if form.confirm.value != None %}value="{{ form.confirm.value|stringformat:'s' }}"{% endif %}
+                    maxlength="{{ form.confirm.field.max_length }}"
+                    {% if form.confirm.field.required %}required{% endif %}
+                    placeholder="Confirm Password">
+                    {% if form.errors.confirm %}
+                    {% for error in form.errors.confirm %}
+                    <div class="invalid-feedback">
+                        {{error}}
+                    </div>
+                    {% endfor%}
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <div class="form-control {% if form.errors.captcha %} is-invalid {% endif %}">
+                        {{form.captcha}}
+                    </div>
+                    {% if form.errors.captcha %}
+                    {% for error in form.errors.captcha %}
+                    <div class="invalid-feedback">
+                        {{error}}
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                    
+                </div>
+                <div class="alert alert-info">
+                    <i class="fa fa-info-circle"></i>
+                    &nbsp;
+                    <strong>
+                        We dont do anything with your data.
+                    </strong> 
+                    We just use your email address to recover your password.
+                </div>
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-lg btn-success float-right">Register</button>
-                {% if error %}
-                <div class="alert alert-danger float-left margin-bottom-0">
-                    {{error}}
-                </div>
-                {% endif %}
                 <div class="clearfix"></div>
             </div>
         </form>

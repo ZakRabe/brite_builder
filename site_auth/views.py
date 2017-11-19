@@ -11,10 +11,9 @@ from .forms import RegisterForm
 
 # Create your views here.
 def login_view(request):
-    champs = Champ.objects.all().exclude(title="Shared");
-
     if request.user.is_authenticated():
         return redirect('/')
+    champs = Champ.objects.all().exclude(title="Shared");
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
@@ -33,20 +32,16 @@ def logout_view(request):
     return redirect('/')
 
 def register(request):
+    if request.user.is_authenticated():
+        return redirect('/')
     champs = Champ.objects.all().exclude(title="Shared");
     if request.method == "POST":
+        form = RegisterForm(request.POST)    
+        if form.is_valid() is False:
+          return render(request, 'auth/register.html', {'form': form, "champs":champs})
         email = request.POST['email']
         username = request.POST['username']
         password = request.POST['password']
-            
-        form = RegisterForm(request.POST)    
-        
-        if form.is_valid() == False:
-          return render(request, 'auth/register.html', {'form': form, "champs":champs})
-        exists = User.objects.filter(email=email).exists()
-        if exists:
-            return render(request, 'auth/register.html', {'form':form,"error": "Account already exists with this Email Address"})
-    
         user = User.objects.create_user(username, email, password)
         return render(request, 'auth/register.html', {"form": form, "champs":champs})
     else:
