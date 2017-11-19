@@ -6,11 +6,18 @@
     <!--[if lte IE 9]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
     <![endif]-->
-    {% include 'site/_header.html' %}   
+    {% include 'site/_header.html' %}
     <div class="page-content">
+      {% if messages %}
+      <div class="container">
+        {% for message in messages %}
+        <div{% if message.tags %} class="alert alert-info {{ message.tags }}"{% endif %}>{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
       {% block content %}
       {% endblock %}
     </div>
-    {% include 'site/_foot.html' %}        
+    {% include 'site/_foot.html' %}
   </body>
 </html>

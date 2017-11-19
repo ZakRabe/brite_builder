@@ -25,10 +25,14 @@ class RegisterForm(forms.Form):
 
     def clean_email(self):
         email = self.cleaned_data['email']
+        username = self.cleaned_data['username']
         
         exists = User.objects.filter(email=email).exists()
         if exists:
-            self._errors["email"] = ["Email already exists in the database"]
+            self._errors["email"] = ["Email already used to register"]
+        exists = User.objects.filter(username=username).exists()
+        if exists:
+            self._errors["username"] = ["Username is taken"]
     
     def clean_confirm(self):
         form_data = self.cleaned_data

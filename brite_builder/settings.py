@@ -117,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # password reset dev only
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # During development only
-
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/

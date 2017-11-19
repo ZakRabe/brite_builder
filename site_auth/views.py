@@ -27,8 +27,7 @@ def login_view(request):
             return render(request, 'auth/login.html', {"error": "Unable to login with this Username and Password","champs":champs})
     else:
         return render(request, 'auth/login.html', {"champs":champs})
-    
-        
+
 def logout_view(request):
     logout(request)
     return redirect('/')
@@ -39,20 +38,20 @@ def register(request):
     champs = Champ.objects.all().exclude(title="Shared");
     if request.method == "POST":
         form = RegisterForm(request.POST)    
-        password = request.POST['password']
-
         valid = form.is_valid()
         try:
+            password = request.POST['password']
             validate_password(password)
         except ValidationError, e:
             form._errors['password'] = e
         
-        if valid is False:
-          return render(request, 'auth/register.html', {'form': form, "champs":champs})
-        email = request.POST['email']
-        username = request.POST['username']
-        user = User.objects.create_user(username, email, password)
-        return render(request, 'auth/register.html', {"form": form, "champs":champs})
+        if valid is True:
+            email = request.POST['email']
+            username = request.POST['username']
+            user = User.objects.create_user(username, email, password)
+            messages.success(request, "You're signed up, you may now login")
+            return redirect('/auth/login')
+        return render(request, 'auth/register.html', {'form': form, "champs":champs})
     else:
         form = RegisterForm()   
         return render(request, 'auth/register.html',  {'form':form,"champs":champs})
