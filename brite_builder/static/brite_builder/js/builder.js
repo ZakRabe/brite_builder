@@ -2,7 +2,7 @@
 /*global angular*/
 (function(){
 var clean = function(value){
-  return value.toLowerCase().replace(/ /g,'-');;
+  return value.toLowerCase().replace(/ /g,'-').replace(/'/g,'').replace(/"/g,'');
 };
 
 var app = angular.module('brite_builder', []);

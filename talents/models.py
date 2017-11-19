@@ -9,10 +9,14 @@ class Talent(models.Model):
     description = models.CharField(max_length=300)
     type        = models.ForeignKey('TalentType')
     spell       = models.ForeignKey('spells.Spell', blank=True, null=True)
-    is_global   = models.BooleanField(default=False)
+    
+    class Meta:
+        ordering = ['spell']
+
     
     def __str__(self):
-        return self.title
+        
+        return self.spell.champ.title + " - " + self.title if self.spell is not None and self.spell.champ is not None else self.title
         
     def to_json(self):
         return {
@@ -21,7 +25,6 @@ class Talent(models.Model):
             'description': self.description,
             'type': self.type.to_json(),
             'spell': self.spell.to_json(),
-            'is_global': self.is_global,
         }
         
 class TalentType(models.Model):

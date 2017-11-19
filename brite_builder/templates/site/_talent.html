@@ -2,8 +2,12 @@
 <div ng-if="model" class="talent {{ 'clean(model.type.title)'|ng }}" title="{{'model.title'|ng}}" data-talent-id="{{'model.id'|ng}}">
 
   <img ng-src="{{"'/static/spells/img/'+clean(model.spell.champ.title)+'/'+clean(model.spell.title)+'.png'"|ng}}" alt="{{'model.spell.title'|ng}}">  
-
+  <div>
+    {{ "model.title"|ng }}
+  </div>
+  <div>
   {{"model.type.title"|ng}}
-  {{ "model.title"|ng }}
+  </div>
+  
   <p>{{ "model.description"|ng}} </p>
 </div>

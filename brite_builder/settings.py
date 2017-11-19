@@ -25,6 +25,10 @@ SECRET_KEY = '_d)nvt7+_6dx9!)vgykvb%3piw+fbwry0bk5tbg8(v!-*qr9!6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+
+RECAPTCHA_PRIVATE_KEY = '6Lc0bDkUAAAAAPSyrrRSOAkHmlqoktzVb8hnpBj-'
+RECAPTCHA_PUBLIC_KEY = '6Lc0bDkUAAAAAAX2K_PoiRTb74l9-t3cwoLforoQ'
+
 ALLOWED_HOSTS = ['brite-builder-zakrabe.c9users.io']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
@@ -33,10 +37,12 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 INSTALLED_APPS = [
     'brite_builder',
+    'site_auth.apps.SiteAuthConfig',
     'champs.apps.ChampsConfig',
     'spells.apps.SpellsConfig',
     'talents.apps.TalentsConfig',
     'builds.apps.BuildsConfig',
+    'snowpenguin.django.recaptcha2',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -61,7 +67,7 @@ ROOT_URLCONF = 'brite_builder.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['brite_builder/templates', 'talents/templates'],
+        'DIRS': ['brite_builder/templates', 'talents/templates', 'auth/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

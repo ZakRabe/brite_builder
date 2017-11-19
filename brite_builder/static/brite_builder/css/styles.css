@@ -8,3 +8,17 @@
     border-radius: 50%;
 }
 
+.page-content{
+    padding-top: 30px;
+}
+
+.margin-bottom-0{
+    margin-bottom: 0px;
+}
+.messages{
+    margin: 10px;
+}
+
+.messages p {
+    margin: 0;
+}

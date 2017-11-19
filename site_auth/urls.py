@@ -14,20 +14,16 @@ Including another URLconf
     2. Import the include() function: from django.conf.urls import url, include
     3. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
-from django.conf.urls import url, include
+from django.conf.urls import url
 from django.contrib import admin
-
+from django.shortcuts import render_to_response
 from . import views
-from talents import urls as talent_urls
-from builds import urls as build_urls
-from site_auth import urls as auth_urls
+
+
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
-    url(r'^profile/?$', views.profile, name='profile'),
-    url(r'^talents/', include(talent_urls)),
-    url(r'^builds/', include(build_urls)),
-    url(r'^auth/', include(auth_urls)),
-    url(r'^(?P<champ_name>\w+-*\w*)?/?$', views.index, name='index'),
+    url(r'^register/?$', views.register, name='register'),
+    url(r'^login/?$', views.login_view, name='login'),
+    url(r'^logout/?$', views.logout_view, name='logout'),
+    
 ]
-

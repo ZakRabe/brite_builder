@@ -1,0 +1,47 @@
+{% load static %}
+<!doctype html>
+<html class="no-js" lang="">
+  {% include 'site/_head.html' %}
+  <body>
+    <!--[if lte IE 9]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+    <![endif]-->
+    {% include 'site/_header.html' %}    
+    <div class="container page-content">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    Login to Counter.GG
+                </h3>
+            </div>
+            <form method="POST">
+                <div class="card-body">
+                    
+                        {% csrf_token %} 
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" class="form-control" name="username" placeholder="Username">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" class="form-control" name="password" placeholder="Password">
+                        </div>
+                </div>
+                <div class="card-footer">
+                    
+                    <button type="submit" class="btn btn-lg btn-success float-right">Login</button>
+                    
+                    {% if error %}
+                    <div class="alert alert-danger float-left margin-bottom-0">
+                        {{error}}
+                    </div>
+                    {% endif %}
+                    <div class="clearfix"></div>
+                    
+                </div>
+            </form>
+        </div>
+    </div>
+        {% include 'site/_foot.html' %}        
+  </body>
+</html>
