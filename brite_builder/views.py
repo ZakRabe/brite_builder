@@ -17,5 +17,5 @@ def index(request, champ_name):
     return render(request, 'site/index.html', {'champs': champs, 'selected_champ':selected_champ})
 
 def profile(request):
-    champs = Champ.objects.all()
+    champs = Champ.objects.all().exclude(title="Shared");
     return render(request, 'site/profile.html', {'champs': champs})
