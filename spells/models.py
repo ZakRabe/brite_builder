@@ -28,13 +28,14 @@ class Spell(models.Model):
     title   = models.CharField(max_length=50)
     button  = models.IntegerField(choices=BTN_CHOICES, blank=True, null=True)
     champ   = models.ForeignKey('champs.Champ', blank=True, null=True)
-    
+
+
     def __str__(self):
         if self.champ is not None:
             return self.champ.title + ' - ' + BTN_CHOICES[self.button][1] + ' - ' + self.title
         else:
             return self.title
-            
+
     def to_json(self):
         return {
             'id':self.id,

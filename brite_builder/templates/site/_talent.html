@@ -1,13 +1,41 @@
 {% load html_filters %}
-<div ng-if="model" class="talent {{ 'clean(model.type.title)'|ng }}" title="{{'model.title'|ng}}" data-talent-id="{{'model.id'|ng}}">
+<div class="talent {{ 'clean(model.type.title)'|ng }} " title="{{'model.spell.title'|ng}} - {{'model.title'|ng}}" data-talent-id="{{'model.id'|ng}}">
+  <div class="card-header no-limit-{{ 'model.no_limit'|ng }}">
+    <div class="badge badge-pill badge-dark">
+      {{ "model.spell.button"|ng }}
+    </div>
+    <h6 class="badge badge-secondary">
+      <div ng-if="model.type">
+        {{"model.type.title"|ng}}
+      </div>
+      <div ng-if="!model.type">
+        None
+      </div>
+    </h6>
+    <img ng-if="model.title" ng-src="{{"'/static/spells/img/'+clean(model.spell.champ.title)+'/'+clean(model.spell.title)+'.png'"|ng}}" alt="{{'model.spell.title'|ng}}">
+    <div class="badge badge-light" title="This spell affects the EX version of {{ 'model.spell.title'|ng }} " ng-if="model.modifies_ex">
+      <i class="fa fa-bolt"></i>
+      EX
+    </div>
+    <h4 class="card-title margin-0">
+      <span ng-if="model.title">
+        {{ "model.title"|ng }}
+      </span>
+      <span ng-if="!model.title">
+        Empty
+      </span>
+    </h4>
+    {% if request.user.is_staff %}
+    <a target="_blank" ng-if="model" style="position:absolute; top: 0; left:0" href="/admin/talents/talent/{{ 'model.id'|ng }}/change/" class="btn btn-info btn-sm">
+      Edit
+    </a>
+    {% endif %}
+    <div class="clearfix"></div>
+  </div>
+  <div class="card-body">
+    <p ng-if="model" ng-bind-html="model.description"></p>
+    <p ng-if="!model">Choose a Battlerite</p>
+  </div>
 
-  <img ng-src="{{"'/static/spells/img/'+clean(model.spell.champ.title)+'/'+clean(model.spell.title)+'.png'"|ng}}" alt="{{'model.spell.title'|ng}}">  
-  <div>
-    {{ "model.title"|ng }}
-  </div>
-  <div>
-  {{"model.type.title"|ng}}
-  </div>
-  
-  <p>{{ "model.description"|ng}} </p>
 </div>
+

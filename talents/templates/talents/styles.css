@@ -1,5 +1,12 @@
 {% for type in types %}
-.talent.{{type.title|lower}} img{
+.talent.{{type.title|lower}} img, .talent.{{type.title|lower}} .card-header .badge-dark{
+    background-color: {{type.color}};
+    border-color: {{type.color}};
+}
+.talent.{{type.title|lower}} .card-header{
+    border-color: {{type.color}};
+}
+.talent.{{type.title|lower}} .badge-secondary{
     background-color: {{type.color}};
     border-color: {{type.color}};
 }

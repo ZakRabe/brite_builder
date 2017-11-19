@@ -1,24 +1,113 @@
+section[talent]{
+    max-width: 220px;
+    min-width: 220px;
+    background-color: #e1e1e1;
+}
+section[talent]:hover{
+    transform: scale(1.05);
+    z-index: 9;
+}
+section[talent].selected-true{
+    opacity: .4;
+}
 .talent{
-    
+
 }
 
+.card.col{
+    padding:0;
+    /*border-color: #555;*/
+}
+.talent .card-title{
+    font-size: 1.1rem;
+    color: white;
+    padding-top: 5px;
+}
+.talent .card-header{
+    border-radius: 0px;
+    background-image: url('/static/brite_builder/img/card-bg.jpg');
+    /*background-size: 100%;*/
+    background-color: #444;
+    background-blend-mode: soft-light;
+    border-width: 5px;
+    min-height: 50px;
+    padding: .75rem .75rem;
+    padding-bottom: 5px;
+
+    position: relative;
+}
+.talent .card-header.no-limit-true{
+    /*background-color: #803c00;*/
+    background-color: rgba(174,144,64, 1);
+
+}
+.talent .card-header .badge-light{
+ position: absolute;
+ bottom: .75rem;
+ right: .75rem;
+}
+.talent .card-header .badge-dark{
+    position: absolute;
+    top: .75rem;
+    left: .75rem;
+    font-size: 1rem;
+}
+.talent .card-header .badge-secondary{
+ position: absolute;
+ top: .75rem;
+ right: .75rem;
+}
+.talent h6{
+    font-size: .8rem;
+    /*font-weight: 500;*/
+}
+.talent p{
+    font-size: .8rem;
+    margin: 0;
+}
+.talent p span{
+    /*text-decoration: underline;*/
+    color: #1751a9;
+    font-weight: bold;
+}
+.talent .card-body{
+    padding: .5rem;
+}
 .talent img{
-    border-width: 7px;
+    border-width: 5px;
     border-style: solid;
     border-radius: 50%;
+    width: 101px;
 }
-
 .page-content{
     padding-top: 30px;
 }
-
+.margin-0{
+    margin: 0px !important;
+}
 .margin-bottom-0{
     margin-bottom: 0px;
 }
 .messages{
     margin: 10px;
 }
-
 .messages p {
     margin: 0;
+}
+body{
+    font-family: 'Noto Sans', sans-serif;
+}
+h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6, strong, b{
+    font-weight: 700;
+}
+
+@media(max-width:575px){
+    .talent img{
+        width: 50px;
+    }
+    section[talent] {
+        max-width: 45%;
+        min-width: unset;
+    }
+
 }

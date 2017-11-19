@@ -10,7 +10,7 @@ class Talent(models.Model):
     type        = models.ForeignKey('TalentType')
     spell       = models.ForeignKey('spells.Spell', verbose_name="Spell Image",blank=True, null=True)
     no_limit    = models.BooleanField(verbose_name="Bypass spell count limit", default=False)
-
+    modifies_ex = models.BooleanField(verbose_name="Modifies EX?", default=False)
     class Meta:
         ordering = ['spell']
 
@@ -27,6 +27,7 @@ class Talent(models.Model):
             'type': self.type.to_json(),
             'spell': self.spell.to_json(),
             "no_limit": self.no_limit,
+            "modifies_ex": self.modifies_ex,
         }
 
 class TalentType(models.Model):

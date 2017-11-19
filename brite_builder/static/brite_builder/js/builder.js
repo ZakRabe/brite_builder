@@ -2,10 +2,13 @@
 /*global angular*/
 (function(){
 var clean = function(value){
-  return value.toLowerCase().replace(/ /g,'-').replace(/'/g,'').replace(/"/g,'');
+  if (value) {
+    return value.toLowerCase().replace(/ /g,'-').replace(/'/g,'').replace(/"/g,'');
+  }
+  return '';
 };
 
-var app = angular.module('brite_builder', []);
+var app = angular.module('brite_builder', ['ngSanitize']);
 
 
 app.controller('loadoutCtrl', function ($scope) {
@@ -23,10 +26,10 @@ app.controller('loadoutCtrl', function ($scope) {
   //   },
   //   type:{
   //     title: "Offense",
-  //   },   
+  //   },
   // };
   $scope.loadout = {
-    id: null, 
+    id: null,
     build_hash: null,
     talent_0: null,
     talent_1: null,
@@ -34,29 +37,35 @@ app.controller('loadoutCtrl', function ($scope) {
     talent_3: null,
     talent_4: null,
   };
-  
+
   $scope.removeTalent = function(talent){
     var loadout = $scope.loadout;
     for (var i = 0; i < 5; i++) {
       if ((loadout['talent_'+i] && talent) && loadout['talent_'+i].id == talent.id) {
         loadout['talent_'+i] = null;
-        return $scope.loadout = loadout;
+        $scope.loadout = loadout;
+        var champPoolTalent = $('[ng-controller="champTalentPoolCtrl"] [data-talent-id='+talent.id+']');
+        var talent_scope = angular.element(champPoolTalent).scope();
+        talent_scope.model.selected = false;
+        return true;
       }
     }
-    return console.log('Talent not found in loadout.');
+    console.log('Talent not found in loadout.');
+    return false;
   };
   $scope.addTalent = function(talent){
     var loadout = $scope.loadout;
-    
+
     for (var i = 0; i < 5; i++) {
       // console.log(talent.id);
       if (loadout['talent_'+i] && loadout['talent_'+i].id == talent.id) {
-        return console.log("Loadout already contains this talent");
+        console.log("Loadout already contains this talent");
+        return true;
       }
     }
-    
+
     var spell_id = talent.spell.id;
-    
+
     // count current loadout spells. no more than 2 for each spell
     var spellCount = 0;
     for (var i = 0; i < 5; i++) {
@@ -67,36 +76,38 @@ app.controller('loadoutCtrl', function ($scope) {
       }
     }
     if (spellCount >=2) {
-      return console.log('Cant have more than 2 talents active per spell');
+      console.log('Cant have more than 2 talents active per spell');
+      return false;
     }
     for (var i = 0; i < 5; i++) {
       if (!loadout['talent_'+i]) {
         loadout['talent_'+i] = talent;
-        return $scope.loadout = loadout;
+        $scope.loadout = loadout;
+        return true;
       }
     }
     return console.log("Loadout is full.");
   };
-  
-  
-  
+
+
+
 });
 
 app.controller('champTalentPoolCtrl', function ($scope, $http, $attrs) {
-  
+
   $scope.talentPool = [];
   var loadTalents = function(returned){
     $scope.talentPool = returned.data;
   };
   $http.get('talents/'+ clean($attrs.champ)).then(loadTalents);
-  
-  
-  
-  
+
+
+
+
 });
 
 
-app.directive('talent', ["$compile", '$http', '$templateCache', '$parse', 
+app.directive('talent', ["$compile", '$http', '$templateCache', '$parse',
 function($compile, $http, $templateCache, $parse){
   return {
     templateUrl: '/talents/render/',
