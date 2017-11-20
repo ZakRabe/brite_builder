@@ -1,9 +1,9 @@
-section[talent], div[talent]{
+.card{
     max-width: 220px;
     min-width: 220px;
     background-color: #f5f2eb;
 }
-section[talent]:hover{
+.card:hover{
     transform: scale(1.05);
     z-index: 9;
 }

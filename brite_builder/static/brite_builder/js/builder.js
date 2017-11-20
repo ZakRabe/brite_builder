@@ -15,12 +15,16 @@ var csrfToken = window.csrfToken = function(){
 
 
 
-var app = angular.module('brite_builder', ['ngSanitize']).config(function($httpProvider) {
+var app = angular.module('brite_builder', ['ngSanitize', 'ngclipboard']).config(function($httpProvider) {
   $httpProvider.defaults.headers.post['X-CSRFToken'] = csrfToken();
 });
 
 
 app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
+  $scope.copy_class = "info";
+  $scope.copy_url = function(){
+    $scope.copy_class = "success";
+  };
 
   $scope.build_hash = function(){
     var talent_ids = [];
@@ -44,8 +48,13 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
     if (output.charAt(output.length-1) == ",") {
       output=output.substring(0, output.length-1);
     }
+    $scope.copy_class = 'info';
+    var url = "https://" + window.location.hostname + "/" + window.location.pathname.split('/')[1] + "/" + output;
+    if (output.length) {
+      url += "/";
+    }
+    $scope.build_url = url;
 
-    $scope.build_url =  "https://" + window.location.hostname + "/" + window.location.pathname.split('/')[1] + "/" + output + "/";
   };
   $scope.is_empty = function(talent){
     // console.log(talent)
@@ -170,6 +179,7 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
   if (window.build) {
     $scope.build = window.build;
   }
+  $scope.build_hash();
 
 
 });

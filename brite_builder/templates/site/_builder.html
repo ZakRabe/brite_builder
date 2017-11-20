@@ -1,22 +1,33 @@
 {% load html_filters %}
 <div ng-controller="loadoutCtrl">
 
-    <div class="form-group">
-        <label for="title">Title</label>
-        <input type="text" id="title" class="form-control" ng-model="build.title" name="title" maxlength="150" placeholder="Title">
-    </div>
 
-    <div>
-    <div class="form-group">
-        <label for="url">Shareable Link</label>
-        <input id="url" type="text" disabled ng-model="build_url" class="form-control">
-    </div>
-
-
-    </div>
 
     <div class="form-group">
-        <label for="">Build</label>
+        <p>
+            <label for="url">Shareable Link</label>
+            <input id="url" type="text" disabled ng-model="build_url" class="form-control">
+        </p>
+        <button ng-if="copy_class" ng-click="copy_url()" class="btn btn-{{ 'copy_class'|ng }} btn-sm" ngclipboard data-clipboard-text="{{ 'build_url'|ng }}">
+            <div ng-if="copy_class=='success'">
+                <i class="fa fa-thumbs-up"></i> &nbsp;
+                Link Copied!
+            </div>
+            <div ng-if="copy_class!='success'">
+                <i class="fa fa-clipboard"></i> &nbsp;
+                Copy Link
+            </div>
+        </button>
+
+    </div>
+
+
+
+
+    <div class="form-group">
+        <p>
+            <input type="text" id="title" class="form-control" ng-model="build.title" name="title" maxlength="150" placeholder="Title">
+        </p>
         <div class="card-group">
             <div class='card col' talent ng-click="removeTalent(loadout.talent_0)" model="loadout.talent_0"></div>
             <div class='card col' talent ng-click="removeTalent(loadout.talent_1)" model="loadout.talent_1"></div>
@@ -25,14 +36,15 @@
             <div class='card col' talent ng-click="removeTalent(loadout.talent_4)" model="loadout.talent_4"></div>
         </div>
     </div>
+    <div>
     <div class="form-group">
-        <label for="description">Description</label>
         <textarea id="description" class="form-control " ng-model="build.description" name="description" maxlength="500" placeholder="Description"></textarea>
 
     </div>
-        <p>
-            <button class="btn btn-success" ng-click="saveBuild()"><i class="fa fa-save"></i>&nbsp; Save Loadout</button>
-        </p>
+    <p>
+        <button class="btn btn-success" ng-click="saveBuild()"><i class="fa fa-save"></i>&nbsp; Save Loadout</button>
+    </p>
+
 
 
 
