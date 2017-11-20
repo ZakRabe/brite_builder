@@ -37,6 +37,14 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
   //     title: "Offense",
   //   },
   // };
+  $scope.is_empty = function(talent){
+    // console.log(talent)
+    if (!talent) {
+      // console.log('hit');
+      return 'is-empty';
+    }
+    return '';
+  };
 
   $scope.toggleTalent = function(talent){
     if (talent.selected) {
@@ -101,9 +109,9 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
     console.log(returned);
   };
   $scope.saveBuild = function(){
-    $http.post('/builds/', $scope.loadout).then(saveBuildSuccess);
+    $http.post('/builds/', {'build':$scope.build, 'loadout':$scope.loadout}).then(saveBuildSuccess);
   };
-    $scope.loadout = {
+  $scope.loadout = {
     id: null,
     build_hash: null,
     talent_0: null,
@@ -112,13 +120,25 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
     talent_3: null,
     talent_4: null,
   };
+  $scope.build = {
+    id: null,
+    title: 'New Loadout',
+    description: '',
+    loadout_id: null,
+  };
   if (window.loadout) {
     $scope.loadout.id = window.loadout.id;
     $scope.loadout.build_hash = window.loadout.build_hash;
-    var talent_ids = []
+    var talent_ids = [];
     for (var i = 0; i < 5; i++) {
       var talent = window.loadout['talent_' + i];
-      talent_ids.push(talent.id);
+      if (!talent) {
+        if (window.loadout[i]) {
+          talent_ids.push(window.loadout[i]);
+        }
+      }else{
+        talent_ids.push(talent.id);
+      }
     }
 
      var tryClick = function(){
@@ -131,9 +151,12 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
           $timeout(tryClick, 100);
         }
       }
-     }
+     };
     $timeout(tryClick,100);
+  }
 
+  if (window.build) {
+    $scope.build = window.build;
   }
 
 

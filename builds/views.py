@@ -10,6 +10,7 @@ from brite_builder.templatetags.html_filters import champName
 from .models import Loadout
 from .models import Build
 from .forms import BuildForm
+from .common import create_loadout
 
 
 # Create your views here.
@@ -32,57 +33,31 @@ class RestCreate():
 
     def save(self):
         data = get_post_json(self.request)
-
-        for attr in ['talent_0','talent_1','talent_2','talent_3', 'talent_4']:
-            if data[attr] is not None:
-                data[attr+"_id"] = data[attr]['id']
-
-        referer = self.request.META.get('HTTP_REFERER')
-        champ_name = referer.split('/')[3]
-        champ = get_object_or_404(Champ,title__iexact=champName(champ_name))
-        data['champ_name'] = champ_name
-        build_data = data.get('build', {});
-        data['title'] = build_data.get('title', "Unnamed Loadout")
-        data['description'] = build_data.get('description', "")
-
-        form = BuildForm(data)
-
-
-        if not form.is_valid():
-            return {"errors":form.errors}
-
-        clean = form.cleaned_data
+        returned = create_loadout(data, self.request)
+        if returned.get('errors', None) is not None:
+            return returned
+        else:
+            loadout = returned.get('loadout')
+            clean = returned.get('clean')
 
         build_dict = {
-
             'title' : clean.get('title'),
             'description' : clean.get('description'),
-
         }
         del clean['title']
         del clean['description']
-        if clean.get('id', None) is None:
-            # look up if there's an existing loadout for this build_hash
-            loadout = Loadout.objects.filter(build_hash=clean.get('build_hash'))
-            if loadout.count() == 0:
-                # strip our validation values
-                del clean['champ_name']
-                # create new loadout for the build
-                loadout = Loadout(**clean)
-                loadout.save()
-            else:
-                loadout = loadout[0]
-
+        # create new build
         if self.request.user.is_authenticated():
-            # create new build
             build_dict['user_id'] = self.request.user.id
-            build_dict['loadout_id'] = loadout.id
+            # check if the user already has a build with this loadout,
+            # if so, update instead of create
+        build_dict['loadout_id'] = loadout.id
 
-            build = Build(**build_dict)
-            build.save()
-            return {"success": build.to_json()}
+        build = Build(**build_dict)
+        build.save()
         # messages.success(self.request,"Build Saved!")
-        return {'success':loadout.to_json()}
+        return {"success": build.to_json()}
+
 
     def wrap(self,request):
         self.request = request

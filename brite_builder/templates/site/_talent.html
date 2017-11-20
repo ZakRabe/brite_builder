@@ -1,5 +1,5 @@
 {% load html_filters %}
-<div class="talent {{ 'clean(model.type.title)'|ng }} " title="{{'model.spell.title'|ng}} - {{'model.title'|ng}}" data-talent-id="{{'model.id'|ng}}">
+<div class="talent {{ 'clean(model.type.title)'|ng }} {{ '$parent.is_empty(model)'|ng }}" title="{{'model.spell.title'|ng}} - {{'model.title'|ng}}" data-talent-id="{{'model.id'|ng}}">
   <div class="card-header no-limit-{{ 'model.no_limit'|ng }}">
     <div class="badge badge-dark">
       {{ "model.spell.button"|ng }}
