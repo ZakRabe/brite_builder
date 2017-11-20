@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'spells.apps.SpellsConfig',
     'talents.apps.TalentsConfig',
     'builds.apps.BuildsConfig',
+    'news.apps.NewsConfig',
     'snowpenguin.django.recaptcha2',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -137,9 +138,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
-
 STATIC_ROOT = 'static/'
 STATICFILES_DIRS = [
     'brite_builder/static',
-    'spells/static'
+    'spells/static',
+    'champs/static',
 ]

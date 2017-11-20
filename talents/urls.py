@@ -22,7 +22,7 @@ from . import views
 
 
 urlpatterns = [
-    url(r'^css$', views.css, name='css'),
+    # url(r'^css$', views.css, name='css'),
     url(r'^render/(?P<id>\d*)$', views.doRender, name='render'),
     url(r'^(?P<title>\w+-*\w*)?/?$', views.champTalentPool, name='champTalentPool'),
 ]
