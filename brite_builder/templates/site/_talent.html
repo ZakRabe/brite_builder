@@ -1,7 +1,7 @@
 {% load html_filters %}
 <div class="talent {{ 'clean(model.type.title)'|ng }} " title="{{'model.spell.title'|ng}} - {{'model.title'|ng}}" data-talent-id="{{'model.id'|ng}}">
   <div class="card-header no-limit-{{ 'model.no_limit'|ng }}">
-    <div class="badge badge-pill badge-dark">
+    <div class="badge badge-dark">
       {{ "model.spell.button"|ng }}
     </div>
     <h6 class="badge badge-secondary">
@@ -34,7 +34,7 @@
   </div>
   <div class="card-body">
     <p ng-if="model" ng-bind-html="model.description"></p>
-    <p ng-if="!model">Choose a Battlerite</p>
+    <p ng-if="!model" style="text-align:center;">Choose a Battlerite</p>
   </div>
 
 </div>

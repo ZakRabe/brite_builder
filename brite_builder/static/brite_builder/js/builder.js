@@ -8,10 +8,19 @@ var clean = function(value){
   return '';
 };
 
-var app = angular.module('brite_builder', ['ngSanitize']);
+var csrfToken = window.csrfToken = function(){
+  return $("[name=csrfmiddlewaretoken]").val();
+};
 
 
-app.controller('loadoutCtrl', function ($scope) {
+
+
+var app = angular.module('brite_builder', ['ngSanitize']).config(function($httpProvider) {
+  $httpProvider.defaults.headers.post['X-CSRFToken'] = csrfToken();
+});
+
+
+app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
   // $scope.testModel ={
   //   id:1,
   //   title: "Frog Frenzy",
@@ -28,14 +37,13 @@ app.controller('loadoutCtrl', function ($scope) {
   //     title: "Offense",
   //   },
   // };
-  $scope.loadout = {
-    id: null,
-    build_hash: null,
-    talent_0: null,
-    talent_1: null,
-    talent_2: null,
-    talent_3: null,
-    talent_4: null,
+
+  $scope.toggleTalent = function(talent){
+    if (talent.selected) {
+      return $scope.removeTalent(talent);
+    }else{
+      return $scope.addTalent(talent);
+    }
   };
 
   $scope.removeTalent = function(talent){
@@ -47,7 +55,7 @@ app.controller('loadoutCtrl', function ($scope) {
         var champPoolTalent = $('[ng-controller="champTalentPoolCtrl"] [data-talent-id='+talent.id+']');
         var talent_scope = angular.element(champPoolTalent).scope();
         talent_scope.model.selected = false;
-        return true;
+        return false;
       }
     }
     console.log('Talent not found in loadout.');
@@ -89,6 +97,44 @@ app.controller('loadoutCtrl', function ($scope) {
     return console.log("Loadout is full.");
   };
 
+  var saveBuildSuccess = function(returned){
+    console.log(returned);
+  };
+  $scope.saveBuild = function(){
+    $http.post('/builds/', $scope.loadout).then(saveBuildSuccess);
+  };
+    $scope.loadout = {
+    id: null,
+    build_hash: null,
+    talent_0: null,
+    talent_1: null,
+    talent_2: null,
+    talent_3: null,
+    talent_4: null,
+  };
+  if (window.loadout) {
+    $scope.loadout.id = window.loadout.id;
+    $scope.loadout.build_hash = window.loadout.build_hash;
+    var talent_ids = []
+    for (var i = 0; i < 5; i++) {
+      var talent = window.loadout['talent_' + i];
+      talent_ids.push(talent.id);
+    }
+
+     var tryClick = function(){
+      for (var i = 0; i < talent_ids.length; i++) {
+        var id = talent_ids[i];
+        var el = $("div[ng-controller=champTalentPoolCtrl] div[data-talent-id="+id+"]");
+        if (el.length) {
+          el.click();
+        }else{
+          $timeout(tryClick, 100);
+        }
+      }
+     }
+    $timeout(tryClick,100);
+
+  }
 
 
 });
@@ -99,7 +145,7 @@ app.controller('champTalentPoolCtrl', function ($scope, $http, $attrs) {
   var loadTalents = function(returned){
     $scope.talentPool = returned.data;
   };
-  $http.get('talents/'+ clean($attrs.champ)).then(loadTalents);
+  $http.get('/talents/'+ clean($attrs.champ)).then(loadTalents);
 
 
 

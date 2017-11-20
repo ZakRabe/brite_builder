@@ -9,4 +9,10 @@
   </div>
   {% endif %}
 </div>
+
+{% if loadout %}
+<script type="text/javascript">
+  window.loadout = {{loadout|safe}};
+</script>
+{% endif %}
 {% endblock %}

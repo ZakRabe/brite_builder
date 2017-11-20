@@ -1,5 +1,8 @@
 {% load html_filters %}
 <div ng-controller="loadoutCtrl" >
+    <p>
+        <button class="btn btn-success" ng-click="saveBuild()"><i class="fa fa-save"></i>&nbsp; Save Loadout</button>
+    </p>
     <div class="card-group">
         <div class='card col' talent ng-click="removeTalent(loadout.talent_0)" model="loadout.talent_0"></div>
         <div class='card col' talent ng-click="removeTalent(loadout.talent_1)" model="loadout.talent_1"></div>
@@ -8,9 +11,11 @@
         <div class='card col' talent ng-click="removeTalent(loadout.talent_4)" model="loadout.talent_4"></div>
     </div>
 
+
+
     <h2 style="margin-top:20px">Battlerites</h2>
     <div class="card-group" ng-controller="champTalentPoolCtrl" champ="{{selected_champ.title}}">
-      <section class="card selected-{{ 'talent.selected'|ng }}" talent model="talent" ng-click="talent.selected=addTalent(talent)" ng-repeat="talent in talentPool">
+      <section class="card selected-{{ 'talent.selected'|ng }}" talent model="talent" ng-click="talent.selected=toggleTalent(talent)" ng-repeat="talent in talentPool">
       </section>
     </div>
 

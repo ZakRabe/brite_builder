@@ -1,14 +1,24 @@
-section[talent]{
+section[talent], div[talent]{
     max-width: 220px;
     min-width: 220px;
-    background-color: #e1e1e1;
+    background-color: #f5f2eb;
 }
 section[talent]:hover{
     transform: scale(1.05);
     z-index: 9;
 }
 section[talent].selected-true{
-    opacity: .4;
+    opacity: .5;
+}
+section[talent].selected-true:hover:after{
+    position: absolute;
+    top:50%;
+    left:33%;
+    color: red;
+    padding: 8px;
+    border-radius:10px;
+    background: black;
+    content: 'REMOVE';
 }
 .talent{
 
@@ -30,31 +40,40 @@ section[talent].selected-true{
     background-color: #444;
     background-blend-mode: soft-light;
     border-width: 5px;
-    min-height: 50px;
+    min-height: 150px;
     padding: .75rem .75rem;
     padding-bottom: 5px;
 
     position: relative;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
 }
 .talent .card-header.no-limit-true{
-    /*background-color: #803c00;*/
     background-color: rgba(174,144,64, 1);
-
 }
 .talent .card-header .badge-light{
  position: absolute;
- bottom: .75rem;
+ bottom: 2rem;
  right: .75rem;
+ cursor:pointer;
 }
 .talent .card-header .badge-dark{
     position: absolute;
+    cursor:pointer;
     top: .75rem;
     left: .75rem;
-    font-size: 1rem;
+    font-size: .9rem;
+    text-transform: uppercase;
 }
 .talent .card-header .badge-secondary{
  position: absolute;
  top: .75rem;
+ cursor:pointer;
  right: .75rem;
 }
 .talent h6{
@@ -65,8 +84,9 @@ section[talent].selected-true{
     font-size: .8rem;
     margin: 0;
 }
-.talent p span{
+.talent p em{
     /*text-decoration: underline;*/
+    font-style: normal;
     color: #1751a9;
     font-weight: bold;
 }
@@ -105,9 +125,24 @@ h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6, strong, b{
     .talent img{
         width: 50px;
     }
-    section[talent] {
-        max-width: 45%;
-        min-width: unset;
+    .talent .card-header{
+        min-height:auto;
     }
+    section[talent], div[talent] {
+        max-width: initial;
+        min-width: auto;
+        display: inline-flex;
+        width: 50%;
+        margin-bottom: 5px !important;
+        height: 250px;
+    }
+    [ng-controller=loadoutCtrl] div[talent]{
+        width: 100%;
+        height: auto;
+    }
+    .card-group{
+        display: block;
+    }
+
 
 }
