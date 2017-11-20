@@ -48,6 +48,7 @@ class RestCreate():
         del clean['description']
         # create new build
         if self.request.user.is_authenticated():
+            return True
             build_dict['user_id'] = self.request.user.id
             # check if the user already has a build with this loadout,
             # if so, update instead of create
@@ -56,7 +57,11 @@ class RestCreate():
         build = Build(**build_dict)
         build.save()
         # messages.success(self.request,"Build Saved!")
-        return {"success": build.to_json()}
+        struct = {
+            'build': build.to_json(),
+            'loadout': build.to_json()['loadout'],
+        }
+        return {"success": struct}
 
 
     def wrap(self,request):

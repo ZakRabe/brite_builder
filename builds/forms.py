@@ -30,7 +30,7 @@ class BuildForm(forms.Form):
 
         for talent_id in talent_ids:
             if talent_id is None:
-                self._errors["valid"] = ['Loadout must have 5 Battlerites']
+                self._errors["valid"] = ['<strong>Loadout must have 5 Battlerites to save it with a Title.</strong> You can still share an incomplete Loadout using the link above']
                 return cleaned_data
             if talent_ids.count(talent_id) > 1:
                 self._errors["valid"] = ['You cant fool me, dummy...']
@@ -49,9 +49,9 @@ class BuildForm(forms.Form):
         if cleaned_hash == "":
             # self._errors["valid"] = build_hash
             cleaned_data['build_hash'] = build_hash
-
-        if cleaned_data.get("title", "") =="":
-            cleaned_data['title'] = "Unnamed Build"
+        title = cleaned_data.get("title", "")
+        if title  == "" or title == "New Loadout":
+            cleaned_data['title'] = "Unnamed Loadout"
 
         # incase we're sent null
         cleaned_data['description'] = cleaned_data.get('description', "")

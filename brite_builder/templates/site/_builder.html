@@ -1,5 +1,5 @@
 {% load html_filters %}
-<div ng-controller="loadoutCtrl">
+<div ng-controller="loadoutCtrl" id="builder">
 
 
 
@@ -26,7 +26,12 @@
 
     <div class="form-group">
         <p>
-            <input type="text" id="title" class="form-control" ng-model="build.title" name="title" maxlength="150" placeholder="Title">
+            <h2 ng-if="build.id">
+                {{ 'build.title'|ng}}
+            </h2>
+            <span ng-if="!build.id">
+                <input type="text" id="title" class="form-control" ng-model="build.title" name="title" maxlength="150" placeholder="Title">
+            </span>
         </p>
         <div class="card-group">
             <div class='card col' talent ng-click="removeTalent(loadout.talent_0)" model="loadout.talent_0"></div>
@@ -38,11 +43,34 @@
     </div>
     <div>
     <div class="form-group">
-        <textarea id="description" class="form-control " ng-model="build.description" name="description" maxlength="500" placeholder="Description"></textarea>
+        <span ng-if="build.id">
+            <p>
+                {{ 'build.description'|ng}}
+            </p>
+        </span>
+        <span ng-if="!build.id">
+            <textarea id="description" class="form-control " ng-model="build.description" name="description" maxlength="500" placeholder="Description"></textarea>
+        </span>
 
     </div>
     <p>
-        <button class="btn btn-success" ng-click="saveBuild()"><i class="fa fa-save"></i>&nbsp; Save Loadout</button>
+        <span ng-if="build.id">
+            <button class="btn btn-primary" ng-click="copyBuild()"><i class="fa fa-copy"></i>&nbsp; Clone Loadout</button>
+        </span>
+        <span ng-if="!build.id">
+
+            <div class="alert alert-danger" ng-if="errors">
+                <p class="margin-0" ng-repeat='error in errors'>
+                    <i class="fa fa-exclamation-triangle"></i> &nbsp;
+                    <span ng-bind-html="error">
+
+                    </span>
+                </p>
+            </div>
+
+            <button class="btn btn-success" ng-click="saveBuild()"><i class="fa fa-save"></i>&nbsp; Save Loadout</button>
+        </span>
+
     </p>
 
 

@@ -27,7 +27,7 @@ class Loadout(models.Model):
 class Build(models.Model):
     title       = models.CharField(max_length=150)
     description = models.CharField(max_length=500)
-    user        = models.ForeignKey('auth.User', default=1)
+    user        = models.ForeignKey('auth.User', null=True)
     loadout     = models.ForeignKey('Loadout')
 
     def to_json(self):
@@ -36,5 +36,5 @@ class Build(models.Model):
             "title":self.title,
             "description":self.description,
             "loadout":self.loadout.to_json(),
-            'user': user_to_json(self.user),
+            'user': user_to_json(self.user) if self.user is not None else None,
         }

@@ -23,7 +23,7 @@ def create_loadout(data, request):
 
 
         if not form.is_valid():
-            return {"errors":form.errors, "data":form.saved_data}
+            return {"errors":form.errors, "data":data}
 
         clean = form.cleaned_data
 
@@ -33,9 +33,15 @@ def create_loadout(data, request):
             if loadout.count() == 0:
                 # strip our validation values
                 del clean['champ_name']
+                title = clean['title']
+                description = clean['description']
+                del clean['title']
+                del clean['description']
                 # create new loadout for the build
                 loadout = Loadout(**clean)
                 loadout.save()
+                clean['title'] = title
+                clean['description'] = description
             else:
                 loadout = loadout[0]
 

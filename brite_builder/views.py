@@ -9,6 +9,7 @@ from talents.models import Talent, SpecialTalent
 from .templatetags.html_filters import champName
 from builds.models import Loadout
 from builds.common import create_loadout
+from builds.models import Build
 
 # Create your views here.
 def index(request, champ_name, loadout=None, build_id=None):
@@ -17,7 +18,16 @@ def index(request, champ_name, loadout=None, build_id=None):
 
     if champ_name is not None:
         selected_champ = get_object_or_404(Champ, title__iexact=champName(champ_name))
-    return render(request, 'site/index.html', {'champs': champs, 'selected_champ':selected_champ, 'loadout': loadout})
+
+    if build_id is not None:
+        build = Build.objects.filter(id=build_id)
+        if build.exists():
+            build = json.dumps(build[0].to_json())
+        else:
+            build = json.dumps(None)
+    else:
+        build = json.dumps(None)
+    return render(request, 'site/index.html', {'champs': champs, 'selected_champ':selected_champ, 'loadout': loadout, "build":build})
 
 def profile(request):
     champs = Champ.objects.all().exclude(title="Shared");

@@ -25,7 +25,6 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
   $scope.copy_url = function(){
     $scope.copy_class = "success";
   };
-
   $scope.build_hash = function(){
     var talent_ids = [];
     for (var i = 0; i < 5; i++) {
@@ -53,6 +52,11 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
     if (output.length) {
       url += "/";
     }
+
+    if ($scope.build.id) {
+      url += $scope.build.id + '/';
+    }
+    window.history.pushState('', 'Counter.GG', url);
     $scope.build_url = url;
 
   };
@@ -125,11 +129,20 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
   };
   var saveBuildSuccess = function(returned){
     console.log(returned);
+    var data = returned.data;
+    if (data.errors) {
+      $scope.errors = data.errors.valid;
+    }else{
+      $scope.loadout = data.success.loadout;
+      $scope.build = data.success.build;
+      $scope.build_hash();
+    }
   };
   $scope.saveBuild = function(){
     $http.post('/builds/', {'build':$scope.build, 'loadout':$scope.loadout}).then(saveBuildSuccess);
   };
-  $scope.loadout = {
+
+  var blank_loadout = {
     id: null,
     build_hash: null,
     talent_0: null,
@@ -138,12 +151,19 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
     talent_3: null,
     talent_4: null,
   };
-  $scope.build = {
+  var blank_build =  {
     id: null,
     title: 'New Loadout',
     description: '',
     loadout_id: null,
   };
+  $scope.copyBuild = function(){
+    $scope.build = blank_build;
+    $scope.build_hash()
+  };
+
+  $scope.loadout = blank_loadout;
+  $scope.build = blank_build;
   if (window.loadout) {
     $scope.loadout.id = window.loadout.id;
     $scope.loadout.build_hash = window.loadout.build_hash;
