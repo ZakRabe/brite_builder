@@ -26,13 +26,12 @@ def profile(request):
 def build(request,champ_name,loadout,build_id=None):
 
     build_hash_data = "[" + loadout + "]"
-    build_hash = json.dumps(json.loads(build_hash_data))
+    build_hash = json.dumps(sorted(json.loads(build_hash_data)))
 
     loadout = Loadout.objects.filter(build_hash=build_hash)
 
     if loadout.exists() is False:
         return index(request, champ_name, build_hash_data)
-
 
     if build_id is None:
         return index(request, champ_name, json.dumps(loadout[0].to_json()))

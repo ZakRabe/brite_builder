@@ -21,22 +21,32 @@ var app = angular.module('brite_builder', ['ngSanitize']).config(function($httpP
 
 
 app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
-  // $scope.testModel ={
-  //   id:1,
-  //   title: "Frog Frenzy",
-  //   description:"Toxin Blades bonus damage is increased by 1 and it increases the attack speed of your next 6 Blade Flurry swings",
-  //   spell:{
-  //     title: "Toxin Blades",
-  //     button: "R",
-  //     champ:{
-  //       title: "Croak"  ,
-  //       subtitle: "The Ranid Assassin",
-  //     },
-  //   },
-  //   type:{
-  //     title: "Offense",
-  //   },
-  // };
+
+  $scope.build_hash = function(){
+    var talent_ids = [];
+    for (var i = 0; i < 5; i++) {
+      var talent = $scope.loadout['talent_'+i];
+      if (talent) {
+        var talent_id = talent.id;
+        talent_ids.push(talent_id);
+      }
+    }
+    talent_ids.sort();
+    var output = '';
+    for (var i = 0; i < talent_ids.length; i++) {
+      var id = talent_ids[i];
+      output += id;
+      if (i < talent_ids.length-1) {
+        output+= ",";
+      }
+    }
+    // remove trailing comma just in case we have incomplete build
+    if (output.charAt(output.length-1) == ",") {
+      output=output.substring(0, output.length-1);
+    }
+
+    $scope.build_url =  "https://" + window.location.hostname + "/" + window.location.pathname.split('/')[1] + "/" + output + "/";
+  };
   $scope.is_empty = function(talent){
     // console.log(talent)
     if (!talent) {
@@ -45,7 +55,6 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
     }
     return '';
   };
-
   $scope.toggleTalent = function(talent){
     if (talent.selected) {
       return $scope.removeTalent(talent);
@@ -53,7 +62,6 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
       return $scope.addTalent(talent);
     }
   };
-
   $scope.removeTalent = function(talent){
     var loadout = $scope.loadout;
     for (var i = 0; i < 5; i++) {
@@ -63,6 +71,7 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
         var champPoolTalent = $('[ng-controller="champTalentPoolCtrl"] [data-talent-id='+talent.id+']');
         var talent_scope = angular.element(champPoolTalent).scope();
         talent_scope.model.selected = false;
+        $scope.build_hash();
         return false;
       }
     }
@@ -99,12 +108,12 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
       if (!loadout['talent_'+i]) {
         loadout['talent_'+i] = talent;
         $scope.loadout = loadout;
+        $scope.build_hash();
         return true;
       }
     }
     return console.log("Loadout is full.");
   };
-
   var saveBuildSuccess = function(returned){
     console.log(returned);
   };
@@ -140,21 +149,24 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
         talent_ids.push(talent.id);
       }
     }
+    var count = 0;
 
      var tryClick = function(){
-      for (var i = 0; i < talent_ids.length; i++) {
-        var id = talent_ids[i];
-        var el = $("div[ng-controller=champTalentPoolCtrl] div[data-talent-id="+id+"]");
-        if (el.length) {
-          el.click();
-        }else{
-          $timeout(tryClick, 100);
+      if(count < 50){
+        for (var i = 0; i < talent_ids.length; i++) {
+          var id = talent_ids[i];
+          var el = $("div[ng-controller=champTalentPoolCtrl] div[data-talent-id="+id+"]");
+          if (el.length) {
+            el.click();
+          }else{
+            count++;
+            $timeout(tryClick, 100);
+          }
         }
       }
      };
     $timeout(tryClick,100);
   }
-
   if (window.build) {
     $scope.build = window.build;
   }
