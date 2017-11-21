@@ -1,6 +1,6 @@
 import json
 from django import forms
-from talents.models import Talent
+from talents.models import Talent, SpecialTalent
 from django.db.models import Q
 from django.core.exceptions import ValidationError
 
@@ -36,11 +36,12 @@ class BuildForm(forms.Form):
                 self._errors["valid"] = ['You cant fool me, dummy...']
                 return cleaned_data
 
+        special = SpecialTalent.objects.filter(champ__title__iexact=champ_name, talent_id__in=talent_ids).count()
+        talents = Talent.objects.filter(spell__champ__title__iexact=champ_name,id__in=talent_ids).count()
 
-        talents = Talent.objects.filter(Q(spell__champ__title__iexact=champ_name) | Q(spell__champ__title__iexact="shared"),id__in=talent_ids, ).count()
-
-        if talents < 5:
+        if talents + special < 5:
             self._errors["valid"] = ["Talents don't belong to the right champ"]
+            # self._errors["debug"] = [special, talents]
             return cleaned_data
 
         build_hash = json.dumps(talent_ids)
