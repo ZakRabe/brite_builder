@@ -13,6 +13,21 @@ class Loadout(models.Model):
     talent_3    = models.ForeignKey('talents.Talent', related_name="+")
     talent_4    = models.ForeignKey('talents.Talent', related_name="+")
 
+    @property
+    def all(self):
+        talents = []
+        if self.talent_0 is not None:
+            talents.append(self.talent_0)
+        if self.talent_1 is not None:
+            talents.append(self.talent_1)
+        if self.talent_2 is not None:
+            talents.append(self.talent_2)
+        if self.talent_3 is not None:
+            talents.append(self.talent_3)
+        if self.talent_4 is not None:
+            talents.append(self.talent_4)
+        return talents
+
     def to_json(self):
         return {
             "id": self.id,

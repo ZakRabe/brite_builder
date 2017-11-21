@@ -3,14 +3,14 @@
 <div class="container">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">
+                <h1 class="card-title margin-0">
                     Login to Counter.GG
-                </h3>
+                </h1>
             </div>
             <form method="POST">
                 <div class="card-body">
-                    
-                        {% csrf_token %} 
+
+                        {% csrf_token %}
                         <div class="form-group">
                             <label for="username">Username</label>
                             <input type="text" id="username" class="form-control" name="username" required placeholder="Username">
@@ -23,17 +23,16 @@
                 <div class="card-footer">
                     <a href="/auth/password_reset" class="btn btn-lg btn-light float-left">Forgot your password?</a>
                     <button type="submit" class="btn btn-lg btn-success float-right">Login</button>
-                    
+
                     {% if error %}
                     <div class="alert alert-danger float-left margin-bottom-0">
                         {{error}}
                     </div>
                     {% endif %}
                     <div class="clearfix"></div>
-                    
+
                 </div>
             </form>
         </div>
     </div>
 {% endblock %}
-        

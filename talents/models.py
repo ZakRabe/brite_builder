@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from brite_builder.templatetags.html_filters import champLink
 
 # Create your models here.
 class Talent(models.Model):
@@ -13,10 +14,15 @@ class Talent(models.Model):
     modifies_ex = models.BooleanField(verbose_name="Modifies EX?", default=False)
     class Meta:
         ordering = ['spell']
+    @property
+    def spell_link(self):
+        return champLink(self.spell.title)
+    @property
+    def champ_link(self):
+        return champLink(self.spell.champ.title)
 
 
     def __str__(self):
-
         return self.spell.champ.title + " - " + self.title if self.spell is not None and self.spell.champ is not None else self.title
 
     def to_json(self):
@@ -33,6 +39,7 @@ class Talent(models.Model):
 class TalentType(models.Model):
     title = models.CharField(max_length=15)
     color = models.CharField(max_length=7)
+    dark_color = models.CharField(max_length=7, default="#FFFFFF")
 
     def __str__(self):
         return self.title
@@ -42,6 +49,7 @@ class TalentType(models.Model):
             'id': self.id,
             "title": self.title,
             "color": self.color,
+            'dark_color': self.dark_color,
         }
 
 class SpecialTalent(models.Model):

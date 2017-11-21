@@ -48,7 +48,6 @@ class RestCreate():
         del clean['description']
         # create new build
         if self.request.user.is_authenticated():
-            return True
             build_dict['user_id'] = self.request.user.id
             # check if the user already has a build with this loadout,
             # if so, update instead of create

@@ -10,4 +10,11 @@
     background-color: {{type.color}};
     border-color: {{type.color}};
 }
+
+#profile-loadouts .battlerites li.{{type.title|lower}}{
+    border-left: 10px solid {{type.color}};
+    background-color: {{type.dark_color}};
+}
+
+
 {% endfor %}

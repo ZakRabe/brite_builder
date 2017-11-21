@@ -37,7 +37,8 @@ def index(request, champ_name, loadout=None, build_id=None):
 
 def profile(request):
     champs = Champ.objects.all().exclude(title="Shared");
-    return render(request, 'site/profile.html', {'champs': champs})
+    builds = Build.objects.select_related('user').filter(user_id=request.user.id)
+    return render(request, 'site/profile.html', {'champs': champs, 'builds': builds})
 
 def build(request,champ_name,loadout,build_id=None):
 

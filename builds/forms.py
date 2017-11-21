@@ -1,7 +1,7 @@
 import json
 from django import forms
 from talents.models import Talent
-
+from django.db.models import Q
 from django.core.exceptions import ValidationError
 
 class BuildForm(forms.Form):
@@ -37,7 +37,7 @@ class BuildForm(forms.Form):
                 return cleaned_data
 
 
-        talents = Talent.objects.filter(id__in=talent_ids, spell__champ__title__iexact=champ_name).count()
+        talents = Talent.objects.filter(Q(spell__champ__title__iexact=champ_name) | Q(spell__champ__title__iexact="shared"),id__in=talent_ids, ).count()
 
         if talents < 5:
             self._errors["valid"] = ["Talents don't belong to the right champ"]

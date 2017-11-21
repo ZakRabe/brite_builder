@@ -104,10 +104,13 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
     var spellCount = 0;
     for (var i = 0; i < 5; i++) {
       if (loadout['talent_'+i]) {
-        if (spell_id == loadout['talent_'+i].spell.id && !talent.no_limit ) {
+        // console.log(talent)
+        // console.log(loadout['talent_'+i]);
+        if (spell_id == loadout['talent_'+i].spell.id && (!talent.no_limit && !loadout['talent_'+i].no_limit) ) {
           spellCount++;
         }
       }
+      console.log(spellCount)
     }
     if (spellCount >=2) {
       $.notify('Cant have more than 2 talents active per spell', "error");

@@ -125,6 +125,10 @@ section[talent].selected-true:hover:after{
 .margin-bottom-0{
     margin-bottom: 0px;
 }
+.margin-top-0{
+    margin-top: 0px;
+}
+
 
 
 
@@ -143,6 +147,7 @@ body{
 }
 h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6, strong, b{
     font-weight: 700;
+    color: #171b15;
 }
 
 h2,.h2{
@@ -402,7 +407,7 @@ span[data-notify]{
         max-width: initial;
         min-width: auto;
         display: inline-flex;
-        margin-bottom: 5px !important;
+        requestottom: 5px !important;
         width: 100%;
     }
     [ng-controller=loadoutCtrl] div[talent]{
@@ -416,5 +421,31 @@ span[data-notify]{
         font-size: 1rem;
     }
 
+}
+
+.card.mini-loadout{
+    flex: 0 0 calc(50% - 20px);
+    margin: 10px;
+}
+.card.mini-loadout .card-body,.card.mini-loadout .card-footer{
+    padding: .3rem;
+}
+
+/*#profile-loadouts*/
+#profile-loadouts .battlerites{
+    list-style: none;
+    padding:0;
+}
+#profile-loadouts .battlerites li{
+    position: relative;
+    padding-left: 15px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    background-size: 40%;
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-color: #171b15;
+    /*font-weight: bold;*/
+    color: white;
 }
 
