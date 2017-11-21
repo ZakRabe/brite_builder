@@ -1,3 +1,10 @@
+.navbar-dark.bg-dark{
+    background-color: #171b15 !important;
+}
+.navbar-dark .navbar-brand, .navbar-dark .navbar-nav .nav-link{
+    color: #99b7d4;
+}
+
 #builder .card{
     max-width: 220px;
     min-width: 220px;

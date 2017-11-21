@@ -215,7 +215,7 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
   if (window.build) {
     $scope.build = window.build;
   }
-  $scope.build_hash()
+  $scope.build_hash();
 });
 
 app.controller('champTalentPoolCtrl', function ($scope, $http, $attrs) {
@@ -242,9 +242,6 @@ function($compile, $http, $templateCache, $parse){
     link: function(scope, attrs, el){
       scope.init = !(scope.model==null);
       scope.clean = clean;
-      setTimeout(function(){
-        $('[data-talent-id]').tooltip('enable');
-      },0);
     }
   };
 }]);
