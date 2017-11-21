@@ -114,8 +114,11 @@ section[talent].selected-true:hover:after{
     border: 1px solid #99b7d4;
 }
 
-.tooltip.bs-tooltip-auto[x-placement^=top] .arrow::before, .tooltip.bs-tooltip-top .arrow::before{
+.tooltip.bs-tooltip-auto .arrow:before, .tooltip.bs-tooltip-top .arrow::before{
     border-top-color: #99b7d4;
+    border-bottom-color: #99b7d4;
+    border-left-color: #99b7d4;
+    border-right-color: #99b7d4;
 }
 
 .talent .card-body{
@@ -132,8 +135,9 @@ section[talent].selected-true:hover:after{
 }
 .container, .container-fluid{
     /*background-color: rgba(241,255,248,.8);*/
-    background-color: rgba(205,207,205,.8);
-    border-radius: 10px;
+    /*background-color: rgba(205,207,205,.8);*/
+    background-color: rgba(202,208,203,.9);
+    border-radius: 3px;
     padding-top: 15px;
     padding-bottom: 15px;
     box-shadow: 0px 0px 30px black;
@@ -178,6 +182,7 @@ body{
 h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6, strong, b{
     font-weight: 700;
     color: #171b15;
+    font-family: 'Bowlby One SC';
 }
 
 h2,.h2{
@@ -194,10 +199,6 @@ h5,.h5{
 }
 h6,.h6{
     font-size: 1.1rem;
-}
-
-span[data-notify]{
-
 }
 
 .champ-icon{
@@ -233,12 +234,43 @@ span[data-notify]{
 .card.mini-loadout{
     flex: 0 0 calc(25% - 10px);
     margin: 5px;
-    background-color: #f5f2eb;
+    /*background-color: #f5f2eb;*/
+}
+.card.mini-loadout .card-title{
+    padding-left: 7px;
+    padding-right: 7px;
 }
 .card.mini-loadout .card-body,.card.mini-loadout .card-footer{
     padding: .3rem;
 }
 
+/*melee*/
+.card.mini-loadout.champ-type-0{
+    border-color: #512020;
+    box-shadow: 0 0 15px #512020;
+    background-color: #fdeaea;
+}
+.card.mini-loadout.champ-type-0 h4, .card.mini-loadout.champ-type-0 h6 {
+    color:#512020;
+}
+/*ranged*/
+.card.mini-loadout.champ-type-1{
+    border-color: #325120;
+    box-shadow: 0 0 15px #325120;
+    background-color: #effdea;
+}
+.card.mini-loadout.champ-type-1 h4, .card.mini-loadout.champ-type-1 h6 {
+    color:#325120;
+}
+/*support*/
+.card.mini-loadout.champ-type-2{
+    border-color: #203a51;
+    box-shadow: 0 0 15px #203a51;
+    background-color: #eaf3fd;
+}
+.card.mini-loadout.champ-type-2 h4, .card.mini-loadout.champ-type-2 h6 {
+    color:#203a51;
+}
 
 @media (min-width:576px){
     #profile-loadouts{
@@ -252,9 +284,15 @@ span[data-notify]{
     padding:0;
     margin:0;
 }
+.btn{
+    cursor:pointer;
+}
+
 #profile-loadouts .battlerites li{
+    cursor: pointer;
     position: relative;
-    padding-left: 15px;
+    position: relative;
+    padding-left: 7px;
     padding-top: 7px;
     padding-right: 7px;
     padding-bottom: 7px;
@@ -289,10 +327,18 @@ span[data-notify]{
 }
 #profile-loadouts .battlerites li .badge-light{
     margin-top: 7px;
-    position: relative;
+    position: absolute;
     z-index: 9;
+    right: 7px;
+    top: 7px;
 }
 
+
+.hidden-copy-button{
+    position:absolute;
+    top:0;
+    left: -9999%;
+}
 
 .badge{
     cursor: pointer;
@@ -331,6 +377,18 @@ span[data-notify]{
         padding:0;
     }
 
+}
+/* large*/
+@media(max-width:991px){
+  .card.mini-loadout{
+      flex: 0 0 calc(33% - 10px);
+  }
+}
+/*MEDIUM*/
+@media(max-width:767px){
+  .card.mini-loadout{
+      flex: 0 0 calc(50% - 10px);
+  }
 }
 
 

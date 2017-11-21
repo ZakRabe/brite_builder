@@ -30,6 +30,20 @@ class Loadout(models.Model):
             talents.append(self.talent_4)
         return talents
 
+    @property
+    def champ(self):
+        talents = self.all
+        for talent in talents:
+            if talent is not None:
+                return talent.spell.champ.title
+
+    @property
+    def champ_type(self):
+        talents = self.all
+        for talent in talents:
+            if talent is not None:
+                return talent.spell.champ.c_type
+
     def to_json(self):
         return {
             "id": self.id,
@@ -53,7 +67,9 @@ class Build(models.Model):
         build_hash = self.loadout.build_hash.replace(' ','').replace("[",'').replace(']', '')
         return "/" + self.loadout.talent_0.champ_link + "/"+ build_hash + "/" + str(self.id)
 
-
+    @property
+    def champ(self):
+        return self.loadout.champ
 
 
     def to_json(self):

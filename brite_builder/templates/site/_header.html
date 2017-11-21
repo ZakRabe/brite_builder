@@ -10,13 +10,39 @@
   <form class="form-inline">
     <select class="form-control" onchange="location = this.options[this.selectedIndex].value;">
       <option value="#">Choose Champion</option>
+      <optgroup label="Melee">
       {% for champ in champs %}
-        {% if selected_champ.title == champ.title %}
-          <option value="/{{champ.title|champLink}}" selected="selected">{{ champ }}</option>
-        {% else %}
-          <option value="/{{champ.title|champLink}}">{{ champ }}</option>
-        {% endif %}
+      {% if champ.c_type == 0 %}
+          <option
+            value="/{{champ.title|champLink}}"
+            {% if selected_champ.title == champ.title %} selected="selected"{% endif %}>
+            {{ champ }}
+          </option>
+      {% endif %}
       {% endfor %}
+      </optgroup>
+      <optgroup label="Ranged">
+      {% for champ in champs %}
+      {% if champ.c_type == 1 %}
+          <option
+            value="/{{champ.title|champLink}}"
+            {% if selected_champ.title == champ.title %} selected="selected"{% endif %}>
+            {{ champ }}
+          </option>
+      {% endif %}
+      {% endfor %}
+      <optgroup label="Support">
+      {% for champ in champs %}
+      {% if champ.c_type == 2 %}
+          <option
+            value="/{{champ.title|champLink}}"
+            {% if selected_champ.title == champ.title %} selected="selected"{% endif %}>
+            {{ champ }}
+          </option>
+      {% endif %}
+      {% endfor %}
+      </optgroup>
+      </optgroup>
     </select>
   </form>
   {% endif %}

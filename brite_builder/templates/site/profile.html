@@ -5,35 +5,34 @@
 <div class="container">
   <h1 class="margin-top-0">{{user}} <span class="h4"> - The Builder</span></h1>
 
-  <ul class="nav nav-tabs" id="myTab" role="tablist">
+  <ul class="nav nav-tabs" id="profile-tab" role="tablist">
   <li class="nav-item">
     <a class="nav-link" id="contact-tab" data-toggle="tab" href="#profile-buildsets-tab" role="tab" aria-controls="contact" aria-selected="false">
-      BuildSets
+      <h2 class="margin-bottom-0">BuildSets</h2>
     </a>
   </li>
   <li class="nav-item">
     <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile-loadouts-tab" role="tab" aria-controls="profile" aria-selected="false">
-      Loadouts
+      <h2 class="margin-bottom-0">Loadouts</h2>
     </a>
   </li>
 </ul>
-<div class="tab-content" id="myTabContent">
+<div class="tab-content" id="profile-tab-content">
   <div class="tab-pane fade " id="profile-buildsets-tab" role="tabpanel" aria-labelledby="contact-tab">
-      <h2>BuildSets</h2>
+
 
   </div>
   <div class="tab-pane fade show active" id="profile-loadouts-tab" role="tabpanel" aria-labelledby="profile-tab">
-      <h2>Loadouts</h2>
+
       <div class="container-fluid padding-top-0 padding-bottom-0" id="profile-loadouts">
         <div class="card-deck" >
           {% for build in builds %}
-          <div class="card mini-loadout champ-{{build.loadout.talent_0.champ_link}}">
+          <div data-toggle="tooltip" data-placement="right" title="{{build.description}}" class="card mini-loadout champ-type-{{build.loadout.champ_type}} champ-{{build.loadout.talent_0.champ_link}}">
             <div class="card-body">
-              <spam class="card-title margin-0">
-                {{build.title}}
-              </spam>
-              {{build.description}}
-
+              <div class="card-title margin-0">
+                <h4 class="margin-0">{{build.title}}</h4>
+                <h6 class="margin-0">{{build.champ}}</h6>
+              </div>
               <ul class="battlerites">
                 {% for talent in build.loadout.all %}
                 <li style="background-image:url(/static/spells/img/{{talent.champ_link}}/{{talent.spell_link}}.png)"
@@ -41,10 +40,10 @@
                     data-html="true"
                     title="{{talent.description}} {% if talent.modifies_ex %}<hr>Battlerite affects the EX version of {{talent.spell.title}}{%endif%} "
                     class="{{talent.type.title|lower}}" >
-                  <span class="title">{{talent.title}}</span>
                   {% if talent.modifies_ex %}
-                  <div class="badge badge-light float-right"><i class="fa fa-bolt"></i>&nbsp;EX</div>
+                  <div class="badge badge-light"><i class="fa fa-bolt"></i>&nbsp;EX</div>
                   {% endif %}
+                  <span class="title">{{talent.title}}</span>
                 </li>
                 {% endfor %}
                 <!--<li style="background-image:url(/static/spells/img/{{build.loadout.talent_1.champ_link}}/{{build.loadout.talent_1.spell_link}}.png)">{{build.loadout.talent_1.title}}</li>-->
@@ -54,9 +53,13 @@
               </ul>
             </div>
             <div class="card-footer">
+              <input class="hidden-copy-button" id="url_{{build.id}}" value="https://{{ request.META.HTTP_HOST }}{{build.url}}">
               <div class="btn-group float-right">
-                <input id="url_{{build.id}}" hidden value="https://{{ request.META.HTTP_HOST }}{{build.url}}">
-                <button class="btn btn-sm btn-primary js-copy-button"
+                <a href="{{build.url}}" target="_blank" class="btn btn-sm btn-success js-copy-button"
+                        >
+                  <i class="fa fa-eye"></i>&nbsp; View
+                </a>
+                <button class="btn btn-sm btn-info js-copy-button"
                         onclick="window.jsCopy('url_{{build.id}}')">
                   <i class="fa fa-copy"></i>&nbsp; Copy
                 </button>
