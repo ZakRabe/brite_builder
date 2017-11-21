@@ -13,7 +13,7 @@
       </div>
     </h6>
     <img ng-if="model.title" ng-src="{{"'/static/spells/img/'+clean(model.spell.champ.title)+'/'+clean(model.spell.title)+'.png'"|ng}}" alt="{{'model.spell.title'|ng}}">
-    <div class="badge badge-light" title="This spell affects the EX version of {{ 'model.spell.title'|ng }} " ng-if="model.modifies_ex">
+    <div class="badge badge-light" title="Battlerite affects the EX version of {{ 'model.spell.title'|ng }} " ng-if="model.modifies_ex">
       <i class="fa fa-bolt"></i>
       EX
     </div>

@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 
 from django.db import models
 from site_auth.common import user_to_json
+import platform
+
 
 # Create your models here.
 class Loadout(models.Model):
@@ -44,6 +46,15 @@ class Build(models.Model):
     description = models.CharField(max_length=500)
     user        = models.ForeignKey('auth.User', null=True)
     loadout     = models.ForeignKey('Loadout')
+
+    @property
+    def url(self):
+        talents = self.loadout.all
+        build_hash = self.loadout.build_hash.replace(' ','').replace("[",'').replace(']', '')
+        return "/" + self.loadout.talent_0.champ_link + "/"+ build_hash + "/" + str(self.id)
+
+
+
 
     def to_json(self):
         return {

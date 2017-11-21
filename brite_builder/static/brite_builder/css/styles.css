@@ -104,6 +104,11 @@ section[talent].selected-true:hover:after{
 .tooltip .tooltip-inner em{
     color: #99b7d4;
 }
+.tooltip hr{
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-color:#99b7d4;
+}
 
 .tooltip-inner{
     border: 1px solid #99b7d4;
@@ -125,8 +130,9 @@ section[talent].selected-true:hover:after{
 .page-content{
     padding-top: 30px;
 }
-.container{
-    background-color: rgba(255,255,255,.8);
+.container, .container-fluid{
+    /*background-color: rgba(241,255,248,.8);*/
+    background-color: rgba(181,183,181,.8);
     border-radius: 10px;
     padding-top: 15px;
     padding-bottom: 15px;
@@ -141,7 +147,12 @@ section[talent].selected-true:hover:after{
     margin-top: 0px;
 }
 
-
+.padding-top-0{
+    padding-top:0
+}
+.padding-bottom-0{
+    padding-bottom:0
+}
 
 
 .messages{
@@ -205,8 +216,118 @@ span[data-notify]{
     background-color: yellow;
 }
 
-/* champ_icons*/
 
+.notifyjs-corner{
+    top: 60px!important;
+}
+
+/*#profile-loadouts*/
+
+.card.mini-loadout{
+    flex: 0 0 calc(25% - 10px);
+    margin: 5px;
+    background-color: #f5f2eb;
+}
+.card.mini-loadout .card-body,.card.mini-loadout .card-footer{
+    padding: .3rem;
+}
+
+
+@media (min-width:576px){
+    #profile-loadouts{
+        max-height: 80vh;
+        overflow-y: scroll;
+    }
+
+}
+#profile-loadouts .battlerites{
+    list-style: none;
+    padding:0;
+    margin:0;
+}
+#profile-loadouts .battlerites li{
+    position: relative;
+    padding-left: 15px;
+    padding-top: 7px;
+    padding-right: 7px;
+    padding-bottom: 7px;
+    background-size: 40%;
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-color: #171b15;
+    /*font-weight: bold;*/
+    color: white;
+    border-top: 1px solid rgba(0,0,0,.3);
+    border-bottom: 1px solid rgba(0,0,0,.3);
+}
+
+#profile-loadouts .battlerites li:hover{
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    /*border-top: 1px solid #99b7d4;*/
+    /*border-bottom: 1px solid #99b7d4;*/
+
+}
+
+#profile-loadouts .battlerites li:hover .title{
+    background-color: rgba(0,0,0,.9);
+}
+
+
+#profile-loadouts .battlerites li .title{
+    background-color: rgba(0,0,0,.4);
+    padding: 7px;
+    display: inline-block;
+    line-height: 1;
+}
+#profile-loadouts .battlerites li .badge-light{
+    margin-top: 7px;
+    position: relative;
+    z-index: 9;
+}
+
+
+.badge{
+    cursor: pointer;
+}
+
+
+
+
+/*MOBILE ----------------------- */
+
+@media(max-width:576px){
+    .talent img{
+        width: 50px;
+    }
+    .talent .card-header{
+        min-height:auto;
+    }
+    section[talent], div[talent] {
+        max-width: initial;
+        min-width: auto;
+        display: inline-flex;
+        requestottom: 5px !important;
+        width: 100%;
+    }
+    [ng-controller=loadoutCtrl] div[talent]{
+        width: 100%;
+        height: auto;
+    }
+    .card-group{
+        display: block;
+    }
+    .talent p{
+        font-size: 1rem;
+    }
+    .container .container-fluid{
+        padding:0;
+    }
+
+}
+
+
+/* champ_icons*/
 .champ-icon.rook{
     background-position-x: 0;
     background-position-y: calc(-49px*0);
@@ -231,7 +352,6 @@ span[data-notify]{
     background-position-x: 0px;
     background-position-y: calc(-49px*5);
 }
-
 /**/
 .champ-icon.ruh-kaan{
     background-position-x: calc((-97px) * 1);
@@ -258,7 +378,6 @@ span[data-notify]{
     background-position-y: calc(-49px*5);
 }
 /**/
-
 .champ-icon.shifu{
     background-position-x: -193px;
     background-position-y: calc(-49px*0);
@@ -283,9 +402,7 @@ span[data-notify]{
     background-position-x: -193px;
     background-position-y: calc(-49px*5);
 }
-
 /**/
-
 .champ-icon.bakko{
     background-position-x: -289px;
     background-position-y: calc(-49px*0);
@@ -305,17 +422,7 @@ span[data-notify]{
 
 
 
-
-
-
-
-
-
-
-
-
-
-/*talent_types - generated*/
+/*talent_types ---------------------------------------- generated*/
 
 .talent.survival img, .talent.survival .card-header .badge-dark{
     background-color: #7ad217;
@@ -333,8 +440,6 @@ span[data-notify]{
     border-left: 10px solid #7ad217;
     background-color: #2e3c1f;
 }
-
-
 
 .talent.mixed img, .talent.mixed .card-header .badge-dark{
     background-color: #96bebc;
@@ -449,75 +554,3 @@ span[data-notify]{
 }
 
 /*end talent types*/
-
-
-.notifyjs-corner{
-    top: 60px!important;
-}
-
-
-/*MOBILE */
-
-@media(max-width:767px){
-    .talent img{
-        width: 50px;
-    }
-    .talent .card-header{
-        min-height:auto;
-    }
-    section[talent], div[talent] {
-        max-width: initial;
-        min-width: auto;
-        display: inline-flex;
-        requestottom: 5px !important;
-        width: 100%;
-    }
-    [ng-controller=loadoutCtrl] div[talent]{
-        width: 100%;
-        height: auto;
-    }
-    .card-group{
-        display: block;
-    }
-    .talent p{
-        font-size: 1rem;
-    }
-
-}
-
-.card.mini-loadout{
-    flex: 0 0 calc(50% - 20px);
-    margin: 10px;
-}
-.card.mini-loadout .card-body,.card.mini-loadout .card-footer{
-    padding: .3rem;
-}
-
-/*#profile-loadouts*/
-#profile-loadouts .battlerites{
-    list-style: none;
-    padding:0;
-}
-#profile-loadouts .battlerites li{
-    position: relative;
-    padding-left: 15px;
-    padding-top: 7px;
-    padding-right: 7px;
-    padding-bottom: 7px;
-    background-size: 40%;
-    background-repeat: no-repeat;
-    background-position: center right;
-    background-color: #171b15;
-    /*font-weight: bold;*/
-    color: white;
-    border-top: 1px solid rgba(0,0,0,.5);
-    border-bottom: 1px solid rgba(0,0,0,.5);
-}
-
-#profile-loadouts .battlerites li .title{
-    background-color: rgba(0,0,0,.8);
-    padding: 7px;
-    display: inline-block;
-    line-height: 1;
-}
-

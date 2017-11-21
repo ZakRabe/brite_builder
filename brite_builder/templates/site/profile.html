@@ -4,50 +4,74 @@
 {% block content %}
 <div class="container">
   <h1 class="margin-top-0">{{user}} <span class="h4"> - The Builder</span></h1>
-  <div class="row">
-    <div class="col-lg-6">
-      <h2>BuildSets</h2>
-    </div>
-    <div class="col-lg-6">
-      <h2>Loadouts</h2>
-      <div class="card-deck" id="profile-loadouts">
-        {% for build in builds%}
-        <div class="card mini-loadout champ-{{build.loadout.talent_0..champ_Link}}">
-          <div class="card-body">
-            <spam class="card-title margin-0">
-              {{build.title}}
-            </spam>
-            {{build.description}}
 
-            <ul class="battlerites">
-              {% for talent in build.loadout.all %}
-              <li style="background-image:url(/static/spells/img/{{talent.champ_link}}/{{talent.spell_link}}.png)"
-                  data-toggle="tooltip"
-                  data-html="true"
-                  title="{{talent.title}} - {{talent.description}}"
-                  class="{{talent.type.title|lower}}" >
-                <span class="title">{{talent.title}}</span>
-                {% if talent.modifies_ex %}
-                <div class="badge badge-light float-right"><i class="fa fa-bolt"></i>&nbsp;EX</div>
-                {% endif %}
-              </li>
-              {% endfor %}
-              <!--<li style="background-image:url(/static/spells/img/{{build.loadout.talent_1.champ_link}}/{{build.loadout.talent_1.spell_link}}.png)">{{build.loadout.talent_1.title}}</li>-->
-              <!--<li style="background-image:url(/static/spells/img/{{build.loadout.talent_2.champ_link}}/{{build.loadout.talent_2.spell_link}}.png)">{{build.loadout.talent_2.title}}</li>-->
-              <!--<li style="background-image:url(/static/spells/img/{{build.loadout.talent_3.champ_link}}/{{build.loadout.talent_3.spell_link}}.png)">{{build.loadout.talent_3.title}}</li>-->
-              <!--<li style="background-image:url(/static/spells/img/{{build.loadout.talent_4.champ_link}}/{{build.loadout.talent_4.spell_link}}.png)">{{build.loadout.talent_4.title}}</li>-->
-            </ul>
-          </div>
-          <div class="card-footer">
-            <div class="btn-group float-right">
-              <div class="btn btn-sm btn-success"></div>
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link" id="contact-tab" data-toggle="tab" href="#profile-buildsets-tab" role="tab" aria-controls="contact" aria-selected="false">
+      BuildSets
+    </a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile-loadouts-tab" role="tab" aria-controls="profile" aria-selected="false">
+      Loadouts
+    </a>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade " id="profile-buildsets-tab" role="tabpanel" aria-labelledby="contact-tab">
+      <h2>BuildSets</h2>
+
+  </div>
+  <div class="tab-pane fade show active" id="profile-loadouts-tab" role="tabpanel" aria-labelledby="profile-tab">
+      <h2>Loadouts</h2>
+      <div class="container-fluid padding-top-0 padding-bottom-0" id="profile-loadouts">
+        <div class="card-deck" >
+          {% for build in builds%}
+          <div class="card mini-loadout champ-{{build.loadout.talent_0.champ_link}}">
+            <div class="card-body">
+              <spam class="card-title margin-0">
+                {{build.title}}
+              </spam>
+              {{build.description}}
+
+              <ul class="battlerites">
+                {% for talent in build.loadout.all %}
+                <li style="background-image:url(/static/spells/img/{{talent.champ_link}}/{{talent.spell_link}}.png)"
+                    data-toggle="tooltip"
+                    data-html="true"
+                    title="{{talent.description}} {% if talent.modifies_ex %}<hr>Battlerite affects the EX version of {{talent.spell.title}}{%endif%} "
+                    class="{{talent.type.title|lower}}" >
+                  <span class="title">{{talent.title}}</span>
+                  {% if talent.modifies_ex %}
+                  <div class="badge badge-light float-right"><i class="fa fa-bolt"></i>&nbsp;EX</div>
+                  {% endif %}
+                </li>
+                {% endfor %}
+                <!--<li style="background-image:url(/static/spells/img/{{build.loadout.talent_1.champ_link}}/{{build.loadout.talent_1.spell_link}}.png)">{{build.loadout.talent_1.title}}</li>-->
+                <!--<li style="background-image:url(/static/spells/img/{{build.loadout.talent_2.champ_link}}/{{build.loadout.talent_2.spell_link}}.png)">{{build.loadout.talent_2.title}}</li>-->
+                <!--<li style="background-image:url(/static/spells/img/{{build.loadout.talent_3.champ_link}}/{{build.loadout.talent_3.spell_link}}.png)">{{build.loadout.talent_3.title}}</li>-->
+                <!--<li style="background-image:url(/static/spells/img/{{build.loadout.talent_4.champ_link}}/{{build.loadout.talent_4.spell_link}}.png)">{{build.loadout.talent_4.title}}</li>-->
+              </ul>
+            </div>
+            <div class="card-footer">
+              <div class="btn-group float-right">
+                <input id="url_{{build.id}}" hidden value="https://{{ request.META.HTTP_HOST }}{{build.url}}">
+                <button class="btn btn-sm btn-primary js-copy-button"
+                        onclick="jsCopy('url_{{build.id}}')">
+                  <i class="fa fa-copy"></i>&nbsp; Copy Link
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-        {% endfor%}
+          {% endfor%}
 
+        </div>
       </div>
-    </div>
+  </div>
+</div>
+
+  <div class="row">
+
   </div>
 
 
