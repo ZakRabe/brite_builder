@@ -30,7 +30,7 @@ class BuildForm(forms.Form):
 
         for talent_id in talent_ids:
             if talent_id is None:
-                self._errors["valid"] = ['<strong>Loadout must have 5 Battlerites to save it with a Title.</strong> You can still share an incomplete Loadout using the link above']
+                self._errors["valid"] = ['A Loadout must have 5 Battlerites to Title it. You can still share an incomplete Loadout using the link below']
                 return cleaned_data
             if talent_ids.count(talent_id) > 1:
                 self._errors["valid"] = ['You cant fool me, dummy...']

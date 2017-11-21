@@ -42,6 +42,7 @@ def profile(request):
 def build(request,champ_name,loadout,build_id=None):
 
     build_hash_data = "[" + loadout + "]"
+    # return HttpResponse(build_hash_data)
     build_hash = json.dumps(sorted(json.loads(build_hash_data)))
 
     loadout = Loadout.objects.filter(build_hash=build_hash)

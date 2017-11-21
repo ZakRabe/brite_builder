@@ -107,7 +107,7 @@ section[talent].selected-true:hover:after{
     padding-top: 30px;
 }
 .container{
-    background-color: rgba(255,255,255,.6);
+    background-color: rgba(255,255,255,.8);
     border-radius: 10px;
     padding-top: 15px;
     padding-bottom: 15px;
@@ -118,6 +118,9 @@ section[talent].selected-true:hover:after{
 .margin-bottom-0{
     margin-bottom: 0px;
 }
+
+
+
 .messages{
     margin: 10px;
 }
@@ -151,6 +154,9 @@ h6,.h6{
     font-size: 1.1rem;
 }
 
+span[data-notify]{
+
+}
 
 .champ-icon{
     margin: 3px;
@@ -371,7 +377,9 @@ h6,.h6{
 }
 
 
-
+.notifyjs-corner{
+    top: 60px!important;
+}
 
 
 /*MOBILE */

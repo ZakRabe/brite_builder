@@ -12,9 +12,6 @@ var csrfToken = window.csrfToken = function(){
   return $("[name=csrfmiddlewaretoken]").val();
 };
 
-
-
-
 var app = angular.module('brite_builder', ['ngSanitize', 'ngclipboard']).config(function($httpProvider) {
   $httpProvider.defaults.headers.post['X-CSRFToken'] = csrfToken();
 });
@@ -24,6 +21,7 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
   $scope.copy_class = "info";
   $scope.copy_url = function(){
     $scope.copy_class = "success";
+    $.notify('Link Copied', "success");
   };
   $scope.build_hash = function(){
     var talent_ids = [];
@@ -56,9 +54,9 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
     if ($scope.build.id) {
       url += $scope.build.id + '/';
     }
+    // console.log(url);
     window.history.pushState('', 'Counter.GG', url);
     $scope.build_url = url;
-
   };
   $scope.is_empty = function(talent){
     // console.log(talent)
@@ -101,20 +99,18 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
         return true;
       }
     }
-
     var spell_id = talent.spell.id;
-
     // count current loadout spells. no more than 2 for each spell
     var spellCount = 0;
     for (var i = 0; i < 5; i++) {
       if (loadout['talent_'+i]) {
-        if (spell_id == loadout['talent_'+i].spell.id) {
+        if (spell_id == loadout['talent_'+i].spell.id && !talent.no_limit ) {
           spellCount++;
         }
       }
     }
     if (spellCount >=2) {
-      console.log('Cant have more than 2 talents active per spell');
+      $.notify('Cant have more than 2 talents active per spell', "error");
       return false;
     }
     for (var i = 0; i < 5; i++) {
@@ -125,17 +121,21 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
         return true;
       }
     }
-    return console.log("Loadout is full.");
+    return $.notify('Loadout is full.', "error");
   };
   var saveBuildSuccess = function(returned){
     console.log(returned);
     var data = returned.data;
     if (data.errors) {
       $scope.errors = data.errors.valid;
+      for (var i = 0; i < $scope.errors.length; i++) {
+        $.notify($scope.errors[i], "error");
+      }
     }else{
       $scope.loadout = data.success.loadout;
       $scope.build = data.success.build;
       $scope.build_hash();
+      $.notify('Saved successfully', "success");
     }
   };
   $scope.saveBuild = function(){
@@ -179,14 +179,30 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
       }
     }
     var count = 0;
-
-     var tryClick = function(){
+    var tryClick = function(){
       if(count < 50){
         for (var i = 0; i < talent_ids.length; i++) {
           var id = talent_ids[i];
           var el = $("div[ng-controller=champTalentPoolCtrl] div[data-talent-id="+id+"]");
           if (el.length) {
-            el.click();
+            // console.log(id);
+            var is_talent_0 = Boolean($scope.loadout.talent_0 && $scope.loadout.talent_0.id == id);
+            var is_talent_1 = Boolean($scope.loadout.talent_1 && $scope.loadout.talent_1.id == id);
+            var is_talent_2 = Boolean($scope.loadout.talent_2 && $scope.loadout.talent_2.id == id);
+            var is_talent_3 = Boolean($scope.loadout.talent_3 && $scope.loadout.talent_3.id == id);
+            var is_talent_4 = Boolean($scope.loadout.talent_4 && $scope.loadout.talent_4.id == id);
+            /*console.log(is_talent_0);
+            console.log(is_talent_1);
+            console.log(is_talent_2);
+            console.log(is_talent_3);
+            console.log(is_talent_4);*/
+            if (
+              !is_talent_0 && !is_talent_1 && !is_talent_2 && !is_talent_3 && !is_talent_4
+            ) {
+              el.click();
+            }else{
+              continue;
+            }
           }else{
             count++;
             $timeout(tryClick, 100);
@@ -199,9 +215,7 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
   if (window.build) {
     $scope.build = window.build;
   }
-  $scope.build_hash();
-
-
+  $scope.build_hash()
 });
 
 app.controller('champTalentPoolCtrl', function ($scope, $http, $attrs) {
@@ -225,9 +239,12 @@ function($compile, $http, $templateCache, $parse){
     scope:{
       model: '=',
     },
-    link: function(scope){
+    link: function(scope, attrs, el){
       scope.init = !(scope.model==null);
       scope.clean = clean;
+      setTimeout(function(){
+        $('[data-talent-id]').tooltip('enable');
+      },0);
     }
   };
 }]);

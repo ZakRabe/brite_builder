@@ -1,33 +1,46 @@
 {% load html_filters %}
-<div class="jumbotron">
-  <h1 class="display-3">Welcome to Counter.GG</h1>
-  <p class="lead">This is a tool to save and share Battlerite Loadouts</p>
-  <hr class="my-4">
-  <p>Select a Champion to get started</p>
-  <p class="lead">
-    {% for champ in champs %}
-    <a title="{{champ}}" href="/{{champ.title|champLink}}" class="champ-icon {{champ.title|champLink}}">&nbsp;
-    </a>
-    {% endfor %}
-  </p>
+<div class="row">
+    <div class="col-md-6">
+        <div class="jumbotron">
+          <h1 class="display-6">Welcome to Counter.GG</h1>
+          <p class="lead">Before, there was no easy way to share a loadout and attach some context to it. There was also no good way to keep track of multple loadouts.</p>
+          <p class="lead">This is a tool to solve those problems.</p>
+          <p class="lead"><strong>Anyone can use Counter.GG to share builds</strong></p>
+          <p class="lead">Register an account to save builds to your profile to revisit later. Registering also lets you create BuildSets, a collection of loadouts to be shared as a single link.</p>
+
+          <hr class="my-4">
+          <p>Select a Champion to get started</p>
+          <p class="lead">
+            {% for champ in champs %}
+            <a title="{{champ}}" href="/{{champ.title|champLink}}" class="champ-icon {{champ.title|champLink}}">&nbsp;
+            </a>
+            {% endfor %}
+          </p>
+        </div>
+
+    </div>
+    <div class="col-md-6">
+
+        <h2>News</h2>
+        {% for item in news %}
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title margin-0">
+                    {{item.title}}
+
+                </h2>
+            </div>
+            <div class="card-body">
+                <time>
+                    {{item.updated}}
+                </time>
+                <p>
+                    {{item.html|safe}}
+                </p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
 </div>
 
-<h2>News</h2>
-{% for item in news %}
-<div class="card">
-    <div class="card-header">
-        <h2 class="card-title margin-0">
-            {{item.title}}
-
-        </h2>
-    </div>
-    <div class="card-body">
-        <time>
-            {{item.updated}}
-        </time>
-        <p>
-            {{item.html|safe}}
-        </p>
-    </div>
-</div>
-{% endfor %}
