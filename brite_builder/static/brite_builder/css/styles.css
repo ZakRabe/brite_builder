@@ -101,6 +101,18 @@ section[talent].selected-true:hover:after{
     color: #1751a9;
     font-weight: bold;
 }
+.tooltip .tooltip-inner em{
+    color: #99b7d4;
+}
+
+.tooltip-inner{
+    border: 1px solid #99b7d4;
+}
+
+.tooltip.bs-tooltip-auto[x-placement^=top] .arrow::before, .tooltip.bs-tooltip-top .arrow::before{
+    border-top-color: #99b7d4;
+}
+
 .talent .card-body{
     padding: .5rem;
 }
@@ -304,6 +316,7 @@ span[data-notify]{
 
 
 /*talent_types - generated*/
+
 .talent.survival img, .talent.survival .card-header .badge-dark{
     background-color: #7ad217;
     border-color: #7ad217;
@@ -315,6 +328,13 @@ span[data-notify]{
     background-color: #7ad217;
     border-color: #7ad217;
 }
+
+#profile-loadouts .battlerites li.survival{
+    border-left: 10px solid #7ad217;
+    background-color: #2e3c1f;
+}
+
+
 
 .talent.mixed img, .talent.mixed .card-header .badge-dark{
     background-color: #96bebc;
@@ -328,6 +348,13 @@ span[data-notify]{
     border-color: #96bebc;
 }
 
+#profile-loadouts .battlerites li.mixed{
+    border-left: 10px solid #96bebc;
+    background-color: #202626;
+}
+
+
+
 .talent.support img, .talent.support .card-header .badge-dark{
     background-color: #30bcb0;
     border-color: #30bcb0;
@@ -339,6 +366,13 @@ span[data-notify]{
     background-color: #30bcb0;
     border-color: #30bcb0;
 }
+
+#profile-loadouts .battlerites li.support{
+    border-left: 10px solid #30bcb0;
+    background-color: #002a26;
+}
+
+
 
 .talent.offense img, .talent.offense .card-header .badge-dark{
     background-color: #ff2a1c;
@@ -352,6 +386,13 @@ span[data-notify]{
     border-color: #ff2a1c;
 }
 
+#profile-loadouts .battlerites li.offense{
+    border-left: 10px solid #ff2a1c;
+    background-color: #130100;
+}
+
+
+
 .talent.mobility img, .talent.mobility .card-header .badge-dark{
     background-color: #ffb800;
     border-color: #ffb800;
@@ -363,6 +404,13 @@ span[data-notify]{
     background-color: #ffb800;
     border-color: #ffb800;
 }
+
+#profile-loadouts .battlerites li.mobility{
+    border-left: 10px solid #ffb800;
+    background-color: #231900;
+}
+
+
 
 .talent.control img, .talent.control .card-header .badge-dark{
     background-color: #ff4fce;
@@ -376,6 +424,13 @@ span[data-notify]{
     border-color: #ff4fce;
 }
 
+#profile-loadouts .battlerites li.control{
+    border-left: 10px solid #ff4fce;
+    background-color: #1b0916;
+}
+
+
+
 .talent.utility img, .talent.utility .card-header .badge-dark{
     background-color: #067ed6;
     border-color: #067ed6;
@@ -387,6 +442,13 @@ span[data-notify]{
     background-color: #067ed6;
     border-color: #067ed6;
 }
+
+#profile-loadouts .battlerites li.utility{
+    border-left: 10px solid #067ed6;
+    background-color: #010f19;
+}
+
+/*end talent types*/
 
 
 .notifyjs-corner{
@@ -440,6 +502,7 @@ span[data-notify]{
     position: relative;
     padding-left: 15px;
     padding-top: 7px;
+    padding-right: 7px;
     padding-bottom: 7px;
     background-size: 40%;
     background-repeat: no-repeat;
@@ -447,5 +510,14 @@ span[data-notify]{
     background-color: #171b15;
     /*font-weight: bold;*/
     color: white;
+    border-top: 1px solid rgba(0,0,0,.5);
+    border-bottom: 1px solid rgba(0,0,0,.5);
+}
+
+#profile-loadouts .battlerites li .title{
+    background-color: rgba(0,0,0,.8);
+    padding: 7px;
+    display: inline-block;
+    line-height: 1;
 }
 

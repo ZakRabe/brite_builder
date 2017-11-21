@@ -16,5 +16,4 @@
     background-color: {{type.dark_color}};
 }
 
-
 {% endfor %}

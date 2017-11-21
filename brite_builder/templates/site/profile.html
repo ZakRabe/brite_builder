@@ -22,9 +22,15 @@
             <ul class="battlerites">
               {% for talent in build.loadout.all %}
               <li style="background-image:url(/static/spells/img/{{talent.champ_link}}/{{talent.spell_link}}.png)"
+                  data-toggle="tooltip"
+                  data-html="true"
                   title="{{talent.title}} - {{talent.description}}"
                   class="{{talent.type.title|lower}}" >
-                {{talent.title}}</li>
+                <span class="title">{{talent.title}}</span>
+                {% if talent.modifies_ex %}
+                <div class="badge badge-light float-right"><i class="fa fa-bolt"></i>&nbsp;EX</div>
+                {% endif %}
+              </li>
               {% endfor %}
               <!--<li style="background-image:url(/static/spells/img/{{build.loadout.talent_1.champ_link}}/{{build.loadout.talent_1.spell_link}}.png)">{{build.loadout.talent_1.title}}</li>-->
               <!--<li style="background-image:url(/static/spells/img/{{build.loadout.talent_2.champ_link}}/{{build.loadout.talent_2.spell_link}}.png)">{{build.loadout.talent_2.title}}</li>-->
@@ -47,4 +53,5 @@
 
 
 </div>
+
 {% endblock %}
