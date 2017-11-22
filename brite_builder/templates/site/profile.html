@@ -31,7 +31,9 @@
             <div class="card-body">
               <div class="card-title margin-0">
                 <h4 class="margin-0">{{build.title}}</h4>
-                <h6 class="margin-0">{{build.champ}}</h6>
+                <h6 class="margin-0">
+                  <i class="ra ra-lg ra-{% if build.loadout.champ_type == 0 %}sword{%endif%}{% if build.loadout.champ_type == 1 %}target-arrows{%endif%}{% if build.loadout.champ_type == 2 %}health-increase{%endif%}"></i> {{build.champ}}
+                </h6>
               </div>
               <ul class="battlerites">
                 {% for talent in build.loadout.all %}

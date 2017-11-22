@@ -44,7 +44,10 @@ class Loadout(models.Model):
             if talent is not None:
                 return talent.spell.champ.c_type
 
-    def to_json(self):
+    def favorited(self, request):
+        return self.favorites.filter(user_id=request.user.id).count() > 0
+
+    def to_json(self, request):
         return {
             "id": self.id,
             "build_hash": self.build_hash,
@@ -53,11 +56,12 @@ class Loadout(models.Model):
             "talent_2": self.talent_2.to_json(),
             "talent_3": self.talent_3.to_json(),
             "talent_4": self.talent_4.to_json(),
+            "favorited": self.favorited(request)
         }
 
 class Build(models.Model):
     title       = models.CharField(max_length=150)
-    description = models.CharField(max_length=500)
+    description = models.CharField(max_length=1000)
     user        = models.ForeignKey('auth.User', null=True)
     loadout     = models.ForeignKey('Loadout')
 
@@ -71,12 +75,21 @@ class Build(models.Model):
     def champ(self):
         return self.loadout.champ
 
+    def favorited(self, request):
+        return self.favorites.filter(user_id=request.user.id).count() > 0
 
-    def to_json(self):
+
+    def to_json(self, request):
         return {
             "id" : self.id,
             "title":self.title,
             "description":self.description,
-            "loadout":self.loadout.to_json(),
+            "loadout":self.loadout.to_json(request),
             'user': user_to_json(self.user) if self.user is not None else None,
+            "favorited": self.favorited(request)
         }
+
+class Favorite(models.Model):
+    user    = models.ForeignKey('auth.User', related_name="favorites")
+    build   = models.ForeignKey('Build', null=True, related_name="favorites")
+    loadout = models.ForeignKey('Loadout', null=True, related_name="favorites")

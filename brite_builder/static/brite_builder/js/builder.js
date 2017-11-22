@@ -18,10 +18,26 @@ var app = angular.module('brite_builder', ['ngSanitize', 'ngclipboard']).config(
 
 
 app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
+  var blank_loadout = {
+    id: null,
+    build_hash: null,
+    talent_0: null,
+    talent_1: null,
+    talent_2: null,
+    talent_3: null,
+    talent_4: null,
+  };
+  var blank_build =  {
+    id: null,
+    title: 'New Loadout',
+    description: '',
+    loadout_id: null,
+  };
   $scope.copy_class = "info";
   $scope.copy_url = function(){
     $scope.copy_class = "success";
     $.notify('Link Copied', "success");
+    window.history.pushState('', 'Counter.GG', $scope.build_url);
   };
   $scope.build_hash = function(){
     var talent_ids = [];
@@ -52,10 +68,9 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
     }
 
     if ($scope.build.id) {
-      url += $scope.build.id + '/';
+     url += $scope.build.id + '/';
     }
     // console.log(url);
-    window.history.pushState('', 'Counter.GG', url);
     $scope.build_url = url;
   };
   $scope.is_empty = function(talent){
@@ -82,11 +97,14 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
         var champPoolTalent = $('[ng-controller="champTalentPoolCtrl"] [data-talent-id='+talent.id+']');
         var talent_scope = angular.element(champPoolTalent).scope();
         talent_scope.model.selected = false;
+        if ($scope.build.id) {
+          $scope.build = blank_build;
+        }
         $scope.build_hash();
         return false;
       }
     }
-    console.log('Talent not found in loadout.');
+    // console.log('Talent not found in loadout.');
     return false;
   };
   $scope.addTalent = function(talent){
@@ -95,7 +113,7 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
     for (var i = 0; i < 5; i++) {
       // console.log(talent.id);
       if (loadout['talent_'+i] && loadout['talent_'+i].id == talent.id) {
-        console.log("Loadout already contains this talent");
+        // console.log("Loadout already contains this talent");
         return true;
       }
     }
@@ -110,10 +128,10 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
           spellCount++;
         }
       }
-      console.log(spellCount)
+      // console.log(spellCount)
     }
     if (spellCount >=2) {
-      $.notify('Cant have more than 2 talents active per spell', "error");
+      $.notify('Cant have more than 2 Battlerites active per spell', "error");
       return false;
     }
     for (var i = 0; i < 5; i++) {
@@ -130,9 +148,8 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
     console.log(returned);
     var data = returned.data;
     if (data.errors) {
-      $scope.errors = data.errors.valid;
-      for (var i = 0; i < $scope.errors.length; i++) {
-        $.notify($scope.errors[i], "error");
+      for (var i = 0; i < data.errors.valid.length; i++) {
+        $.notify(data.errors.valid[i], "error");
       }
     }else{
       $scope.loadout = data.success.loadout;
@@ -144,30 +161,73 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
   $scope.saveBuild = function(){
     $http.post('/builds/', {'build':$scope.build, 'loadout':$scope.loadout}).then(saveBuildSuccess);
   };
-
-  var blank_loadout = {
-    id: null,
-    build_hash: null,
-    talent_0: null,
-    talent_1: null,
-    talent_2: null,
-    talent_3: null,
-    talent_4: null,
-  };
-  var blank_build =  {
-    id: null,
-    title: 'New Loadout',
-    description: '',
-    loadout_id: null,
-  };
   $scope.copyBuild = function(){
     $scope.build = blank_build;
     $scope.build_hash()
   };
 
+  var favoriteSuccess = function(){
+    var message = $scope.build.favorited? "Unfavorited.": "Favorited";
+    $scope.build.favorited = !$scope.build.favorited;
+    $.notify(message, "success");
+  };
+  var favoriteError = function(error){
+    var message = '';
+    switch (error) {
+      case 'auth':
+        message = "You must be logged in to Favorite!";
+        break;
+      case '404':
+        message = "What are you doing?";
+        break;
+      case '405':
+        message = "Build not found";
+        break;
+      case '422':
+        message = "You have already favorited this Loadout!";
+        break;
+      case '423':
+        message = "What are you, a narcissist?";
+        break;
+    }
+    $.notify(message, "error");
+  };
+  var favoriteHandle = function(returned){
+    if (returned.data.error) {
+      favoriteError(returned.data.error);
+    }else{
+      favoriteSuccess(returned.data.success);
+    }
+  };
+  $scope.favorite = function(){
+    var action ='favorite';
+    if ($scope.build.favorited) {
+      action = 'delete'
+    }
+    var target
+    var target_id
+    if ($scope.build.id) {
+      target_id = $scope.build.id;
+      target = 'build';
+    }else{
+      target_id = $scope.loadout.id;
+      target = 'loadout';
+    }
+    $http.post('/builds/favorite/'+$scope.build.id, {target: target, action:action}).then(favoriteHandle);
+  };
+
+
+
+  /* nothing below here */
   $scope.loadout = blank_loadout;
   $scope.build = blank_build;
+  if (window.build) {
+    $scope.build = window.build;
+    window.loadout = window.build.loadout;
+    // console.log(window.loadout);
+  }
   if (window.loadout) {
+    // console.log(window.loadout);
     $scope.loadout.id = window.loadout.id;
     $scope.loadout.build_hash = window.loadout.build_hash;
     var talent_ids = [];
@@ -212,26 +272,18 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
           }
         }
       }
-     };
+    };
     $timeout(tryClick,100);
-  }
-  if (window.build) {
-    $scope.build = window.build;
   }
   $scope.build_hash();
 });
 
 app.controller('champTalentPoolCtrl', function ($scope, $http, $attrs) {
-
   $scope.talentPool = [];
   var loadTalents = function(returned){
     $scope.talentPool = returned.data;
   };
   $http.get('/talents/'+ clean($attrs.champ)).then(loadTalents);
-
-
-
-
 });
 
 

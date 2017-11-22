@@ -21,23 +21,25 @@ def index(request, champ_name, loadout=None, build_id=None):
         selected_champ = get_object_or_404(Champ, title__iexact=champName(champ_name))
         news = None
     else:
-        # show news
         news = [news for news in News.objects.all().order_by('-id')[0:5]]
-
-
     if build_id is not None:
         build = Build.objects.filter(id=build_id)
         if build.exists():
-            build = json.dumps(build[0].to_json())
-        else:
-            build = json.dumps(None)
+            # loadout = json.dumps(build[0].loadout.to_json())
+            build = json.dumps(build[0].to_json(request))
     else:
         build = json.dumps(None)
+
+
     return render(request, 'site/index.html', {'champs': champs, 'selected_champ':selected_champ, 'loadout': loadout, "build":build, "news":news})
 
 def profile(request):
     champs = Champ.objects.all().exclude(title="Shared");
-    builds = Build.objects.select_related('user').filter(user_id=request.user.id)
+    if request.user.is_authenticated():
+        builds = Build.objects.select_related('user').filter(user_id=request.user.id)
+    else:
+        return redirect('/')
+
     return render(request, 'site/profile.html', {'champs': champs, 'builds': builds})
 
 def build(request,champ_name,loadout,build_id=None):
@@ -52,6 +54,6 @@ def build(request,champ_name,loadout,build_id=None):
         return index(request, champ_name, build_hash_data)
 
     if build_id is None:
-        return index(request, champ_name, json.dumps(loadout[0].to_json()))
+        return index(request, champ_name, json.dumps(loadout[0].to_json(request)))
     else:
-        return index(request, champ_name, json.dumps(loadout[0].to_json()), build_id)
+        return index(request, champ_name, json.dumps(loadout[0].to_json(request)), build_id)
