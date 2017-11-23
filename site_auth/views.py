@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from champs.models import Champ
 from .forms import RegisterForm
+from .models import Profile
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 
@@ -53,6 +54,8 @@ def register(request):
             email = request.POST['email']
             username = request.POST['username']
             user = User.objects.create_user(username, email, password)
+            profile = Profile(user_id=user.id)
+            profile.save()
             messages.success(request, "You're signed up, you may now login")
             return redirect('/auth/login')
         return render(request, 'auth/register.html', {'form': form, "champs":champs})

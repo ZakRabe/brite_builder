@@ -13,9 +13,11 @@ from .common import create_loadout
 
 
 # Create your views here.
-def router(request):
+def router(request, build_id=None):
     if request.method == "POST":
         return RestCreate().wrap(request)
+    if request.method == "DELETE":
+        return RestDelete().wrap(request, build_id)
     # if request.method == "GET":
     #     return RestRead().wrap(request)
 
@@ -51,8 +53,6 @@ class RestCreate():
             'loadout': build.to_json(self.request)['loadout'],
         }
         return {"success": struct}
-
-
     def wrap(self,request):
         self.request = request
 
@@ -66,6 +66,22 @@ class RestRead():
         self.request = request
         return JsonResponse(self.find())
 
+class RestDelete():
+
+    def delete(self, build_id):
+        if self.request.user.is_authenticated() == False:
+            return {'error': "403"}
+        build = get_object_or_404(Build, id=build_id)
+        if self.request.user.id != build.user.id:
+            return {'error': "403"}
+        build.delete()
+        return {"success": "OK"}
+
+
+    def wrap(self,request, build_id):
+        self.request = request
+
+        return JsonResponse(self.delete(build_id), safe=False)
 
 def delete_favorite(request, build_id, queryset):
     delete_build = request.POST.get('target') == 'build'
@@ -92,8 +108,6 @@ def delete_favorite(request, build_id, queryset):
                 fav.delete()
                 response = {'success': 'Deleted fav by loadout'}
     return response
-
-
 def favorite(request, build_id):
     if request.method == 'POST':
         request.POST = get_post_json(request)

@@ -57,8 +57,8 @@ class Server(models.Model):
 # Create your models here.
 class Profile(models.Model):
     user = models.ForeignKey('auth.User', related_name="profile")
-    avatar_url= models.CharField(max_length=150)
-    subtitle= models.CharField(max_length=32)
+    avatar_url= models.CharField(max_length=150, null=True)
+    subtitle= models.CharField(max_length=32, null=True)
     server= forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(), queryset=Server.objects.all(), required=False)
     # in game name
-    ign =models.CharField(max_length=64)
+    ign =models.CharField(verbose_name="IGN:",max_length=64, null=True)

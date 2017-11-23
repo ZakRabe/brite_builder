@@ -1,5 +1,5 @@
 {% load html_filters %}
-<div ng-controller="loadoutCtrl" id="builder">
+<div ng-controller="loadoutCtrl" ng-init="init()" id="builder">
     <div class="form-group">
         <div ng-if="build.id">
             <h2 class="margin-0">

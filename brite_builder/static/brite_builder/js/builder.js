@@ -13,7 +13,8 @@ var csrfToken = window.csrfToken = function(){
 };
 
 var app = angular.module('brite_builder', ['ngSanitize', 'ngclipboard']).config(function($httpProvider) {
-  $httpProvider.defaults.headers.post['X-CSRFToken'] = csrfToken();
+  // $httpProvider.defaults.headers.post['X-CSRFToken'] = csrfToken();
+  $httpProvider.defaults.headers.common['X-CSRFToken'] = csrfToken();
 });
 
 
@@ -217,8 +218,8 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
   };
 
 
-
-  /* nothing below here */
+  $scope.init = function(){
+    /* nothing below here */
   $scope.loadout = blank_loadout;
   $scope.build = blank_build;
   if (window.build) {
@@ -276,6 +277,8 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
     $timeout(tryClick,100);
   }
   $scope.build_hash();
+  }
+
 });
 
 app.controller('champTalentPoolCtrl', function ($scope, $http, $attrs) {
@@ -286,6 +289,126 @@ app.controller('champTalentPoolCtrl', function ($scope, $http, $attrs) {
   $http.get('/talents/'+ clean($attrs.champ)).then(loadTalents);
 });
 
+app.controller('ProfileCtrl', function ($scope, $http, $timeout) {
+
+});
+
+app.directive('unfavorite', ['$http',
+function($http){
+  return {
+    scope:{},
+    link: function(scope, el, attrs){
+      // console.log('linked', attrs);
+      scope.build_id = attrs.buildId;
+      var favoriteSuccess = function(){
+        var message = "Unfavorited.";
+
+        $.notify(message, "success");
+        $('[data-build-id='+scope.build_id+']').parents('.card.mini-loadout').fadeOut(800, function(){
+          this.remove();
+        });
+      };
+      var favoriteError = function(error){
+        var message = '';
+        switch (error) {
+          case 'auth':
+            message = "You must be logged in to Favorite!";
+            break;
+          case '404':
+            message = "What are you doing?";
+            break;
+          case '405':
+            message = "Build not found";
+            break;
+          case '422':
+            message = "You have already favorited this Loadout!";
+            break;
+          case '423':
+            message = "What are you, a narcissist?";
+            break;
+        }
+        $.notify(message, "error");
+      };
+      var favoriteHandle = function(returned){
+        if (returned.data.error) {
+          favoriteError(returned.data.error);
+        }else{
+          favoriteSuccess(returned.data.success);
+        }
+      };
+      var unfavorite = function(build_id){
+        // confirm they wanna unfav, else they gotta fin the url again
+        var confirmed = confirm("Are you sure you want to Unfavorite?");
+        if (confirmed) {
+          var target ='build',
+          action = 'delete';
+          $http.post('/builds/favorite/'+scope.build_id, {target: target, action:action}).then(favoriteHandle);
+        }
+      };
+      $(el).click(function(){
+        unfavorite();
+      });
+    }
+  };
+}]);
+
+app.directive('showing', [
+function(){
+  return {
+    scope: true,
+    link: function(scope, el, attrs){
+      scope.showing = true;
+      scope.toggle = function(){
+        console.log('toggle');
+        scope.showing = !scope.showing;
+      };
+    }
+  };
+}]);
+
+app.directive('deleteBuild', ['$http',
+function($http){
+  return {
+    scope:{},
+    link: function(scope, el, attrs){
+      // console.log('linked', attrs);
+      scope.build_id = attrs.buildId;
+      var deleteSuccess = function(){
+        var message = "Build Deleted.";
+        $.notify(message, "success");
+        $('[data-build-id='+scope.build_id+']').parents('.card.mini-loadout').fadeOut(800, function(){
+          this.remove();
+        });
+      };
+      var deleteError = function(error){
+        var message = '';
+        switch (error) {
+          case '403':
+            message = "STAHP";
+            break;
+        }
+        $.notify(message, "error");
+      };
+      var deleteHandle = function(returned){
+        if (returned.data.error) {
+          deleteError(returned.data.error);
+        }else{
+          deleteSuccess(returned.data.success);
+        }
+      };
+      var build_delete = function(build_id){
+        // confirm they wanna unfav, else they gotta fin the url again
+        var confirmed = confirm("Are you sure you want to Unfavorite?");
+        if (confirmed) {
+          $http.delete('/builds/'+scope.build_id).then(deleteHandle);
+        }
+      };
+      $(el).click(function(){
+        build_delete();
+      });
+    }
+  };
+}]);
 
 app.directive('talent', ["$compile", '$http', '$templateCache', '$parse',
 function($compile, $http, $templateCache, $parse){

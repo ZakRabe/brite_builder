@@ -306,7 +306,7 @@ h6,.h6{
     box-shadow: 0 0 15px #512020;
     background-color: #fdeaea;
 }
-.card.mini-loadout.champ-type-0 h4, .card.mini-loadout.champ-type-0 h6 {
+.melee-color, .card.mini-loadout.champ-type-0 h4, .card.mini-loadout.champ-type-0 h6 {
     color:#512020;
 }
 /*ranged*/
@@ -315,7 +315,7 @@ h6,.h6{
     box-shadow: 0 0 15px #325120;
     background-color: #effdea;
 }
-.card.mini-loadout.champ-type-1 h4, .card.mini-loadout.champ-type-1 h6 {
+.ranged-color, .card.mini-loadout.champ-type-1 h4, .card.mini-loadout.champ-type-1 h6 {
     color:#325120;
 }
 /*support*/
@@ -324,7 +324,7 @@ h6,.h6{
     box-shadow: 0 0 15px #203a51;
     background-color: #eaf3fd;
 }
-.card.mini-loadout.champ-type-2 h4, .card.mini-loadout.champ-type-2 h6 {
+.support-color, .card.mini-loadout.champ-type-2 h4, .card.mini-loadout.champ-type-2 h6 {
     color:#203a51;
 }
 

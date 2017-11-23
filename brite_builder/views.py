@@ -11,6 +11,7 @@ from .templatetags.html_filters import champName
 from builds.models import Loadout, Build, Favorite
 from builds.common import create_loadout
 from news.models import News
+from site_auth.models import Profile
 
 # Create your views here.
 def index(request, champ_name, loadout=None, build_id=None):
@@ -39,6 +40,11 @@ def profile(request, username=None):
     if username is None:
         # show my own profile on /profile/
         if request.user.is_authenticated():
+            # temporary until us 3 have profiles
+            if request.user.profile is None:
+                profile = Profile(user_id=request.user.id)
+                profile.save()
+            # /temp
             my_builds = Build.objects.select_related('user').filter(user_id=request.user.id)
             favs = Favorite.objects.select_related('build').filter(user_id=request.user.id)
             builds = [my_build for my_build in my_builds] + [fav.build for fav in favs]
