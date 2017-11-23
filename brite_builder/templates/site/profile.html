@@ -3,7 +3,17 @@
 {% load static %}
 {% block content %}
 <div class="container">
-  <h1 class="margin-top-0">{{user}} <span class="h4"> - The Builder</span></h1>
+  <h1 class="margin-top-0">
+    <img src="{{user.profile.avatar_url}}" height="50" alt="{{user.username}} Avatar">
+    {{user}}
+    <span class="h4"> - {{user.profile.subtitle}}</span></h1>
+
+  {% if user.is_authenticated and target_user is None %}
+  <button class="btn btn-info">
+    <i class="fa fa-pencil"></i>
+    Edit Profile
+  </button>
+  {% endif %}
 
   <ul class="nav nav-tabs" id="profile-tab" role="tablist">
   <li class="nav-item">
@@ -31,6 +41,7 @@
             <div class="card-body">
               <div class="card-title margin-0">
                 <h4 class="margin-0">{{build.title}}</h4>
+
                 <h6 class="margin-0">
                   <i class="ra ra-lg ra-{% if build.loadout.champ_type == 0 %}sword{%endif%}{% if build.loadout.champ_type == 1 %}target-arrows{%endif%}{% if build.loadout.champ_type == 2 %}health-increase{%endif%}"></i> {{build.champ}}
                 </h6>
@@ -55,6 +66,19 @@
               </ul>
             </div>
             <div class="card-footer">
+
+              <h6 class="">
+                  {% if build.user is not None %}
+                  <a href="/profile/{{build.user.username}}">
+                    <img src="{{build.user.profile.avatar}}" height="20" alt="{{build.user.username}} Avatar" class="avatar-circle">
+                    {{build.user}}
+                  </a>
+                  {%else%}
+                  <img src="/static/brite_builder/img/anon-avatar.jpg" height="20" alt="Anonymous Avatar" class="avatar-circle">
+                  Anonymous
+                  {% endif %}
+              </h6>
+
               <input class="hidden-copy-button" id="url_{{build.id}}" value="https://{{ request.META.HTTP_HOST }}{{build.url}}">
               <div class="btn-group float-right">
                 <a href="{{build.url}}" target="_blank" class="btn btn-sm btn-success js-copy-button"

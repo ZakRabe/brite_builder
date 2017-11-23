@@ -61,7 +61,7 @@ class Loadout(models.Model):
 
 class Build(models.Model):
     title       = models.CharField(max_length=150)
-    description = models.CharField(max_length=1000)
+    description = models.TextField(max_length=1000)
     user        = models.ForeignKey('auth.User', null=True)
     loadout     = models.ForeignKey('Loadout')
 

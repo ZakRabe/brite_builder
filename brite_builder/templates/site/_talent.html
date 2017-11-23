@@ -12,7 +12,7 @@
         None
       </div>
     </h6>
-    <span ng-if="model.title" class="spell-icon {{'model.spell.button.toLowerCase()'|ng}}" style="background-image:url('{{"'/static/spells/sheets/'+clean(model.spell.champ.title) + '.jpg'"|ng}}')" alt="{{'model.spell.title'|ng}}">&nbsp;</span>
+    <span ng-if="model.title" class="spell-icon {{'model.spell.button.toLowerCase()'|ng}} {{'clean(model.spell.title)'|ng}}" style="background-image:url('{{"'/static/spells/sheets/'+clean(model.spell.champ.title) + '.jpg'"|ng}}')" alt="{{'model.spell.title'|ng}}">&nbsp;</span>
     <div class="badge badge-light" title="Battlerite affects the EX version of {{ 'model.spell.title'|ng }} " ng-if="model.modifies_ex">
       <i class="fa fa-bolt"></i>
       EX

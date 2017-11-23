@@ -24,7 +24,7 @@ from site_auth import urls as auth_urls
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^profile/?$', views.profile, name='profile'),
+    url(r'^profile/?(?P<username>[\w.@+-]+)?$', views.profile, name='profile'),
     url(r'^talents/', include(talent_urls)),
     url(r'^builds/', include(build_urls)),
     url(r'^auth/', include(auth_urls)),

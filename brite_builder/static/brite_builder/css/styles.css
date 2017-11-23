@@ -161,7 +161,7 @@ section[talent].selected-true:hover:after{
     background-position-x: -455px;
 }
 .talent .spell-icon.q{
-    background-position-x: -364px;
+    background-position-x: -273px;
 }
 .talent .spell-icon.e{
     background-position-x: -182px;
@@ -172,6 +172,20 @@ section[talent].selected-true:hover:after{
 .talent .spell-icon.f{
     background-position-x: 0px;
 }
+.talent .spell-icon.space{
+    background-position-x: -364px;
+}
+.talent .spell-icon.special{
+    background-position-x: -637px;
+}
+/*special shared*/
+.talent .spell-icon.special.agility{
+    background-position-x: 0px;
+}
+.talent .spell-icon.special.inspiration{
+    background-position-x: -91px;
+}
+
 .page-content{
     padding-top: 30px;
 }

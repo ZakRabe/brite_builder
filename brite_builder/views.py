@@ -4,12 +4,12 @@ from __future__ import unicode_literals
 import json
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponse
+from django.contrib.auth.models import User
 from champs.models import Champ
 from talents.models import Talent, SpecialTalent
 from .templatetags.html_filters import champName
-from builds.models import Loadout
+from builds.models import Loadout, Build, Favorite
 from builds.common import create_loadout
-from builds.models import Build
 from news.models import News
 
 # Create your views here.
@@ -33,14 +33,25 @@ def index(request, champ_name, loadout=None, build_id=None):
 
     return render(request, 'site/index.html', {'champs': champs, 'selected_champ':selected_champ, 'loadout': loadout, "build":build, "news":news})
 
-def profile(request):
+def profile(request, username=None):
     champs = Champ.objects.all().exclude(title="Shared");
-    if request.user.is_authenticated():
-        builds = Build.objects.select_related('user').filter(user_id=request.user.id)
-    else:
-        return redirect('/')
 
-    return render(request, 'site/profile.html', {'champs': champs, 'builds': builds})
+    if username is None:
+        # show my own profile on /profile/
+        if request.user.is_authenticated():
+            my_builds = Build.objects.select_related('user').filter(user_id=request.user.id)
+            favs = Favorite.objects.select_related('build').filter(user_id=request.user.id)
+            builds = [my_build for my_build in my_builds] + [fav.build for fav in favs]
+            target_user = None
+        else:
+            return redirect('/')
+    else:
+        target_user = get_object_or_404(User, username__iexact=username)
+        builds = Build.objects.select_related('user').filter(user_id=target_user.id)
+
+
+
+    return render(request, 'site/profile.html', {'champs': champs, 'builds': builds, 'target_user': target_user})
 
 def build(request,champ_name,loadout,build_id=None):
 

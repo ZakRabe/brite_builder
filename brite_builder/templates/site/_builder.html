@@ -5,11 +5,14 @@
             <h2 class="margin-0">
                 {{ 'build.title'|ng}}
             </h2>
-            <h3>by  <img class="avatar-circle" src="http://placehold.it/30x30" alt="">
+            <h3>by
                 <span ng-if="build.user">
+                    <img class="avatar-circle" src="http://placehold.it/30x30" alt="">
                     {{ 'build.user.username'|ng}}
                 </span>
+
                 <span ng-if="!build.user">
+                    <img src="/static/brite_builder/img/anon-avatar.jpg" height="30" alt="Avatar" class="avatar-circle">
                     Anonymous
                 </span>
             </h3>
