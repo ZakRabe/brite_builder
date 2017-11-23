@@ -43,23 +43,30 @@
 
       <div class="container-fluid padding-top-0 padding-bottom-0" id="profile-loadouts">
         <div showing>
-          <h3 class="melee-color" style="padding-top:20px" ng-click="toggle()">
-            <i class="ra ra-sword ra-lg"></i> &nbsp; Melee
-            {{showing}}
-            <i ng-show="showing" class="fa fa-chevron-up"></i>
-            <i ng-show="!showing" class="fa fa-chevron-down"></i>
-          </h3>
           <div ng-show="showing" class="card-deck" >
             {% for build in builds %}
-            {% if build.loadout.champ_type == 0 %}
             <div data-toggle="tooltip" data-placement="right" title="{{build.description}}" class="card mini-loadout champ-type-{{build.loadout.champ_type}} champ-{{build.loadout.talent_0.champ_link}}">
               <div class="card-body">
                 <div class="card-title margin-0">
                   <h6 class="margin-0">{{build.title}}</h6>
-
                   <h6 class="margin-0">
                     <i class="ra ra-lg ra-{% if build.loadout.champ_type == 0 %}sword{%endif%}{% if build.loadout.champ_type == 1 %}target-arrows{%endif%}{% if build.loadout.champ_type == 2 %} ra-heart-bottle{%endif%}"></i> {{build.champ}}
                   </h6>
+<h6 class="">
+                    {% if build.user is not None %}
+                    <a href="/profile/{{build.user.username}}">
+                      {% if build.user.profile.avatar_url is not None%}
+                      <img src="{{build.user.profile.avatar_url}}" height="20" alt="{{build.user.username}} Avatar" class="avatar-circle">
+                      {% else %}
+                      <img src="/static/brite_builder/img/anon-avatar.jpg" height="20" alt="Anonymous Avatar" class="avatar-circle">
+                      {% endif %}
+                      {{build.user}}
+                    </a>
+                    {%else%}
+                    <img src="/static/brite_builder/img/anon-avatar.jpg" height="20" alt="Anonymous Avatar" class="avatar-circle">
+                    Anonymous
+                    {% endif %}
+                </h6>
                 </div>
                 <ul class="battlerites">
                   {% for talent in build.loadout.all %}
@@ -82,21 +89,7 @@
               </div>
               <div class="card-footer">
 
-                <h6 class="">
-                    {% if build.user is not None %}
-                    <a href="/profile/{{build.user.username}}">
-                      {% if build.user.profile.avatar_url is not None%}
-                      <img src="{{build.user.profile.avatar_url}}" height="20" alt="{{build.user.username}} Avatar" class="avatar-circle">
-                      {% else %}
-                      <img src="/static/brite_builder/img/anon-avatar.jpg" height="20" alt="Anonymous Avatar" class="avatar-circle">
-                      {% endif %}
-                      {{build.user}}
-                    </a>
-                    {%else%}
-                    <img src="/static/brite_builder/img/anon-avatar.jpg" height="20" alt="Anonymous Avatar" class="avatar-circle">
-                    Anonymous
-                    {% endif %}
-                </h6>
+
 
                 <input class="hidden-copy-button" id="url_{{build.id}}" value="https://{{ request.META.HTTP_HOST }}{{build.url}}">
                 <div class="btn-group float-right">
@@ -113,181 +106,22 @@
                     <i class="fa fa-trash"></i>
                   </button>
                   {%else%}
-                  <button data-build-id="{{build.id}}" unfavorite class="btn btn-sm btn-warning text-white">
-                    <i class="fa fa-heart"></i>
-                  </button>
+                    {% if target_user is None or target_user.id == user.id %}
+                    <button title="Unfavorite" data-build-id="{{build.id}}" unfavorite class="btn btn-sm">
+                      <i class="fa fa-heart"></i>
+                    </button>
+                    {% else %}
+                    <button title="Favorite" data-build-id="{{build.id}}" favorite class="btn btn-sm btn-warning text-white">
+                      <i class="fa fa-heart"></i>
+                    </button>
+                    {% endif%}
                   {% endif%}
                 </div>
               </div>
             </div>
-            {% endif %}
             {% endfor %}
           </div>
 
-        </div>
-        <div showing>
-          <h3 class="ranged-color" ng-click="toggle()" style="padding-top:20px">
-            <i class="ra ra-target-arrows ra-lg"></i>
-            &nbsp; Ranged
-            <i ng-show="showing" class="fa fa-chevron-up"></i>
-            <i ng-show="!showing" class="fa fa-chevron-down"></i>
-          </h3>
-          <div ng-show="showing" class="card-deck" >
-            {% for build in builds %}
-            {% if build.loadout.champ_type == 1 %}
-            <div data-toggle="tooltip" data-placement="right" title="{{build.description}}" class="card mini-loadout champ-type-{{build.loadout.champ_type}} champ-{{build.loadout.talent_0.champ_link}}">
-              <div class="card-body">
-                <div class="card-title margin-0">
-                  <h6 class="margin-0">{{build.title}}</h6>
-
-                  <h6 class="margin-0">
-                    <i class="ra ra-lg ra-{% if build.loadout.champ_type == 0 %}sword{%endif%}{% if build.loadout.champ_type == 1 %}target-arrows{%endif%}{% if build.loadout.champ_type == 2 %} ra-heart-bottle{%endif%}"></i> {{build.champ}}
-                  </h6>
-                </div>
-                <ul class="battlerites">
-                  {% for talent in build.loadout.all %}
-                  <li style="background-image:url(/static/spells/img/{{talent.champ_link}}/{{talent.spell_link}}.png)"
-                      data-toggle="tooltip"
-                      data-html="true"
-                      title="{{talent.description}} {% if talent.modifies_ex %}<hr>Battlerite affects the EX version of {{talent.spell.title}}{%endif%} "
-                      class="{{talent.type.title|lower}}" >
-                    {% if talent.modifies_ex %}
-                    <div class="badge badge-light"><i class="fa fa-bolt"></i>&nbsp;EX</div>
-                    {% endif %}
-                    <span class="title">{{talent.title}}</span>
-                  </li>
-                  {% endfor %}
-                  <!--<li style="background-image:url(/static/spells/img/{{build.loadout.talent_1.champ_link}}/{{build.loadout.talent_1.spell_link}}.png)">{{build.loadout.talent_1.title}}</li>-->
-                  <!--<li style="background-image:url(/static/spells/img/{{build.loadout.talent_2.champ_link}}/{{build.loadout.talent_2.spell_link}}.png)">{{build.loadout.talent_2.title}}</li>-->
-                  <!--<li style="background-image:url(/static/spells/img/{{build.loadout.talent_3.champ_link}}/{{build.loadout.talent_3.spell_link}}.png)">{{build.loadout.talent_3.title}}</li>-->
-                  <!--<li style="background-image:url(/static/spells/img/{{build.loadout.talent_4.champ_link}}/{{build.loadout.talent_4.spell_link}}.png)">{{build.loadout.talent_4.title}}</li>-->
-                </ul>
-              </div>
-              <div class="card-footer">
-
-                <h6 class="">
-                    {% if build.user is not None %}
-                    <a href="/profile/{{build.user.username}}">
-                      {% if build.user.profile.avatar_url is not None%}
-                      <img src="{{build.user.profile.avatar_url}}" height="20" alt="{{build.user.username}} Avatar" class="avatar-circle">
-                      {% else %}
-                      <img src="/static/brite_builder/img/anon-avatar.jpg" height="20" alt="Anonymous Avatar" class="avatar-circle">
-                      {% endif %}
-                      {{build.user}}
-                    </a>
-                    {%else%}
-                    <img src="/static/brite_builder/img/anon-avatar.jpg" height="20" alt="Anonymous Avatar" class="avatar-circle">
-                    Anonymous
-                    {% endif %}
-                </h6>
-
-                <input class="hidden-copy-button" id="url_{{build.id}}" value="https://{{ request.META.HTTP_HOST }}{{build.url}}">
-                <div class="btn-group float-right">
-                  <a href="{{build.url}}" target="_blank" class="btn btn-sm btn-success js-copy-button">
-                    <i class="fa fa-eye"></i>
-                  </a>
-                  <button class="btn btn-sm btn-info js-copy-button"
-                          onclick="window.jsCopy('url_{{build.id}}')">
-                    <i class="fa fa-copy"></i>
-                  </button>
-
-                  {% if build.user.id == user.id %}
-                  <button data-build-id="{{build.id}}" delete-build class="btn btn-sm btn-danger">
-                    <i class="fa fa-trash"></i>
-                  </button>
-                  {%else%}
-                  <button data-build-id="{{build.id}}" unfavorite class="btn btn-sm btn-warning text-white">
-                    <i class="fa fa-heart"></i>
-                  </button>
-                  {% endif%}
-                </div>
-              </div>
-            </div>
-            {% endif %}
-            {% endfor %}
-          </div>
-        </div>
-        <div showing>
-          <h3 class="support-color" ng-click="toggle()" style="padding-top:20px">
-            <i class="ra ra-heart-bottle ra-lg"></i>
-            &nbsp; Support
-            <i ng-show="showing" class="fa fa-chevron-up"></i>
-            <i ng-show="!showing" class="fa fa-chevron-down"></i>
-          </h3>
-          <div ng-show="showing" class="card-deck" >
-            {% for build in builds %}
-            {% if build.loadout.champ_type == 2 %}
-            <div data-toggle="tooltip" data-placement="right" title="{{build.description}}" class="card mini-loadout champ-type-{{build.loadout.champ_type}} champ-{{build.loadout.talent_0.champ_link}}">
-              <div class="card-body">
-                <div class="card-title margin-0">
-                  <h6 class="margin-0">{{build.title}}</h6>
-
-                  <h6 class="margin-0">
-                    <i class="ra ra-lg ra-{% if build.loadout.champ_type == 0 %}sword{%endif%}{% if build.loadout.champ_type == 1 %}target-arrows{%endif%}{% if build.loadout.champ_type == 2 %} ra-heart-bottle{%endif%}"></i> {{build.champ}}
-                  </h6>
-                </div>
-                <ul class="battlerites">
-                  {% for talent in build.loadout.all %}
-                  <li style="background-image:url(/static/spells/img/{{talent.champ_link}}/{{talent.spell_link}}.png)"
-                      data-toggle="tooltip"
-                      data-html="true"
-                      title="{{talent.description}} {% if talent.modifies_ex %}<hr>Battlerite affects the EX version of {{talent.spell.title}}{%endif%} "
-                      class="{{talent.type.title|lower}}" >
-                    {% if talent.modifies_ex %}
-                    <div class="badge badge-light"><i class="fa fa-bolt"></i>&nbsp;EX</div>
-                    {% endif %}
-                    <span class="title">{{talent.title}}</span>
-                  </li>
-                  {% endfor %}
-                  <!--<li style="background-image:url(/static/spells/img/{{build.loadout.talent_1.champ_link}}/{{build.loadout.talent_1.spell_link}}.png)">{{build.loadout.talent_1.title}}</li>-->
-                  <!--<li style="background-image:url(/static/spells/img/{{build.loadout.talent_2.champ_link}}/{{build.loadout.talent_2.spell_link}}.png)">{{build.loadout.talent_2.title}}</li>-->
-                  <!--<li style="background-image:url(/static/spells/img/{{build.loadout.talent_3.champ_link}}/{{build.loadout.talent_3.spell_link}}.png)">{{build.loadout.talent_3.title}}</li>-->
-                  <!--<li style="background-image:url(/static/spells/img/{{build.loadout.talent_4.champ_link}}/{{build.loadout.talent_4.spell_link}}.png)">{{build.loadout.talent_4.title}}</li>-->
-                </ul>
-              </div>
-              <div class="card-footer">
-
-                <h6 class="">
-                    {% if build.user is not None %}
-                    <a href="/profile/{{build.user.username}}">
-                      {% if build.user.profile.avatar_url is not None%}
-                      <img src="{{build.user.profile.avatar_url}}" height="20" alt="{{build.user.username}} Avatar" class="avatar-circle">
-                      {% else %}
-                      <img src="/static/brite_builder/img/anon-avatar.jpg" height="20" alt="Anonymous Avatar" class="avatar-circle">
-                      {% endif %}
-                      {{build.user}}
-                    </a>
-                    {%else%}
-                    <img src="/static/brite_builder/img/anon-avatar.jpg" height="20" alt="Anonymous Avatar" class="avatar-circle">
-                    Anonymous
-                    {% endif %}
-                </h6>
-
-                <input class="hidden-copy-button" id="url_{{build.id}}" value="https://{{ request.META.HTTP_HOST }}{{build.url}}">
-                <div class="btn-group float-right">
-                  <a href="{{build.url}}" target="_blank" class="btn btn-sm btn-success js-copy-button">
-                    <i class="fa fa-eye"></i>
-                  </a>
-                  <button class="btn btn-sm btn-info js-copy-button"
-                          onclick="window.jsCopy('url_{{build.id}}')">
-                    <i class="fa fa-copy"></i>
-                  </button>
-
-                  {% if build.user.id == user.id %}
-                  <button data-build-id="{{build.id}}" delete-build class="btn btn-sm btn-danger">
-                    <i class="fa fa-trash"></i>
-                  </button>
-                  {%else%}
-                  <button data-build-id="{{build.id}}" unfavorite class="btn btn-sm btn-warning text-white">
-                    <i class="fa fa-heart"></i>
-                  </button>
-                  {% endif%}
-                </div>
-              </div>
-            </div>
-            {% endif %}
-            {% endfor %}
-          </div>
         </div>
       </div>
   </div>

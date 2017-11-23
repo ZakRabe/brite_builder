@@ -352,6 +352,57 @@ function($http){
   };
 }]);
 
+app.directive('favorite', ['$http',
+function($http){
+  return {
+    scope:{},
+    link: function(scope, el, attrs){
+      // console.log('linked', attrs);
+      scope.build_id = attrs.buildId;
+      var favoriteSuccess = function(){
+        var message = "Favorited.";
+
+        $.notify(message, "success");
+      };
+      var favoriteError = function(error){
+        var message = '';
+        switch (error) {
+          case 'auth':
+            message = "You must be logged in to Favorite!";
+            break;
+          case '404':
+            message = "What are you doing?";
+            break;
+          case '405':
+            message = "Build not found";
+            break;
+          case '422':
+            message = "You have already favorited this Loadout!";
+            break;
+          case '423':
+            message = "What are you, a narcissist?";
+            break;
+        }
+        $.notify(message, "error");
+      };
+      var favoriteHandle = function(returned){
+        if (returned.data.error) {
+          favoriteError(returned.data.error);
+        }else{
+          favoriteSuccess(returned.data.success);
+        }
+      };
+      var favorite = function(build_id){
+        var target ='build';
+        $http.post('/builds/favorite/'+scope.build_id, {target: target}).then(favoriteHandle);
+      };
+      $(el).click(function(){
+        favorite();
+      });
+    }
+  };
+}]);
+
 app.directive('showing', [
 function(){
   return {
@@ -398,7 +449,7 @@ function($http){
       };
       var build_delete = function(build_id){
         // confirm they wanna unfav, else they gotta fin the url again
-        var confirmed = confirm("Are you sure you want to Unfavorite?");
+        var confirmed = confirm("Are you sure you want to Delete this Loadout?");
         if (confirmed) {
           $http.delete('/builds/'+scope.build_id).then(deleteHandle);
         }

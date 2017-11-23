@@ -2,6 +2,7 @@ import json
 from django import forms
 from talents.models import Talent, SpecialTalent
 from django.db.models import Q
+from brite_builder.templatetags.html_filters import champName
 from django.core.exceptions import ValidationError
 
 class BuildForm(forms.Form):
@@ -18,7 +19,7 @@ class BuildForm(forms.Form):
 
     def clean(self):
         cleaned_data = super(BuildForm, self).clean()
-        champ_name = cleaned_data.get("champ_name")
+        champ_name = champName(cleaned_data.get("champ_name"))
 
         # make sure talents belong to the champ
         talent_0_id = cleaned_data.get('talent_0_id')

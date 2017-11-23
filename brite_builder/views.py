@@ -3,7 +3,8 @@ from __future__ import unicode_literals
 
 import json
 from django.shortcuts import get_object_or_404, render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from django.db.models import Q
 from django.contrib.auth.models import User
 from champs.models import Champ
 from talents.models import Talent, SpecialTalent
@@ -39,21 +40,24 @@ def profile(request, username=None):
 
     if username is None:
         # show my own profile on /profile/
-        if request.user.is_authenticated():
+        if request.user.is_authenticated() == True:
             # temporary until us 3 have profiles
-            if request.user.profile is None:
+            if request.user.profile.count() is 0:
                 profile = Profile(user_id=request.user.id)
                 profile.save()
             # /temp
-            my_builds = Build.objects.select_related('user').filter(user_id=request.user.id)
-            favs = Favorite.objects.select_related('build').filter(user_id=request.user.id)
-            builds = [my_build for my_build in my_builds] + [fav.build for fav in favs]
+            favs = Favorite.objects.select_related('build').filter(user_id=request.user.id).order_by('build_id')
+            favs = [fav.build.id for fav in favs]
+            my_builds = Build.objects.select_related('user').filter(Q(user_id=request.user.id)| Q(id__in=favs)).order_by('-id')
+            builds = [my_build for my_build in my_builds]
             target_user = None
         else:
             return redirect('/')
     else:
         target_user = get_object_or_404(User, username__iexact=username)
-        builds = Build.objects.select_related('user').filter(user_id=target_user.id)
+        favs = Favorite.objects.select_related('build').filter(user_id=target_user.id).order_by('build_id')
+        favs = [fav.build.id for fav in favs]
+        builds = Build.objects.select_related('user').filter(Q(user_id=target_user.id)| Q(id__in=favs)).order_by('-id')
 
 
 
