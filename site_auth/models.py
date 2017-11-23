@@ -2,6 +2,8 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django import forms
+
 
 NONE = 'Unknown'
 US_E = "US East"
@@ -47,10 +49,16 @@ SERVER_CHOICES = (
 )
 
 
+class Server(models.Model):
+    title = models.CharField(max_length=150)
+
+    def __str__(self):
+        return self.title
 # Create your models here.
 class Profile(models.Model):
+    user = models.ForeignKey('auth.User', related_name="profile")
     avatar_url= models.CharField(max_length=150)
     subtitle= models.CharField(max_length=32)
-    server= models.IntegerField(choices=SERVER_CHOICES, default=0)
+    server= forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(), queryset=Server.objects.all(), required=False)
     # in game name
     ign =models.CharField(max_length=64)
