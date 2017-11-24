@@ -59,12 +59,12 @@ class Server(models.Model):
         return {'title':self.title}
 # Create your models here.
 class Profile(models.Model):
-    user = models.ForeignKey('auth.User', null=True, related_name="profile")
+    user = models.OneToOneField('auth.User', null=True, related_name="profile")
     avatar_url= models.CharField(max_length=150, null=True)
-    subtitle= models.CharField(max_length=32, null=True)
+    subtitle= models.CharField(verbose_name="Title",max_length=32, null=True)
     server= forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(), queryset=Server.objects.all(), required=False)
     # in game name
-    ign =models.CharField(verbose_name="IGN:",max_length=64, null=True)
+    ign = models.CharField(verbose_name="IGN",max_length=64, null=True)
 
     def __str__(self):
         return self.user.username

@@ -7,7 +7,7 @@ import time
 # Create your models here.
 class News(models.Model):
     title   = models.CharField(max_length=100)
-    html    = models.CharField(max_length=1000, default="")
+    html    = models.TextField(max_length=1000, default="")
     created = models.DateTimeField(auto_now_add=True, null=True)
     updated = models.DateTimeField(auto_now=True, null=True)
 

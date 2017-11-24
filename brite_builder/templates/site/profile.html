@@ -4,25 +4,99 @@
 {% block content %}
 <div class="container" ng-app="brite_builder">
 {% if target_user is None %}
-  <h1 class="margin-top-0">
+<div showing init='false' >
+
+  <h1 ng-init="toggle()" class="margin-top-0">
     {% if user.profile.avatar_url is not None %}
-      <img src="{{user.profile.avatar_url}}" class="avatar-circle" height="50" alt="{{user.username}} Avatar">
+    <img src="{{user.profile.avatar_url}}" class="avatar-circle" height="50" alt="{{user.username}} Avatar">
     {% else %}
-      <img src="/static/brite_builder/img/anon-avatar.jpg" class="avatar-circle" height="50" alt="{{user.username}} Avatar">
+    <img src="/static/brite_builder/img/anon-avatar.jpg" class="avatar-circle" height="50" alt="{{user.username}} Avatar">
     {% endif %}
     {{user}}
     {% if user.profile.subtitle is not None %}
-      <span class="h4"> - {{user.profile.subtitle}}</span>
+    <span class="h4"> - {{user.profile.subtitle}}</span>
     {% endif %}
-      {% if user.is_authenticated and target_user is None %}
-  <button class="btn btn-info float-right">
-    <i class="fa fa-pencil"></i>
-    Edit Profile
-  </button>
-  <div class="clearfix"></div>
-  {% endif %}
+    {% if user.is_authenticated and target_user is None %}
+    <button ng-click="toggle()" class="btn btn-info float-right">
+      <i class="fa fa-pencil"></i>
+      Edit Profile
+    </button>
+    <div class="clearfix"></div>
+    {% endif %}
 
   </h1>
+  <div ng-show="showing">
+    <form action="" method="POST">
+      {% csrf_token %}
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            {{form.subtitle}}
+          <label for="subtitle">Title</label>
+          <input type="text" id="subtitle" class="form-control {% if form.errors.subtitle %} is-invalid {% endif %}"
+              name="subtitle"
+              {% if user.profile.subtitle != None %}value="{{ user.profile.subtitle|stringformat:'s' }}"{% endif %}
+              maxlength="{{ form.subtitle.field.max_length }}"
+              placeholder="The Noob">
+          {% if form.errors.subtitle %}
+          {% for error in form.errors.subtitle %}
+          <div class="invalid-feedback">
+              {{error}}
+          </div>
+          {% endfor%}
+          {% endif %}
+      </div>
+
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+              <label for="avatar_url">Avatar URL</label>
+              <input type="text" id="avatar_url" class="form-control {% if form.errors.avatar_url %} is-invalid {% endif %}"
+                  name="avatar_url"
+                  {% if user.profile.avatar_url != None %}value="{{ user.profile.avatar_url|stringformat:'s' }}"{% endif %}
+                  maxlength="{{ form.avatar_url.field.max_length }}"
+                  placeholder="https://i.imgur.com/pSiOZjK.jpg">
+              {% if form.errors.avatar_url %}
+              {% for error in form.errors.avatar_url %}
+              <div class="invalid-feedback">
+                  {{error}}
+              </div>
+              {% endfor%}
+              {% endif %}
+          </div>
+
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+              <label for="ign">Battlerite Username</label>
+              <input type="text" id="ign" class="form-control {% if form.errors.ign %} is-invalid {% endif %}"
+                  name="ign"
+                  {% if user.profile.ign != None %}value="{{ user.profile.ign|stringformat:'s' }}"{% endif %}
+                  maxlength="{{ form.ign.field.max_length }}"
+                  placeholder="ReapWhatUSow">
+              {% if form.errors.ign %}
+              {% for error in form.errors.ign %}
+              <div class="invalid-feedback">
+                  {{error}}
+              </div>
+              {% endfor%}
+              {% endif %}
+          </div>
+
+        </div>
+      </div>
+
+
+
+
+      <div class="form-group">
+        <input class="btn btn-primary btn-sm float-right" type="submit" value="Save Profile">
+        <div class="clearfix"></div>
+      </div>
+    </form>
+  </div>
+</div>
 {% else %}
   <h1 class="margin-top-0">
     {% if target_user.profile.avatar_url is not None %}
@@ -50,15 +124,17 @@
     </li>
   </ul>
   <div class="tab-content" id="profile-tab-content">
-    <div class="tab-pane fade " id="profile-buildsets-tab" role="tabpanel" aria-labelledby="contact-tab">
-
+    <div class="tab-pane fade" id="profile-buildsets-tab" role="tabpanel" aria-labelledby="contact-tab">
+      <div class="container-fluid">
+        <h2>COMING SOON...</h2>
+      </div>
 
     </div>
   <div class="tab-pane fade show active" id="profile-loadouts-tab" role="tabpanel" aria-labelledby="profile-tab">
 
       <div class="container-fluid padding-top-0 padding-bottom-0" id="profile-loadouts">
-        <div showing>
-          <div ng-show="showing" class="card-deck" >
+        <div >
+          <div  class="card-deck" >
             {% for build in builds %}
             <div data-toggle="tooltip" data-placement="right" title="{{build.description}}" class="card mini-loadout champ-type-{{build.loadout.champ_type}} champ-{{build.loadout.talent_0.champ_link}}">
               <div class="card-body">

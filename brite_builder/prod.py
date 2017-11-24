@@ -19,8 +19,9 @@ RECAPTCHA_PUBLIC_KEY = os.environ['CAPTCHA_KEY']
 ALLOWED_HOSTS = ['battlerite.build']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-
+ADMINS = [('Zak', 'zakrabe@gmail.com')]
 # Application definition
+
 
 INSTALLED_APPS = [
     'brite_builder',

@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '_d)nvt7+_6dx9!)vgykvb%3piw+fbwry0bk5tbg8(v!-*qr9!6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 
 RECAPTCHA_PRIVATE_KEY = '6Lc0bDkUAAAAAPSyrrRSOAkHmlqoktzVb8hnpBj-'

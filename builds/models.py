@@ -89,7 +89,16 @@ class Build(models.Model):
             "favorited": self.favorited(request)
         }
 
+
+class BuildSet(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField(max_length=500)
+    builds = models.ManyToManyField(Build)
+
+    def __str__(self):
+        return self.title
+
 class Favorite(models.Model):
     user    = models.ForeignKey('auth.User', related_name="favorites")
-    build   = models.ForeignKey('Build', null=True, related_name="favorites")
+    build   = models.ForeignKey('Build', null=True, related_name="favorites", on_delete=models.CASCADE)
     loadout = models.ForeignKey('Loadout', null=True, related_name="favorites")

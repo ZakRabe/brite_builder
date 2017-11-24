@@ -22,6 +22,12 @@ from talents import urls as talent_urls
 from builds import urls as build_urls
 from site_auth import urls as auth_urls
 
+handler404 = 'brite_builder.errors.handler404'
+handler500 = 'brite_builder.errors.handler500'
+handler403 = 'brite_builder.errors.handler403'
+handler400 = 'brite_builder.errors.handler400'
+
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^profile/?(?P<username>[\w.@+-]+)?$', views.profile, name='profile'),

@@ -1,0 +1,86 @@
+
+.talent.survival img, .talent.survival .card-header .badge-dark{
+    background-color: #7ad217;
+    border-color: #7ad217;
+}
+.talent.survival .card-header{
+    border-color: #7ad217;
+}
+.talent.survival .badge-secondary{
+    background-color: #7ad217;
+    border-color: #7ad217;
+}
+
+.talent.mixed img, .talent.mixed .card-header .badge-dark{
+    background-color: #96bebc;
+    border-color: #96bebc;
+}
+.talent.mixed .card-header{
+    border-color: #96bebc;
+}
+.talent.mixed .badge-secondary{
+    background-color: #96bebc;
+    border-color: #96bebc;
+}
+
+.talent.support img, .talent.support .card-header .badge-dark{
+    background-color: #30bcb0;
+    border-color: #30bcb0;
+}
+.talent.support .card-header{
+    border-color: #30bcb0;
+}
+.talent.support .badge-secondary{
+    background-color: #30bcb0;
+    border-color: #30bcb0;
+}
+
+.talent.offense img, .talent.offense .card-header .badge-dark{
+    background-color: #ff2a1c;
+    border-color: #ff2a1c;
+}
+.talent.offense .card-header{
+    border-color: #ff2a1c;
+}
+.talent.offense .badge-secondary{
+    background-color: #ff2a1c;
+    border-color: #ff2a1c;
+}
+
+.talent.mobility img, .talent.mobility .card-header .badge-dark{
+    background-color: #ffb800;
+    border-color: #ffb800;
+}
+.talent.mobility .card-header{
+    border-color: #ffb800;
+}
+.talent.mobility .badge-secondary{
+    background-color: #ffb800;
+    border-color: #ffb800;
+}
+
+.talent.control img, .talent.control .card-header .badge-dark{
+    background-color: #ff4fce;
+    border-color: #ff4fce;
+}
+.talent.control .card-header{
+    border-color: #ff4fce;
+}
+.talent.control .badge-secondary{
+    background-color: #ff4fce;
+    border-color: #ff4fce;
+}
+
+.talent.utility img, .talent.utility .card-header .badge-dark{
+    background-color: #067ed6;
+    border-color: #067ed6;
+}
+.talent.utility .card-header{
+    border-color: #067ed6;
+}
+.talent.utility .badge-secondary{
+    background-color: #067ed6;
+    border-color: #067ed6;
+}
+
+

@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+import sys
 import json
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import get_object_or_404, render, render_to_response, redirect
+from django.template import RequestContext
 from django.http import HttpResponse, JsonResponse
+from django.contrib import messages
 from django.db.models import Q
 from django.contrib.auth.models import User
 from champs.models import Champ
@@ -13,6 +15,7 @@ from builds.models import Loadout, Build, Favorite
 from builds.common import create_loadout
 from news.models import News
 from site_auth.models import Profile
+from site_auth.forms import ProfileEditForm
 
 # Create your views here.
 def index(request, champ_name, loadout=None, build_id=None):
@@ -41,11 +44,15 @@ def profile(request, username=None):
     if username is None:
         # show my own profile on /profile/
         if request.user.is_authenticated() == True:
-            # temporary until us 3 have profiles
-            if request.user.profile.count() is 0:
-                profile = Profile(user_id=request.user.id)
-                profile.save()
-            # /temp
+
+
+            if request.method == "POST":
+                profile_form = ProfileEditForm(request.POST)
+                if profile_form.is_valid():
+                    messages.success(request,"Profile Updated!")
+                    request.user.profile.update(**profile_form.cleaned_data)
+            else:
+                profile_form = ProfileEditForm(request.user.profile.to_json())
             favs = Favorite.objects.select_related('build').filter(user_id=request.user.id).order_by('build_id')
             favs = [fav.build.id for fav in favs]
             my_builds = Build.objects.select_related('user').filter(Q(user_id=request.user.id)| Q(id__in=favs)).order_by('-id')
@@ -54,18 +61,15 @@ def profile(request, username=None):
         else:
             return redirect('/')
     else:
-
+        profile_form = None
         target_user = get_object_or_404(User, username__iexact=username)
-        if target_user.profile.count() is 0:
-            profile = Profile(user_id=target_user.id)
-            profile.save()
         favs = Favorite.objects.select_related('build').filter(user_id=target_user.id).order_by('build_id')
         favs = [fav.build.id for fav in favs]
         builds = Build.objects.select_related('user').filter(Q(user_id=target_user.id)| Q(id__in=favs)).order_by('-id')
 
 
 
-    return render(request, 'site/profile.html', {'champs': champs, 'builds': builds, 'target_user': target_user})
+    return render(request, 'site/profile.html', {'profile_edit_form':profile_form,'champs': champs, 'builds': builds, 'target_user': target_user})
 
 def build(request,champ_name,loadout,build_id=None):
 
@@ -82,3 +86,4 @@ def build(request,champ_name,loadout,build_id=None):
         return index(request, champ_name, json.dumps(loadout[0].to_json(request)))
     else:
         return index(request, champ_name, json.dumps(loadout[0].to_json(request)), build_id)
+
