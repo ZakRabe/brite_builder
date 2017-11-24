@@ -46,6 +46,8 @@ def register(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save(commit=True)
+            user.email = form.cleaned_data['email']
+            user.save()
             profile = Profile(user_id=user.id)
             profile.save()
             messages.success(request, "You're signed up, you may now login")
