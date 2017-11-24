@@ -164,7 +164,7 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
   };
   $scope.copyBuild = function(){
     $scope.build = blank_build;
-    $scope.build_hash()
+    $scope.build_hash();
   };
 
   var favoriteSuccess = function(){
@@ -219,65 +219,67 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
 
 
   $scope.init = function(){
-    /* nothing below here */
-  $scope.loadout = blank_loadout;
-  $scope.build = blank_build;
-  if (window.build) {
-    $scope.build = window.build;
-    window.loadout = window.build.loadout;
-    // console.log(window.loadout);
-  }
-  if (window.loadout) {
-    // console.log(window.loadout);
-    $scope.loadout.id = window.loadout.id;
-    $scope.loadout.build_hash = window.loadout.build_hash;
-    var talent_ids = [];
-    for (var i = 0; i < 5; i++) {
-      var talent = window.loadout['talent_' + i];
-      if (!talent) {
-        if (window.loadout[i]) {
-          talent_ids.push(window.loadout[i]);
-        }
-      }else{
-        talent_ids.push(talent.id);
-      }
+    $scope.loadout = blank_loadout;
+    $scope.build = blank_build;
+    if (window.build) {
+      $scope.build = window.build;
+      window.loadout = window.build.loadout;
+      // console.log(window.loadout);
     }
-    var count = 0;
-    var tryClick = function(){
-      if(count < 50){
-        for (var i = 0; i < talent_ids.length; i++) {
-          var id = talent_ids[i];
-          var el = $("div[ng-controller=champTalentPoolCtrl] div[data-talent-id="+id+"]");
-          if (el.length) {
-            // console.log(id);
-            var is_talent_0 = Boolean($scope.loadout.talent_0 && $scope.loadout.talent_0.id == id);
-            var is_talent_1 = Boolean($scope.loadout.talent_1 && $scope.loadout.talent_1.id == id);
-            var is_talent_2 = Boolean($scope.loadout.talent_2 && $scope.loadout.talent_2.id == id);
-            var is_talent_3 = Boolean($scope.loadout.talent_3 && $scope.loadout.talent_3.id == id);
-            var is_talent_4 = Boolean($scope.loadout.talent_4 && $scope.loadout.talent_4.id == id);
-            /*console.log(is_talent_0);
-            console.log(is_talent_1);
-            console.log(is_talent_2);
-            console.log(is_talent_3);
-            console.log(is_talent_4);*/
-            if (
-              !is_talent_0 && !is_talent_1 && !is_talent_2 && !is_talent_3 && !is_talent_4
-            ) {
-              el.click();
+    if (window.loadout) {
+      // console.log(window.loadout);
+      $scope.loadout.id = window.loadout.id;
+      $scope.loadout.build_hash = window.loadout.build_hash;
+      var talent_ids = [];
+      for (var i = 0; i < 5; i++) {
+        var talent = window.loadout['talent_' + i];
+        if (!talent) {
+          if (window.loadout[i]) {
+            talent_ids.push(window.loadout[i]);
+          }
+        }else{
+          talent_ids.push(talent.id);
+        }
+      }
+      var count = 0;
+      var tryClick = function(){
+        if(count < 50){
+          for (var i = 0; i < talent_ids.length; i++) {
+            var id = talent_ids[i];
+            var el = $("div[ng-controller=champTalentPoolCtrl] div[data-talent-id="+id+"]");
+            if (el.length) {
+              // console.log(id);
+              var is_talent_0 = Boolean($scope.loadout.talent_0 && $scope.loadout.talent_0.id == id);
+              var is_talent_1 = Boolean($scope.loadout.talent_1 && $scope.loadout.talent_1.id == id);
+              var is_talent_2 = Boolean($scope.loadout.talent_2 && $scope.loadout.talent_2.id == id);
+              var is_talent_3 = Boolean($scope.loadout.talent_3 && $scope.loadout.talent_3.id == id);
+              var is_talent_4 = Boolean($scope.loadout.talent_4 && $scope.loadout.talent_4.id == id);
+              /*console.log(is_talent_0);
+              console.log(is_talent_1);
+              console.log(is_talent_2);
+              console.log(is_talent_3);
+              console.log(is_talent_4);*/
+              if (
+                !is_talent_0 && !is_talent_1 && !is_talent_2 && !is_talent_3 && !is_talent_4
+              ) {
+                el.click();
+              }else{
+                continue;
+              }
             }else{
-              continue;
+              count++;
+              $timeout(tryClick, 100);
             }
-          }else{
-            count++;
-            $timeout(tryClick, 100);
           }
         }
-      }
-    };
-    $timeout(tryClick,100);
-  }
-  $scope.build_hash();
-  }
+      };
+      $timeout(tryClick,100);
+    }
+    $scope.build_hash();
+    $timeout(function(){
+      $scope.ctrl_ready = true;
+    },1000);
+  };
 
 });
 

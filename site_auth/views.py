@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
 from champs.models import Champ
 from .forms import RegisterForm
 from .models import Profile
@@ -37,23 +38,14 @@ def logout_view(request):
     return redirect('/')
 
 def register(request):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         messages.error(request, "Already logged in")
         return redirect('/')
     champs = Champ.objects.all().exclude(title="Shared");
     if request.method == "POST":
         form = RegisterForm(request.POST)
-        valid = form.is_valid()
-        try:
-            password = request.POST['password']
-            validate_password(password)
-        except ValidationError, e:
-            form._errors['password'] = e
-
-        if valid is True:
-            email = request.POST['email']
-            username = request.POST['username']
-            user = User.objects.create_user(username, email, password)
+        if form.is_valid():
+            user = form.save(commit=True)
             profile = Profile(user_id=user.id)
             profile.save()
             messages.success(request, "You're signed up, you may now login")

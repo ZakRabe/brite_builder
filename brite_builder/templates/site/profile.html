@@ -3,7 +3,7 @@
 {% load static %}
 {% block content %}
 <div class="container" ng-app="brite_builder">
-
+{% if target_user is None %}
   <h1 class="margin-top-0">
     {% if user.profile.avatar_url is not None %}
       <img src="{{user.profile.avatar_url}}" class="avatar-circle" height="50" alt="{{user.username}} Avatar">
@@ -14,23 +14,38 @@
     {% if user.profile.subtitle is not None %}
       <span class="h4"> - {{user.profile.subtitle}}</span>
     {% endif %}
-  </h1>
-  {% if user.is_authenticated and target_user is None %}
-  <button class="btn btn-info">
+      {% if user.is_authenticated and target_user is None %}
+  <button class="btn btn-info float-right">
     <i class="fa fa-pencil"></i>
     Edit Profile
   </button>
+  <div class="clearfix"></div>
   {% endif %}
+
+  </h1>
+{% else %}
+  <h1 class="margin-top-0">
+    {% if target_user.profile.avatar_url is not None %}
+      <img src="{{target_user.profile.avatar_url}}" class="avatar-circle" height="50" alt="{{target_user.username}} Avatar">
+    {% else %}
+      <img src="/static/brite_builder/img/anon-avatar.jpg" class="avatar-circle" height="50" alt="{{target_user.username}} Avatar">
+    {% endif %}
+    {{target_user}}
+    {% if target_user.profile.subtitle is not None %}
+      <span class="h4"> - {{target_user.profile.subtitle}}</span>
+    {% endif %}
+  </h1>
+{% endif %}
 
   <ul class="nav nav-tabs" id="profile-tab" role="tablist">
     <li class="nav-item">
-      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#profile-buildsets-tab" role="tab" aria-controls="contact" aria-selected="false">
-        <h2 class="margin-bottom-0">BuildSets</h2>
+      <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile-loadouts-tab" role="tab" aria-controls="profile" aria-selected="false">
+        <h2 class="margin-bottom-0">Loadouts</h2>
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile-loadouts-tab" role="tab" aria-controls="profile" aria-selected="false">
-        <h2 class="margin-bottom-0">Loadouts</h2>
+      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#profile-buildsets-tab" role="tab" aria-controls="contact" aria-selected="false">
+        <h2 class="margin-bottom-0">BuildSets</h2>
       </a>
     </li>
   </ul>
@@ -49,24 +64,10 @@
               <div class="card-body">
                 <div class="card-title margin-0">
                   <h6 class="margin-0">{{build.title}}</h6>
+
                   <h6 class="margin-0">
                     <i class="ra ra-lg ra-{% if build.loadout.champ_type == 0 %}sword{%endif%}{% if build.loadout.champ_type == 1 %}target-arrows{%endif%}{% if build.loadout.champ_type == 2 %} ra-heart-bottle{%endif%}"></i> {{build.champ}}
                   </h6>
-<h6 class="">
-                    {% if build.user is not None %}
-                    <a href="/profile/{{build.user.username}}">
-                      {% if build.user.profile.avatar_url is not None%}
-                      <img src="{{build.user.profile.avatar_url}}" height="20" alt="{{build.user.username}} Avatar" class="avatar-circle">
-                      {% else %}
-                      <img src="/static/brite_builder/img/anon-avatar.jpg" height="20" alt="Anonymous Avatar" class="avatar-circle">
-                      {% endif %}
-                      {{build.user}}
-                    </a>
-                    {%else%}
-                    <img src="/static/brite_builder/img/anon-avatar.jpg" height="20" alt="Anonymous Avatar" class="avatar-circle">
-                    Anonymous
-                    {% endif %}
-                </h6>
                 </div>
                 <ul class="battlerites">
                   {% for talent in build.loadout.all %}
@@ -88,7 +89,22 @@
                 </ul>
               </div>
               <div class="card-footer">
-
+<h6 class="float-right">
+                    {% if build.user is not None %}
+                    <a href="/profile/{{build.user.username}}">
+                      {% if build.user.profile.avatar_url is not None%}
+                      <img src="{{build.user.profile.avatar_url}}" height="20" alt="{{build.user.username}} Avatar" class="avatar-circle">
+                      {% else %}
+                      <img src="/static/brite_builder/img/anon-avatar.jpg" height="20" alt="Anonymous Avatar" class="avatar-circle">
+                      {% endif %}
+                      {{build.user}}
+                    </a>
+                    {%else%}
+                    <img src="/static/brite_builder/img/anon-avatar.jpg" height="20" alt="Anonymous Avatar" class="avatar-circle">
+                    Anonymous
+                    {% endif %}
+                </h6>
+                <div class="clearfix"></div>
 
 
                 <input class="hidden-copy-button" id="url_{{build.id}}" value="https://{{ request.META.HTTP_HOST }}{{build.url}}">

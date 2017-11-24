@@ -54,6 +54,9 @@ class Server(models.Model):
 
     def __str__(self):
         return self.title
+
+    def to_json(self):
+        return {'title':self.title}
 # Create your models here.
 class Profile(models.Model):
     user = models.ForeignKey('auth.User', null=True, related_name="profile")
@@ -65,3 +68,13 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    def to_json(self):
+        return {
+            'user_id': self.user_id,
+            'avatar_url': self.avatar_url,
+            'subtitle': self.subtitle,
+            # disabled for now
+            # 'server': self.server.to_python(),
+            'ign': self.ign,
+        }

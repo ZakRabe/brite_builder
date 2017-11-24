@@ -54,7 +54,11 @@ def profile(request, username=None):
         else:
             return redirect('/')
     else:
+
         target_user = get_object_or_404(User, username__iexact=username)
+        if target_user.profile.count() is 0:
+            profile = Profile(user_id=target_user.id)
+            profile.save()
         favs = Favorite.objects.select_related('build').filter(user_id=target_user.id).order_by('build_id')
         favs = [fav.build.id for fav in favs]
         builds = Build.objects.select_related('user').filter(Q(user_id=target_user.id)| Q(id__in=favs)).order_by('-id')
