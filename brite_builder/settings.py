@@ -79,7 +79,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'brite_builder',
         'USER': 'brite',
-        'PASSWORD': DB_PASS,
+        # 'PASSWORD': DB_PASS,
         'HOST': 'localhost',
         'PORT': '',
     }
