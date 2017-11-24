@@ -9,7 +9,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['SECRET_KEY']
+with open('../secret_key.txt') as f:
+    SECRET_KEY = f.read().strip()
 
 RECAPTCHA_PRIVATE_KEY = os.environ['CAPTCHA_KEY']
 RECAPTCHA_PUBLIC_KEY = '6LcXTzoUAAAAAMPRQfXvDpjJxIMCIhRRyKILIBym'
