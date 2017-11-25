@@ -21,7 +21,7 @@ with open('/home/brite/db_pass.txt') as f:
     DB_PASS = f.read().strip()
 
 
-ALLOWED_HOSTS = ['battlerite.build']
+ALLOWED_HOSTS = ['battlerite.build', '104.236.36.199']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 ADMINS = [('Zak', 'zakrabe@gmail.com')]
