@@ -20,6 +20,8 @@ RECAPTCHA_PUBLIC_KEY = '6LcXTzoUAAAAAMPRQfXvDpjJxIMCIhRRyKILIBym'
 with open('/home/brite/db_pass.txt') as f:
     DB_PASS = f.read().strip()
 
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 
 ALLOWED_HOSTS = ['battlerite.build', '104.236.36.199']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
