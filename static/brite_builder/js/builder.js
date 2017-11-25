@@ -37,7 +37,7 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
   $scope.copy_url = function(){
     $scope.copy_class = "success";
     $.notify('Link Copied', "success");
-    window.history.pushState('', 'Counter.GG', $scope.build_url);
+    window.history.pushState('', 'Battlerite.build', $scope.build_url);
   };
   $scope.build_hash = function(){
     var talent_ids = [];
