@@ -12,10 +12,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 with open('/home/brite/secret_key.txt') as f:
     SECRET_KEY = f.read().strip()
 
-RECAPTCHA_PRIVATE_KEY = os.environ['CAPTCHA_KEY']
+with open('/home/brite/captcha_key.txt') as f:
+    RECAPTCHA_PRIVATE_KEY = f.read().strip()
+
 RECAPTCHA_PUBLIC_KEY = '6LcXTzoUAAAAAMPRQfXvDpjJxIMCIhRRyKILIBym'
 
-DB_PASS = os.environ['DB_PASS']
+with open('/home/brite/db_pass.txt') as f:
+    DB_PASS = f.read().strip()
+
 
 ALLOWED_HOSTS = ['battlerite.build']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
