@@ -20,9 +20,24 @@
                 {{ 'build.description'|ng}}
             </p>
 
-
-        </span>
         </div>
+        <div class="form-group float-right">
+            <div class="btn-group">
+            <button ng-show="build.id && !editMode" class="btn btn-sm" ng-class="{'bg-warning text-light':!build.favorited}" ng-click="favorite()"><i class="fa fa-heart"></i>&nbsp; Favorite<span ng-if="build.favorited">d!</span></button>
+            <button ng-show="build.id && !editMode" class="btn btn-sm btn-primary" ng-click="copyBuild()"><i class="fa fa-copy"></i>&nbsp; Clone Loadout</button>
+            <button ng-show="!build.id || editMode" class="btn btn-sm btn-success" ng-click="saveBuild()"><i class="fa fa-save"></i>&nbsp; Save Loadout</button>
+            <button ng-show="build.id && build.user.id && user.id == build.user.id" ng-class="{'btn-secondary': editMode, 'btn-dark': !editMode}" class="btn btn-sm " ng-click="editBuild()"><i class="fa fa-pencil"></i>&nbsp; Edit<span ng-if="editMode">ing</span> Loadout</button>
+            </div>
+        </div>
+        <div class="counts" ng-if="build.id">
+            <div title="View Count" class="d-inline-block padding-5 alert alert-primary">
+                <strong><i class="fa fa-eye"></i> &nbsp;{{ 'build.view_count'|ng}}</strong>
+            </div>
+            <div title="Favorite Count" class="d-inline-block padding-5 alert alert-warning">
+                <strong><i class="fa fa-heart"></i> &nbsp;{{ 'build.fav_count'|ng}}</strong>
+            </div>
+        </div>
+        <div class="clearfix"></div>
         <div class="form-group" ng-if="!build.id || editMode">
             <input type="text" id="title" class="form-control" ng-model="build.title" name="title" maxlength="150" placeholder="Title">
         </div>
@@ -34,26 +49,9 @@
             <div class='card col' talent ng-click="removeTalent(loadout.talent_4)" model="loadout.talent_4"></div>
         </div>
     </div>
-    <div title="View Count" class="d-inline-block padding-5 alert alert-primary">
-                <strong>
-                <i class="fa fa-eye"></i> &nbsp;{{ 'build.view_count'|ng}}
-                </strong>
-            </div>
-            <div title="Favorite Count" class="d-inline-block padding-5 alert alert-warning">
-                <strong>
-                <i class="fa fa-heart"></i> &nbsp;{{ 'build.fav_count'|ng}}
-                </strong>
-            </div>
+
     <div ng-if="!build.id || editMode" class="form-group">
         <textarea id="description" class="form-control " ng-model="build.description" name="description" maxlength="500" placeholder="Description"></textarea>
-    </div>
-    <div class="form-group">
-        <div class="btn-group">
-            <button ng-show="build.id && !editMode" class="btn btn-sm" ng-class="{'bg-warning text-light':!build.favorited}" ng-click="favorite()"><i class="fa fa-heart"></i>&nbsp; Favorite<span ng-if="build.favorited">d!</span></button>
-            <button ng-show="build.id && !editMode" class="btn btn-sm btn-primary" ng-click="copyBuild()"><i class="fa fa-copy"></i>&nbsp; Clone Loadout</button>
-            <button ng-show="!build.id || editMode" class="btn btn-sm btn-success" ng-click="saveBuild()"><i class="fa fa-plus"></i>&nbsp; Save Loadout</button>
-            <button ng-show="build.id && build.user.id && user.id == build.user.id" ng-class="{'btn-secondary': editMode, 'btn-dark': !editMode}" class="btn btn-sm " ng-click="editBuild()"><i class="fa fa-pencil"></i>&nbsp; Edit<span ng-if="editMode">ing</span> Loadout</button>
-        </div>
     </div>
     <div class="form-group">
         <div style="padding-bottom: 1rem">
@@ -66,7 +64,7 @@
                 Link Copied!
             </div>
             <div ng-if="copy_class!='success'">
-                <i class="fa fa-clipboard"></i> &nbsp;
+                <i class="fa fa-link"></i> &nbsp;
                 Copy Link
             </div>
         </button>
