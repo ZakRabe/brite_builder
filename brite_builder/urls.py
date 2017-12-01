@@ -34,7 +34,7 @@ urlpatterns = [
     url(r'^talents/', include(talent_urls)),
     url(r'^builds/', include(build_urls)),
     url(r'^auth/', include(auth_urls)),
-    url(r'^(?P<champ_name>\w+(-*\w*)*)/(?P<loadout>(\d+,){0,4}\d+)/(?P<build_id>\d+)?', views.build, name='build'),
+    url(r'^(?P<champ_name>\w+(-*\w*)*)/(?P<loadout>(\d+(,|-)){0,4}\d+)/(?P<build_id>\d+)?', views.build, name='build'),
     url(r'^(?P<champ_name>\w+-*\w*)?/?$', views.index, name='index'),
 ]
 

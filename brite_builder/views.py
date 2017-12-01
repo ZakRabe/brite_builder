@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 import sys
 import json
+import re
 from django.shortcuts import get_object_or_404, render, render_to_response, redirect
 from django.template import RequestContext
 from django.http import HttpResponse, JsonResponse
@@ -72,8 +73,8 @@ def profile(request, username=None):
     return render(request, 'site/profile.html', {'profile_edit_form':profile_form,'champs': champs, 'builds': builds, 'target_user': target_user})
 
 def build(request,champ_name,loadout,build_id=None):
-
-    build_hash_data = "[" + loadout + "]"
+    cleaned = re.sub('-',',', loadout)
+    build_hash_data = "[" + cleaned + "]"
     # return HttpResponse(build_hash_data)
     build_hash = json.dumps(sorted(json.loads(build_hash_data)))
 
