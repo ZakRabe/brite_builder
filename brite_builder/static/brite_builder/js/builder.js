@@ -54,11 +54,11 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
       var id = talent_ids[i];
       output += id;
       if (i < talent_ids.length-1) {
-        output+= ",";
+        output+= "-";
       }
     }
     // remove trailing comma just in case we have incomplete build
-    if (output.charAt(output.length-1) == ",") {
+    if (output.charAt(output.length-1) == "-") {
       output=output.substring(0, output.length-1);
     }
     $scope.copy_class = 'info';
