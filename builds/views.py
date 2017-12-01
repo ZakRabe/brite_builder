@@ -39,6 +39,7 @@ class RestCreate():
             return returned
         else:
             loadout = returned.get('loadout')
+            # print >>sys.stderr, loadout.to_json(self.request)['build_hash']
             clean = returned.get('clean')
         build_dict = {
             'title' : clean.get('title'),

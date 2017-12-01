@@ -1,3 +1,4 @@
+import sys
 from .models import Loadout, Build
 from champs.models import Champ
 from .forms import BuildForm
@@ -8,6 +9,7 @@ def create_loadout(data, request):
         for attr in ['talent_0','talent_1','talent_2','talent_3', 'talent_4']:
             if data['loadout'][attr] is not None:
                 data[attr+"_id"] = data['loadout'][attr]['id']
+                # print >>sys.stderr, data[attr+"_id"]
         data.update(data.get('build'))
         data.update(data.get('loadout'))
 

@@ -1,4 +1,5 @@
 import json
+import sys
 from django import forms
 from talents.models import Talent, SpecialTalent
 from django.db.models import Q
@@ -47,18 +48,14 @@ class BuildForm(forms.Form):
             return cleaned_data
 
         build_hash = json.dumps(talent_ids)
-        cleaned_hash = cleaned_data.get('build_hash', "")
-
-        if cleaned_hash == "":
-            # self._errors["valid"] = build_hash
-            cleaned_data['build_hash'] = build_hash
+        cleaned_data['build_hash'] = build_hash
         title = cleaned_data.get("title", "")
         if title  == "" or title == "New Loadout":
             cleaned_data['title'] = "Unnamed Loadout"
 
         # incase we're sent null
         cleaned_data['description'] = cleaned_data.get('description', "")
-
+        print >>sys.stderr, cleaned_data
         return cleaned_data
 
 

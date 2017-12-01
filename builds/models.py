@@ -69,7 +69,7 @@ class Build(models.Model):
     @property
     def url(self):
         talents = self.loadout.all
-        build_hash = self.loadout.build_hash.replace(' ','').replace("[",'').replace(']', '')
+        build_hash = self.loadout.build_hash.replace(' ','').replace("[",'').replace(']', '').replace(',','-')
         return "/" + self.loadout.talent_0.champ_link + "/"+ build_hash + "/" + str(self.id)
 
     @property
