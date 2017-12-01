@@ -27,23 +27,23 @@ def create_loadout(data, request):
 
         clean = form.cleaned_data
 
-        if clean.get('id', None) is None:
-            # look up if there's an existing loadout for this build_hash
-            loadout = Loadout.objects.filter(build_hash=clean.get('build_hash'))
-            if loadout.count() == 0:
-                # strip our validation values
-                del clean['champ_name']
-                title = clean['title']
-                description = clean['description']
-                del clean['title']
-                del clean['description']
-                # create new loadout for the build
-                loadout = Loadout(**clean)
-                loadout.save()
-                clean['title'] = title
-                clean['description'] = description
-            else:
-                loadout = loadout[0]
+
+        # look up if there's an existing loadout for this build_hash
+        loadout = Loadout.objects.filter(build_hash=clean.get('build_hash'))
+        if loadout.count() == 0:
+            # strip our validation values
+            del clean['champ_name']
+            title = clean['title']
+            description = clean['description']
+            del clean['title']
+            del clean['description']
+            # create new loadout for the build
+            loadout = Loadout(**clean)
+            loadout.save()
+            clean['title'] = title
+            clean['description'] = description
         else:
-            loadout = Build.objects.get(id=clean['id']).loadout
+            loadout = loadout[0]
+
+
         return {'loadout':loadout, "clean":clean}

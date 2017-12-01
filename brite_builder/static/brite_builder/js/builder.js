@@ -100,6 +100,7 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
         if ($scope.build.id) {
           if (!$scope.build.user.id || $scope.build.user.id != $scope.user.id) {
             $scope.build = blank_build;
+          }else{
           }
         }
         $scope.build_hash();
