@@ -98,7 +98,9 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
         var talent_scope = angular.element(champPoolTalent).scope();
         talent_scope.model.selected = false;
         if ($scope.build.id) {
-          $scope.build = blank_build;
+          if (!$scope.build.user.id || $scope.build.user.id != $scope.user.id) {
+            $scope.build = blank_build;
+          }
         }
         $scope.build_hash();
         return false;
