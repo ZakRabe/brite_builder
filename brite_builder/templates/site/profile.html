@@ -6,7 +6,7 @@
 {% if target_user is None %}
 <div showing init='false' >
 
-  <h1 ng-init="toggle()" class="margin-top-0">
+  <h1 ng-init="toggle()" title="IGN: {{user.profile.ign}}" class="margin-top-0">
     {% if user.profile.avatar_url is not None %}
     <img src="{{user.profile.avatar_url}}" class="avatar-circle" height="50" alt="{{user.username}} Avatar">
     {% else %}

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+import sys
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse, HttpResponse
 from brite_builder.common import get_post_json
@@ -25,16 +25,25 @@ class RestCreate():
 
     def save(self):
         data = get_post_json(self.request)
+        # make sure the user authed owns the build they are editing
+        if data.get('build', None) is not None:
+            if data['build'].get('id', None) is not None:
+                if self.request.user.is_authenticated():
+                    build = get_object_or_404(Build, id=data['build']['id'])
+                    if self.request.user.id != build.user.id:
+                        return {'error': "403"}
+                else:
+                    return {'error': "403"}
         returned = create_loadout(data, self.request)
         if returned.get('errors', None) is not None:
             return returned
         else:
             loadout = returned.get('loadout')
             clean = returned.get('clean')
-
         build_dict = {
             'title' : clean.get('title'),
             'description' : clean.get('description'),
+            'id' : clean.get('id'),
         }
         del clean['title']
         del clean['description']

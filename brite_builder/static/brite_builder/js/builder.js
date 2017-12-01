@@ -156,6 +156,9 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
       $scope.build = data.success.build;
       $scope.build_hash();
       $.notify('Saved successfully', "success");
+      if ($scope.editMode) {
+        $scope.editBuild();
+      }
     }
   };
   $scope.saveBuild = function(){
@@ -165,7 +168,9 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
     $scope.build = blank_build;
     $scope.build_hash();
   };
-
+  $scope.editBuild = function(){
+    $scope.editMode = !$scope.editMode;
+  };
   var favoriteSuccess = function(){
     var message = $scope.build.favorited? "Unfavorited.": "Favorited";
     $scope.build.favorited = !$scope.build.favorited;
@@ -216,7 +221,8 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
     $http.post('/builds/favorite/'+$scope.build.id, {target: target, action:action}).then(favoriteHandle);
   };
 
-
+  $scope.user = window.user;
+  // console.log(window.user);
   $scope.init = function(){
     $scope.loadout = blank_loadout;
     $scope.build = blank_build;
@@ -279,7 +285,6 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
       $scope.ctrl_ready = true;
     },1000);
   };
-
 });
 
 app.controller('champTalentPoolCtrl', function ($scope, $http, $attrs) {
@@ -471,6 +476,7 @@ function($compile, $http, $templateCache, $parse){
     }
   };
 }]);
+
 
 
 })($, angular);

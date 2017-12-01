@@ -64,6 +64,7 @@ class Build(models.Model):
     description = models.TextField(max_length=1000)
     user        = models.ForeignKey('auth.User', null=True)
     loadout     = models.ForeignKey('Loadout')
+    view_count  = models.IntegerField(default=0)
 
     @property
     def url(self):
@@ -82,11 +83,13 @@ class Build(models.Model):
     def to_json(self, request):
         return {
             "id" : self.id,
-            "title":self.title,
-            "description":self.description,
             "loadout":self.loadout.to_json(request),
             'user': user_to_json(self.user) if self.user is not None else None,
-            "favorited": self.favorited(request)
+            "title":self.title,
+            "description":self.description,
+            "view_count":self.view_count,
+            "favorited": self.favorited(request),
+            "fav_count": self.favorites.count()
         }
 
 

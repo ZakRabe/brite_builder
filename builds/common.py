@@ -1,4 +1,4 @@
-from .models import Loadout
+from .models import Loadout, Build
 from champs.models import Champ
 from .forms import BuildForm
 from brite_builder.templatetags.html_filters import champName
@@ -18,7 +18,7 @@ def create_loadout(data, request):
         build_data = data.get('build', {});
         data['title'] = build_data.get('title', "Unnamed Loadout")
         data['description'] = build_data.get('description', "")
-
+        data['id'] = build_data.get('id', None)
         form = BuildForm(data)
 
 
@@ -44,5 +44,6 @@ def create_loadout(data, request):
                 clean['description'] = description
             else:
                 loadout = loadout[0]
-
+        else:
+            loadout = Build.objects.get(id=clean['id']).loadout
         return {'loadout':loadout, "clean":clean}

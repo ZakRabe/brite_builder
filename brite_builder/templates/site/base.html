@@ -23,6 +23,14 @@
       {% block content %}
       {% endblock %}
     </div>
+    <script>
+      window.user = {
+        username: '{{ user }}',
+        {% if user.id is not None %}
+        id: {{ user.id }},
+        {% endif %}
+      };
+    </script>
     {% include 'site/_foot.html' %}
   </body>
 </html>

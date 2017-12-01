@@ -6,6 +6,7 @@ from brite_builder.templatetags.html_filters import champName
 from django.core.exceptions import ValidationError
 
 class BuildForm(forms.Form):
+    id          = forms.IntegerField(required=False)
     title       = forms.CharField(max_length=150,required=False)
     description = forms.CharField(max_length=1000,required=False)
     build_hash  = forms.CharField(max_length=200,required=False)

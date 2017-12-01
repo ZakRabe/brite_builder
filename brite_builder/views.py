@@ -31,8 +31,13 @@ def index(request, champ_name, loadout=None, build_id=None):
     if build_id is not None:
         build = Build.objects.filter(id=build_id)
         if build.exists():
+            build_model = build[0]
             # loadout = json.dumps(build[0].loadout.to_json())
-            build = json.dumps(build[0].to_json(request))
+            if not request.user.is_authenticated() or request.user.id != build_model.user.id:
+                build_model.view_count = build_model.view_count + 1
+                build_model.save()
+
+            build = json.dumps(build_model.to_json(request))
     else:
         build = json.dumps(None)
 
