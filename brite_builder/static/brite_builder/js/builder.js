@@ -256,6 +256,7 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
           talent_ids.push(talent.id);
         }
       }
+      console.log(talent_ids);
       var count = 0;
       var tryClick = function(){
         if(count < 50){
