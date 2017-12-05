@@ -54,11 +54,11 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
       var id = talent_ids[i];
       output += id;
       if (i < talent_ids.length-1) {
-        output+= ",";
+        output+= "-";
       }
     }
     // remove trailing comma just in case we have incomplete build
-    if (output.charAt(output.length-1) == ",") {
+    if (output.charAt(output.length-1) == "-") {
       output=output.substring(0, output.length-1);
     }
     $scope.copy_class = 'info';
@@ -98,7 +98,10 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
         var talent_scope = angular.element(champPoolTalent).scope();
         talent_scope.model.selected = false;
         if ($scope.build.id) {
-          $scope.build = blank_build;
+          if (!$scope.build.user.id || $scope.build.user.id != $scope.user.id) {
+            $scope.build = blank_build;
+          }else{
+          }
         }
         $scope.build_hash();
         return false;
@@ -156,6 +159,9 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
       $scope.build = data.success.build;
       $scope.build_hash();
       $.notify('Saved successfully', "success");
+      if ($scope.editMode) {
+        $scope.editBuild();
+      }
     }
   };
   $scope.saveBuild = function(){
@@ -165,7 +171,9 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
     $scope.build = blank_build;
     $scope.build_hash();
   };
-
+  $scope.editBuild = function(){
+    $scope.editMode = !$scope.editMode;
+  };
   var favoriteSuccess = function(){
     var message = $scope.build.favorited? "Unfavorited.": "Favorited";
     $scope.build.favorited = !$scope.build.favorited;
@@ -216,19 +224,26 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
     $http.post('/builds/favorite/'+$scope.build.id, {target: target, action:action}).then(favoriteHandle);
   };
 
-
+  $scope.user = window.user;
+  // console.log(window.user);
   $scope.init = function(){
     $scope.loadout = blank_loadout;
     $scope.build = blank_build;
     if (window.build) {
+      console.log('found build');
       $scope.build = window.build;
       window.loadout = window.build.loadout;
-      // console.log(window.loadout);
+      console.log('build data');
+      console.log(window.build);
+      console.log('loadout data');
+      console.log(window.loadout);
     }
     if (window.loadout) {
-      // console.log(window.loadout);
+      console.log("loading Loadout");
       $scope.loadout.id = window.loadout.id;
       $scope.loadout.build_hash = window.loadout.build_hash;
+      console.log('build_hash');
+      console.log(window.loadout);
       var talent_ids = [];
       for (var i = 0; i < 5; i++) {
         var talent = window.loadout['talent_' + i];
@@ -261,6 +276,7 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
               if (
                 !is_talent_0 && !is_talent_1 && !is_talent_2 && !is_talent_3 && !is_talent_4
               ) {
+                console.log('found the talent');
                 el.click();
               }else{
                 continue;
@@ -279,7 +295,6 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
       $scope.ctrl_ready = true;
     },1000);
   };
-
 });
 
 app.controller('champTalentPoolCtrl', function ($scope, $http, $attrs) {
@@ -471,6 +486,7 @@ function($compile, $http, $templateCache, $parse){
     }
   };
 }]);
+
 
 
 })($, angular);

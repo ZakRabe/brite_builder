@@ -238,12 +238,13 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
       console.log('loadout data');
       console.log(window.loadout);
     }
+    console.log(window.loadout);
     if (window.loadout) {
       console.log("loading Loadout");
       $scope.loadout.id = window.loadout.id;
       $scope.loadout.build_hash = window.loadout.build_hash;
       console.log('build_hash');
-      console.log($scope.loadout.build_hash);
+      console.log(window.loadout);
       var talent_ids = [];
       for (var i = 0; i < 5; i++) {
         var talent = window.loadout['talent_' + i];
