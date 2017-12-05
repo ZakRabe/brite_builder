@@ -92,6 +92,3 @@ def build(request,champ_name,loadout,build_id=None):
         return index(request, champ_name, json.dumps(loadout[0].to_json(request)))
     else:
         return index(request, champ_name, json.dumps(loadout[0].to_json(request)), build_id)
-
-
-s 
