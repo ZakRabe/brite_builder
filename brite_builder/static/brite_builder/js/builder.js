@@ -230,14 +230,20 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
     $scope.loadout = blank_loadout;
     $scope.build = blank_build;
     if (window.build) {
+      console.log('found build');
       $scope.build = window.build;
       window.loadout = window.build.loadout;
-      // console.log(window.loadout);
+      console.log('build data');
+      console.log(window.build);
+      console.log('loadout data');
+      console.log(window.loadout);
     }
     if (window.loadout) {
-      // console.log(window.loadout);
+      console.log("loading Loadout");
       $scope.loadout.id = window.loadout.id;
       $scope.loadout.build_hash = window.loadout.build_hash;
+      console.log('build_hash');
+      console.log($scope.loadout.build_hash);
       var talent_ids = [];
       for (var i = 0; i < 5; i++) {
         var talent = window.loadout['talent_' + i];
@@ -270,6 +276,7 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
               if (
                 !is_talent_0 && !is_talent_1 && !is_talent_2 && !is_talent_3 && !is_talent_4
               ) {
+                console.log('found the talent');
                 el.click();
               }else{
                 continue;
