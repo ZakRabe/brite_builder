@@ -55,7 +55,7 @@ class BuildForm(forms.Form):
 
         # incase we're sent null
         cleaned_data['description'] = cleaned_data.get('description', "")
-        print >>sys.stderr, cleaned_data
+        # print >>sys.stderr, cleaned_data
         return cleaned_data
 
 
