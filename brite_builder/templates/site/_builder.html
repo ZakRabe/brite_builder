@@ -6,11 +6,11 @@
                 {{ 'build.title'|ng}}
             </h2>
             <h3>by
-                <span ng-if="build.user">
+                <a href="/profile/{{ 'build.user.username'|ng}}" ng-if="build.user">
                     <img ng-if="!build.user.profile.avatar_url" src="/static/brite_builder/img/anon-avatar.jpg" height="30" alt="Avatar" class="avatar-circle">
                     <img ng-if="build.user.profile.avatar_url" height="30" class="avatar-circle" ng-src="{{ 'build.user.profile.avatar_url'|ng}}" alt="{{ 'build.user.username'|ng}} Avatar">
                     {{ 'build.user.username'|ng}}
-                </span>
+                </a>
                 <span ng-if="!build.user">
                     <img src="/static/brite_builder/img/anon-avatar.jpg" height="30" alt="Avatar" class="avatar-circle">
                     Anonymous
