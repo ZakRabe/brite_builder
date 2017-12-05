@@ -259,12 +259,14 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
       console.log(talent_ids);
       var count = 0;
       var tryClick = function(){
+        console.log("attempt# "+count);
         if(count < 50){
           for (var i = 0; i < talent_ids.length; i++) {
             var id = talent_ids[i];
+            console.log('talent_id', id);
             var el = $("div[ng-controller=champTalentPoolCtrl] div[data-talent-id="+id+"]");
             if (el.length) {
-              // console.log(id);
+              console.log(el);
               var is_talent_0 = Boolean($scope.loadout.talent_0 && $scope.loadout.talent_0.id == id);
               var is_talent_1 = Boolean($scope.loadout.talent_1 && $scope.loadout.talent_1.id == id);
               var is_talent_2 = Boolean($scope.loadout.talent_2 && $scope.loadout.talent_2.id == id);
@@ -290,6 +292,7 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
           }
         }
       };
+      console.log('trying to click');
       $timeout(tryClick,100);
     }
     $scope.build_hash();
