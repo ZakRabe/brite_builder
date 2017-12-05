@@ -287,7 +287,7 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
               }
             }else{
               count++;
-              $timeout(tryClick, 100);
+              $timeout(tryClick, 300);
             }
           }
         }
