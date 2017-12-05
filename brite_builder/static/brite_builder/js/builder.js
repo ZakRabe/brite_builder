@@ -148,7 +148,7 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
     return $.notify('Loadout is full.', "error");
   };
   var saveBuildSuccess = function(returned){
-    console.log(returned);
+    // console.log(returned);
     var data = returned.data;
     if (data.errors) {
       for (var i = 0; i < data.errors.valid.length; i++) {
@@ -230,21 +230,21 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
     $scope.loadout = blank_loadout;
     $scope.build = blank_build;
     if (window.build) {
-      console.log('found build');
+      // console.log('found build');
       $scope.build = window.build;
       window.loadout = window.build.loadout;
-      console.log('build data');
-      console.log(window.build);
-      console.log('loadout data');
-      console.log(window.loadout);
+      // console.log('build data');
+      // console.log(window.build);
+      // console.log('loadout data');
+      // console.log(window.loadout);
     }
-    console.log(window.loadout);
+    // console.log(window.loadout);
     if (window.loadout) {
-      console.log("loading Loadout");
+      // console.log("loading Loadout");
       $scope.loadout.id = window.loadout.id;
       $scope.loadout.build_hash = window.loadout.build_hash;
-      console.log('build_hash');
-      console.log(window.loadout);
+      // console.log('build_hash');
+      // console.log(window.loadout);
       var talent_ids = [];
       for (var i = 0; i < 5; i++) {
         var talent = window.loadout['talent_' + i];
@@ -256,17 +256,17 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
           talent_ids.push(talent.id);
         }
       }
-      console.log(talent_ids);
+      // console.log(talent_ids);
       var count = 0;
       var tryClick = function(){
-        console.log("attempt# "+count);
+        // console.log("attempt# "+count);
         if(count < 50){
           for (var i = 0; i < talent_ids.length; i++) {
             var id = talent_ids[i];
-            console.log('talent_id', id);
+            // console.log('talent_id', id);
             var el = $("div[ng-controller=champTalentPoolCtrl] div[data-talent-id="+id+"]");
             if (el.length) {
-              console.log(el);
+              // console.log(el);
               var is_talent_0 = Boolean($scope.loadout.talent_0 && $scope.loadout.talent_0.id == id);
               var is_talent_1 = Boolean($scope.loadout.talent_1 && $scope.loadout.talent_1.id == id);
               var is_talent_2 = Boolean($scope.loadout.talent_2 && $scope.loadout.talent_2.id == id);
@@ -280,7 +280,7 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
               if (
                 !is_talent_0 && !is_talent_1 && !is_talent_2 && !is_talent_3 && !is_talent_4
               ) {
-                console.log('found the talent');
+                // console.log('found the talent');
                 el.click();
               }else{
                 continue;
@@ -292,7 +292,7 @@ app.controller('loadoutCtrl', function ($scope, $http, $timeout) {
           }
         }
       };
-      console.log('trying to click');
+      // console.log('trying to click');
       $timeout(tryClick,100);
     }
     $scope.build_hash();
