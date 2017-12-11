@@ -310,6 +310,59 @@ app.controller('champTalentPoolCtrl', function ($scope, $http, $attrs) {
   $http.get('/talents/'+ clean($attrs.champ)).then(loadTalents);
 });
 
+app.service('champService', function($http){
+  var champs = [];
+  var Service = this;
+  var loadChamps = function(returned){
+    champs = returned.data;
+  };
+  Service.get_champs = function(){
+    $http.get('/champs/').then(loadChamps);
+  };
+  Service.list = function(){
+    return champs;
+  };
+});
+
+
+app.controller('browserCtrl', function($scope, champService){
+  $scope.$watch(
+    function(){
+      return champService.list();
+    },
+    function(val){
+      console.log(val);
+      if (val){
+        $scope.champs = val;
+      }
+    }
+  );
+  champService.get_champs();
+
+
+  $scope.form = {
+    active_champs:[],
+  };
+  $scope.is_selected = function(champ){
+    var found = false;
+    for (var i = 0; i < $scope.form.active_champs.length; i++) {
+      var selected = $scope.form.active_champs[i];
+      if (champ.id == selected.id) {
+        found = true;
+      }
+    }
+    return found;
+  };
+
+  $scope.select_champ = function(champ){
+    if (!$scope.is_selected(champ)) {
+      $scope.form.active_champs.push(champ);
+    }
+  };
+
+});
+
+
 app.directive('unfavorite', ['$http',
 function($http){
   return {

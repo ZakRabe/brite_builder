@@ -281,6 +281,17 @@ h6,.h6{
     opacity: .4;
     background-color: yellow;
 }
+.champ-icon.active:before{
+    position: absolute;
+    content: " ";
+    top: 0;
+    left: 0;
+    width:96px;
+    height:49px;
+    opacity: .4;
+    background-color: green;
+}
+
 
 
 .notifyjs-corner{

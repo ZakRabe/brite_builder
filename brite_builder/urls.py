@@ -20,6 +20,7 @@ from django.contrib import admin
 from . import views
 from talents import urls as talent_urls
 from builds import urls as build_urls
+from champs import urls as champ_urls
 from site_auth import urls as auth_urls
 
 handler404 = 'brite_builder.errors.handler404'
@@ -33,6 +34,7 @@ urlpatterns = [
     url(r'^profile/?(?P<username>[\w.@+-]+)?$', views.profile, name='profile'),
     url(r'^talents/', include(talent_urls)),
     url(r'^builds/', include(build_urls)),
+    url(r'^champs/', include(champ_urls)),
     url(r'^auth/', include(auth_urls)),
     # url(r'^users/', views.users_list, name='users_list'),
     url(r'^(?P<champ_name>\w+(-*\w*)*)/(?P<loadout>(\d+(,|-)){0,4}\d+)/(?P<build_id>\d+)?', views.build, name='build'),

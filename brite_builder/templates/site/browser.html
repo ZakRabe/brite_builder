@@ -1,0 +1,26 @@
+{% extends 'site/base.html' %}
+{% load html_filters %}
+{% block content %}
+<div class="container" ng-app="brite_builder">
+    <h1>Battlerite Builds Browser</h1>
+    <p class="alert alert-info">
+        <i class="fa fa-info-circle"></i> Search through our database of loadouts.
+    </p>
+    <div ng-controller="browserCtrl">
+        <div class="form-group">
+            <div class="row">
+                <div class="col-md-4">
+                    <a ng-if="champ.c_type==0" ng-repeat="champ in champs" ng-click="select_champ(champ)" ng-class="{'active':is_selected(champ)}" href="javascript:;" class="champ-icon {{'champ.champ_link'|ng}}"></a>
+                </div>
+                <div class="col-md-4">
+                    <a ng-if="champ.c_type==1" ng-repeat="champ in champs" ng-click="select_champ(champ)" ng-class="{'active':is_selected(champ)}" href="javascript:;" class="champ-icon {{'champ.champ_link'|ng}}"></a>
+                </div>
+                <div class="col-md-4">
+                    <a ng-if="champ.c_type==2" ng-repeat="champ in champs" ng-click="select_champ(champ)" ng-class="{'active':is_selected(champ)}" href="javascript:;" class="champ-icon {{'champ.champ_link'|ng}}"></a>
+                </div>
+            </div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

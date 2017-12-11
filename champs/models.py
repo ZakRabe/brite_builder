@@ -39,6 +39,8 @@ class Champ(models.Model):
             "title": self.title,
             "subtitle": self.subtitle,
             "c_type": self.c_type,
+            "image_url": self.image_url,
+            "champ_link": champLink(self.title),
             # "created": self.created,
             # "updated": self.updated,
         }

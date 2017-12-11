@@ -67,14 +67,6 @@ class RestCreate():
         self.request = request
 
         return JsonResponse(self.save(), safe=False)
-class RestRead():
-
-    def find(self):
-        return self.request.GET
-
-    def wrap(self,request):
-        self.request = request
-        return JsonResponse(self.find())
 
 class RestDelete():
 
@@ -177,3 +169,7 @@ def favorite(request, build_id):
         # bad method
         response = {'error': '404'}
     return JsonResponse(response, safe=False)
+
+def browser(request):
+    champs = Champ.objects.all().exclude(title="Shared")
+    return render(request, 'site/browser.html', {'champs':champs})
