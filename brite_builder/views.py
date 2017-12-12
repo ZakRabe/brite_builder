@@ -24,7 +24,7 @@ def index(request, champ_name, loadout=None, build_id=None):
     selected_champ = None
 
     if champ_name is not None:
-        selected_champ = get_object_or_404(Champ, title__iexact=champName(champ_name))
+        selected_champ = get_object_or_404(Champ, active=1, title__iexact=champName(champ_name))
         news = None
     else:
         news = [news for news in News.objects.all().order_by('-id')[0:5]]
