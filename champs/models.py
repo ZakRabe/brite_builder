@@ -14,6 +14,11 @@ TYPE_CHOICES = (
     (2,SUPPORT),
 )
 
+ACTIVE_CHOICES = (
+    (0,"Disabled"),
+    (1,"Enabled"),
+)
+
 # Create your models here.
 class Champ(models.Model):
     title       = models.CharField(max_length=50)
@@ -21,6 +26,7 @@ class Champ(models.Model):
     created     = models.DateTimeField(auto_now_add=True)
     updated     = models.DateTimeField(auto_now=True)
     c_type      = models.IntegerField(default=1, choices=TYPE_CHOICES)
+    active      = models.IntegerField(default=1, choices=ACTIVE_CHOICES)
 
     class Meta:
         ordering = ['c_type']

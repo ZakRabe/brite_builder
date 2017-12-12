@@ -20,7 +20,7 @@ from site_auth.forms import ProfileEditForm
 
 # Create your views here.
 def index(request, champ_name, loadout=None, build_id=None):
-    champs = Champ.objects.all().exclude(title="Shared");
+    champs = Champ.objects.filter(active=1).exclude(title="Shared");
     selected_champ = None
 
     if champ_name is not None:
@@ -45,7 +45,7 @@ def index(request, champ_name, loadout=None, build_id=None):
     return render(request, 'site/index.html', {'champs': champs, 'selected_champ':selected_champ, 'loadout': loadout, "build":build, "news":news})
 
 def profile(request, username=None):
-    champs = Champ.objects.all().exclude(title="Shared");
+    champs = Champ.objects.filter(active=1).exclude(title="Shared");
 
     if username is None:
         # show my own profile on /profile/

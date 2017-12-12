@@ -171,5 +171,5 @@ def favorite(request, build_id):
     return JsonResponse(response, safe=False)
 
 def browser(request):
-    champs = Champ.objects.all().exclude(title="Shared")
+    champs = Champ.objects.filter(active=1).exclude(title="Shared")
     return render(request, 'site/browser.html', {'champs':champs})

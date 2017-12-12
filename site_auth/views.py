@@ -18,7 +18,7 @@ def login_view(request):
     if request.user.is_authenticated():
         messages.error(request, "Already logged in")
         return redirect('/')
-    champs = Champ.objects.all().exclude(title="Shared");
+    champs = Champ.objects.filter(active=1).exclude(title="Shared");
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
@@ -41,7 +41,7 @@ def register(request):
     if request.user.is_authenticated:
         messages.error(request, "Already logged in")
         return redirect('/')
-    champs = Champ.objects.all().exclude(title="Shared");
+    champs = Champ.objects.filter(active=1).exclude(title="Shared");
     if request.method == "POST":
         form = RegisterForm(request.POST)
         if form.is_valid():

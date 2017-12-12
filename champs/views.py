@@ -10,6 +10,6 @@ from .models import Champ
 def index(request):
 
     if request.method == "GET":
-        champs = Champ.objects.all().exclude(title="Shared")
+        champs = Champ.objects.filter(active=1).exclude(title="Shared")
         champs = [champ.to_json() for champ in champs]
         return JsonResponse(champs, safe=False)
