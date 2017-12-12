@@ -354,9 +354,24 @@ app.controller('browserCtrl', function($scope, champService){
     return found;
   };
 
+  $scope.remove_champ = function(champ){
+    var found = -1;
+    for (var i = 0; i < $scope.form.active_champs.length; i++) {
+      var selected = $scope.form.active_champs[i];
+      if (selected.id == champ.id){
+        found = i;
+      }
+    }
+    if (found>=0) {
+      $scope.form.active_champs.splice(found, 1);
+    }
+  };
+
   $scope.select_champ = function(champ){
     if (!$scope.is_selected(champ)) {
       $scope.form.active_champs.push(champ);
+    }else{
+      $scope.remove_champ(champ)
     }
   };
 
