@@ -33,7 +33,7 @@ def index(request, champ_name, loadout=None, build_id=None):
         if build.exists():
             build_model = build[0]
             # loadout = json.dumps(build[0].loadout.to_json())
-            if not request.user.is_authenticated() or request.user.id != build_model.user.id:
+            if not request.user.is_authenticated() or build_model.user is None or request.user.id != build_model.user.id:
                 build_model.view_count = build_model.view_count + 1
                 build_model.save()
 
