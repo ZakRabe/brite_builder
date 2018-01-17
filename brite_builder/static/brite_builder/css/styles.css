@@ -567,6 +567,11 @@ h6,.h6{
     background-position-y: calc(-49px*4);
 }
 
+.champ-icon.zander{
+    background-position-x: -385px;
+    background-position-y: calc(-49px*4);
+}
+
 
 
 /*talent_types ---------------------------------------- generated*/
